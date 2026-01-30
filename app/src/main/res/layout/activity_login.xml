@@ -30,7 +30,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/subtitulo"
-        android:textSize="22sp"
+        android:textSize="28sp"
         android:textStyle="bold"
         app:layout_constraintTop_toBottomOf="@id/login_Welcome"
         app:layout_constraintStart_toStartOf="parent"
@@ -46,7 +46,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Digite seu email"
-        android:contentDescription="@string/desc_email"
         app:inputKeyboardType="email"
         app:layout_constraintTop_toBottomOf="@id/login_Welcome2"
         app:layout_constraintStart_toStartOf="parent"
@@ -63,7 +62,6 @@
 
     <com.example.mylibrary.ds.input.DsInput
         android:id="@+id/input_Senha"
-        android:contentDescription="@string/desc_senha"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint=" Digite sua senha"

@@ -10,6 +10,6 @@
     <string name="novousuario">Ainda não tem conta?  </string>
     <string name="novousuario2">Cadastrar </string>
     <string name="desc_novousuario2"> Ainda não tem conta? Cadastrar. Botão </string>
-    <string name="desc_email">Insira seu email</string>
-    <string name="desc_senha">Insira sua senha</string>
+    <string name="desc_email">Digite seu email. Campo de Edição</string>
+    <string name="desc_senha">Digite sua senha. Campo de Edição</string>
 </resources>
