@@ -1,6 +1,10 @@
 package com.example.layer_app
 
+import android.graphics.Color
 import android.os.Bundle
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -14,11 +18,14 @@ class LoginActivity : AppCompatActivity() {
         setContentView(R.layout.activity_login)
 
         //layout
-        val editEmail = findViewById<EditText>(R.id.editEmail)
-        val editSenha = findViewById<EditText>(R.id.editSenha)
-        val btnEntrar = findViewById<Button>(R.id.btnEntrar)
-        val linkEsqueceuSenha = findViewById<TextView>(R.id.linkEsqueceuSenha)
-        val linkCadastrar = findViewById<TextView>(R.id.linkCadastrar)
+        val editEmail = findViewById<EditText>(R.id.input_Email)
+        val editSenha = findViewById<EditText>(R.id.input_Senha)
+        val btnEntrar = findViewById<Button>(R.id.btn1)
+        val linkEsqueceuSenha = findViewById<TextView>(R.id.login_Esqueceu)
+        val linkCadastrar = findViewById<TextView>(R.id.login_Text_Register2)
+
+
+
 
         // Entrar no app
         btnEntrar.setOnClickListener {

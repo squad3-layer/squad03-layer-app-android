@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">Layer-App</string>
+    <string name="titulo">Login</string>
+    <string name="desc_tiulo">Login. Bem Vindo! </string>
+    <string name="subtitulo">Bem vindo!</string>
+    <string name="botao">Entrar</string>
+    <string name="desc_botao">Entrar. Botão </string>
+    <string name="esqueci">Esqueceu a senha?</string>
+    <string name="desc_esqueci">Esqueceu sua senha? Botão </string>
+    <string name="novousuario">Ainda não tem conta?  </string>
+    <string name="novousuario2">Cadastrar </string>
+    <string name="desc_novousuario2"> Ainda não tem conta? Cadastrar. Botão </string>
+    <string name="desc_email">Insira seu email</string>
+    <string name="desc_senha">Insira sua senha</string>
 </resources>

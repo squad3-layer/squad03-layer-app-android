@@ -10,114 +10,144 @@
 
     <!-- Título -->
     <TextView
-        android:id="@+id/titleLogin"
+        android:id="@+id/login_Welcome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Login"
+        android:text="@string/titulo"
+        android:contentDescription="@string/desc_tiulo"
         android:textSize="28sp"
         android:textStyle="bold"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="119dp"/>
+        android:layout_marginTop="119dp"
+        android:importantForAccessibility="yes"/>
 
 
     <!-- Subtítulo -->
     <TextView
-        android:id="@+id/subtitleWelcome"
+        android:id="@+id/login_Welcome2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Bem vindo ao Layer!!"
-        android:textSize="18sp"
-        app:layout_constraintTop_toBottomOf="@id/titleLogin"
+        android:text="@string/subtitulo"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/login_Welcome"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="8dp"
-        android:layout_marginBottom="36dp"/>
+        android:layout_marginBottom="36dp"
+        android:importantForAccessibility="no"/>
 
     <!-- Campo Email -->
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/editEmail"
+    <com.example.mylibrary.ds.input.DsInput
+        android:id="@+id/input_Email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:elevation="8dp"
-        app:hintEnabled="false"
-        app:layout_constraintTop_toBottomOf="@id/subtitleWelcome"
+        android:hint="Digite seu email"
+        android:contentDescription="@string/desc_email"
+        app:inputKeyboardType="email"
+        app:layout_constraintTop_toBottomOf="@id/login_Welcome2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         tools:layout_editor_absoluteX="24dp"
-        android:layout_marginTop="36dp">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/input_editEmail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Digite seu email"
-            android:layout_margin="10dp"
-            android:inputType="number"
-            android:textSize="16sp" />
-    </com.google.android.material.textfield.TextInputLayout>
+        android:layout_marginTop="36dp"
+        android:importantForAccessibility="yes">
 
 
-    <!-- Campo Senha -->
+    </com.example.mylibrary.ds.input.DsInput>
 
-    <com.google.android.material.textfield.TextInputLayout
-          android:id="@+id/editSenha"
+
+        <!-- Campo Senha -->
+
+    <com.example.mylibrary.ds.input.DsInput
+        android:id="@+id/input_Senha"
+        android:contentDescription="@string/desc_senha"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:elevation="8dp"
-        app:hintEnabled="false"
-        app:layout_constraintTop_toBottomOf="@id/editEmail"
-           app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-        tools:layout_editor_absoluteX="24dp"
-        app:endIconMode="password_toggle">>
+        android:hint=" Digite sua senha"
+        app:inputKeyboardType="password"
+        app:layout_constraintTop_toBottomOf="@id/input_Email"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="10dp"
+        android:importantForAccessibility="yes">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/input_editSenha"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Digite sua senha"
-            android:layout_margin="10dp"
-            android:inputType="number"
-            android:textSize="16sp" />
-    </com.google.android.material.textfield.TextInputLayout>
+</com.example.mylibrary.ds.input.DsInput>
+
+
 
     <!-- Link Esqueceu senha -->
     <TextView
-        android:id="@+id/linkEsqueceuSenha"
+        android:id="@+id/login_Esqueceu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Esqueceu sua senha?"
-        android:textColor="@android:color/holo_blue_dark"
+        android:text="@string/esqueci"
+        android:contentDescription="@string/desc_esqueci"
+        android:textColor="#2F89FC"
         android:textSize="14sp"
-        app:layout_constraintTop_toBottomOf="@id/editSenha"
+        app:layout_constraintTop_toBottomOf="@id/input_Senha"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="8dp"/>
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        android:importantForAccessibility="yes"
+        />
 
     <!-- Botão Entrar -->
-    <Button
-        android:id="@+id/btnEntrar"
+
+    <com.example.mylibrary.ds.button.DsButton
+        android:id="@+id/btn1"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Entrar"
-        app:layout_constraintTop_toBottomOf="@id/linkEsqueceuSenha"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="24dp"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="24dp"/>
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/login_Esqueceu"
+        app:textDS="@string/botao"
+        android:contentDescription="@string/desc_botao"
+        android:importantForAccessibility="yes"
+        />
 
     <!-- Link Cadastrar -->
-    <TextView
-        android:id="@+id/linkCadastrar"
-        android:layout_width="wrap_content"
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Ainda não tem conta? Cadastrar"
-        android:textColor="@android:color/holo_blue_dark"
-        android:textSize="14sp"
-        app:layout_constraintTop_toBottomOf="@id/btnEntrar"
+        android:orientation="horizontal"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@id/btn1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp"/>
+        android:contentDescription="@string/desc_novousuario2"
+        android:importantForAccessibility="yes"
+        android:layout_marginTop="16dp">
+
+        <TextView
+            android:id="@+id/login_Text_Register"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/novousuario"
+            android:textSize="14sp"
+            android:importantForAccessibility="no"
+            />
+
+        <TextView
+            android:id="@+id/login_Text_Register2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="6dp"
+            android:text="@string/novousuario2"
+            android:textSize="14sp"
+            android:textColor="#0E64D2"
+            android:importantForAccessibility="no"/>
+
+
+    </LinearLayout>
+
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
