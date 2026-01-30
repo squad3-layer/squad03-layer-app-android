@@ -49,13 +49,12 @@ dependencies {
     implementation(libs.androidx.navigation.fragment.ktx)
 
     // Design System
-    implementation("com.github.rafaelKontein23.designe-system-news:mylibrary:v1.0.4")
+    implementation(libs.mylibrary)
 
     // Firebase
-    implementation(platform("com.google.firebase:firebase-bom:34.8.0"))
-    implementation("com.google.firebase:firebase-analytics")
-    implementation("com.google.firebase:firebase-crashlytics")
-    implementation("com.google.firebase:firebase-auth")
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.bundles.firebase)
+
 
     // Lifecycle / Retrofit
     implementation(libs.androidx.lifecycle.viewmodel)

@@ -7,7 +7,7 @@ import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 class LoginRepositoryImpl @Inject constructor(
-    private val firebaseAuth: FirebaseAuth // Injetado via Hilt
+    private val firebaseAuth: FirebaseAuth
 ) : LoginRepository {
     override suspend fun signIn(email: String, password: String): Result<Unit> {
         return try {

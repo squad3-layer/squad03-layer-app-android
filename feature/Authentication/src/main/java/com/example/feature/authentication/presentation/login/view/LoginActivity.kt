@@ -1,9 +1,12 @@
 package com.example.feature.authentication.presentation.login.view
 
+import android.R.attr.password
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
 import android.widget.EditText
 import android.widget.ProgressBar
@@ -15,6 +18,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.AppCompatButton
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.widget.addTextChangedListener
 import com.example.feature.authentication.R
 import com.example.feature.authentication.databinding.ActivityLoginBinding
 import com.example.feature.authentication.presentation.MainActivity
@@ -52,16 +56,6 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun setupViews() {
-
-//        loginButton.post {
-//            binding.inputFocusEmail.setOnFocusChangeListener { _, hasFocus ->
-//                if (hasFocus) viewModel.analyticsHelper.logEvent("input_focus", mapOf("field" to "email"))
-//            }
-//
-//            binding.inputFocusPassword.setOnFocusChangeListener { _, hasFocus ->
-//                if (hasFocus) viewModel.analyticsHelper.logEvent("input_focus", mapOf("field" to "password"))
-//            }
-//        }
         binding.buttonClickLogin.setDsClickListener {
             viewModel.analyticsHelper.logEvent("button_click", mapOf("button_name" to "login_button"))
 
@@ -71,7 +65,7 @@ class LoginActivity : AppCompatActivity() {
             if (email.isNotEmpty() && password.isNotEmpty()) {
                 viewModel.login(email, password)
             } else {
-                Toast.makeText(this, "Preencha todos os campos!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, applicationContext.getString(R.string.login_toast_empty_input), Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -89,8 +83,15 @@ class LoginActivity : AppCompatActivity() {
                 startActivity(Intent(this, MainActivity::class.java))
                 finish()
             }.onFailure { exception ->
-                Toast.makeText(this, "Erro: Usuário ou senha incorretos", Toast.LENGTH_LONG).show()
+                showErrorDialog()
             }
         }
+    }
+    private fun showErrorDialog() {
+        androidx.appcompat.app.AlertDialog.Builder(this)
+            .setTitle(getString(R.string.login_dialog_alert))
+            .setMessage(getString(R.string.login_dialog_authentication_fail))
+            .setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
+            .show()
     }
 }
