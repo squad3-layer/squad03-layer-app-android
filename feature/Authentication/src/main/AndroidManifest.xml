@@ -13,9 +13,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.LayerApp">
         <activity
-            android:name=".presentation.signUp.view.SignUpActivity"
-            android:exported="false" />
-        <activity
             android:name=".presentation.login.view.LoginActivity"
             android:exported="false" />
         <activity
