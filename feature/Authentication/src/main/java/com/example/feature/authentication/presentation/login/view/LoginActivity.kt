@@ -56,28 +56,57 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun setupViews() {
+
+        fun validateCurrentInputs() {
+            val email = binding.inputFocusEmail.text.toString()
+            val password = binding.inputFocusPassword.text.toString()
+            viewModel.onInputChanged(email, password)
+        }
+
+        binding.inputFocusEmail.addTextChangedListener {
+            validateCurrentInputs()
+        }
+
+        binding.inputFocusPassword.addTextChangedListener {
+            validateCurrentInputs()
+        }
         binding.buttonClickLogin.setDsClickListener {
-            viewModel.analyticsHelper.logEvent("button_click", mapOf("button_name" to "login_button"))
 
             val email = binding.inputFocusEmail.text.toString().trim()
             val password = binding.inputFocusPassword.text.toString()
 
-            if (email.isNotEmpty() && password.isNotEmpty()) {
-                viewModel.login(email, password)
-            } else {
-                Toast.makeText(this, applicationContext.getString(R.string.login_toast_empty_input), Toast.LENGTH_SHORT).show()
-            }
+            viewModel.analyticsHelper.logEvent("button_click", mapOf("button_name" to "login_button"))
+            viewModel.login(email, password)
         }
     }
 
     private fun observeViewModel() {
+
         val progressBar = findViewById<ProgressBar>(R.id.progressBar_loading)
+
+        fun updateButtonState() {
+            val isFormValid = viewModel.isButtonEnabled.value ?: false
+            val isAppLoading = viewModel.isLoading.value ?: false
+
+            binding.buttonClickLogin.isEnabled = isFormValid && !isAppLoading
+            binding.buttonClickLogin.alpha = if (isFormValid && !isAppLoading) 1.0f else 0.5f
+        }
+
+        viewModel.isButtonEnabled.observe(this) { updateButtonState() }
 
         viewModel.isLoading.observe(this) { isLoading ->
             progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
-            binding.buttonClickLogin.isEnabled = !isLoading
-            binding.buttonClickLogin.alpha = if (isLoading) 0.5f else 1.0f
+            updateButtonState()
         }
+
+        viewModel.emailError.observe(this) { resId ->
+            binding.inputFocusEmail.error = resId?.let { getString(it) }
+        }
+
+        viewModel.passwordError.observe(this) { resId ->
+            binding.inputFocusPassword.error = resId?.let { getString(it) }
+        }
+
         viewModel.loginState.observe(this) { result ->
             result.onSuccess {
                 startActivity(Intent(this, MainActivity::class.java))
