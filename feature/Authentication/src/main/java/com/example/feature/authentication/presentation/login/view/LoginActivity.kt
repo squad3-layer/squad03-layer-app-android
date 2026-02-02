@@ -23,6 +23,7 @@ import com.example.feature.authentication.R
 import com.example.feature.authentication.databinding.ActivityLoginBinding
 import com.example.feature.authentication.presentation.MainActivity
 import com.example.feature.authentication.presentation.login.viewModel.LoginViewModel
+import com.example.feature.authentication.presentation.resetPassword.view.ResetPasswordActivity
 import com.example.mylibrary.ds.button.DsButton
 import com.example.mylibrary.ds.input.DsInput
 import dagger.hilt.android.AndroidEntryPoint
@@ -53,6 +54,10 @@ class LoginActivity : AppCompatActivity() {
 
         setupViews()
         observeViewModel()
+
+        binding.textClickForgot.setOnClickListener {
+            startActivity(Intent(this, ResetPasswordActivity::class.java))
+        }
     }
 
     private fun setupViews() {
