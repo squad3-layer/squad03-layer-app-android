@@ -7,9 +7,6 @@
     <string name="login_field_required_email">O campo de E-mail é obrigatório</string>
     <string name="login_field_required_password">O campo de Senha é obrigatório</string>
     <string name="login_toast_empty_input">Preencha todos os campos!</string>
-    <string name="login_dialog_alert">Atenção</string>
-    <string name="login_dialog_authentication_fail">Usuário e/ou senha incorretos</string>
-    <string name="login_toast_input_email">Email inválido</string>
     <string name="login_toast_input_password">A senha deve ter mais de 6 caracteres</string>
 
     <string name="titulo">Login\nBem vindo!</string>
@@ -26,4 +23,9 @@
     <string name="login_hint_email">Digite seu e-mail</string>
     <string name="login_hint_password">Digite sua senha</string>
     <string name="login_text_button_forgout_password">Esqueceu sua senha?</string>
+
+    <string name="reset_password_toast_input_email">O campo email deve ser válido</string>
+    <string name="reset_password_subtitle">Digite seu endereço de email\npara recuperar sua senha.</string>
+    <string name="reset_password_title">Recuperar senha</string>
+    <string name="reset_password_hint_email">Digite seu e-mail</string>
 </resources>
