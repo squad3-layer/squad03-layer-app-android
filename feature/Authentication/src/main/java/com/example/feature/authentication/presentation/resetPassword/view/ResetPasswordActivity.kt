@@ -87,18 +87,9 @@ class ResetPasswordActivity : AppCompatActivity() {
 
         viewModel.resetState.observe(this) { result ->
             result.onSuccess {
-                // Geralmente, após resetar, voltamos para o Login com um aviso
-                Toast.makeText(this, "E-mail de recuperação enviado!", Toast.LENGTH_LONG).show()
                 finish()
             }
         }
     }
 }
-//    private fun showErrorDialog() {
-//        androidx.appcompat.app.AlertDialog.Builder(this)
-//            .setTitle("Atenção")
-//            .setMessage("Usuário não encontrado")
-//            .setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
-//            .show()
-//    }
-//}
+
