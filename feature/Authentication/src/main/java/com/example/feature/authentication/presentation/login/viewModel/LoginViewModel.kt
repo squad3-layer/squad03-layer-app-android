@@ -1,7 +1,6 @@
 package com.example.feature.authentication.presentation.login.viewModel
 
-import android.widget.Toast
-import androidx.constraintlayout.motion.widget.TransitionBuilder.validate
+import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -26,8 +25,6 @@ class LoginViewModel @Inject constructor(
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 
-    private val _isValid = MutableLiveData<Boolean>()
-    val isValid: LiveData<Boolean> = _isValid
 
     private val _emailError = MutableLiveData<Int?>()
     val emailError: LiveData<Int?> = _emailError
@@ -35,18 +32,15 @@ class LoginViewModel @Inject constructor(
     private val _passwordError = MutableLiveData<Int?>()
     val passwordError: LiveData<Int?> = _passwordError
 
+    private val _isButtonEnabled = MutableLiveData<Boolean>(false)
+    val isButtonEnabled: LiveData<Boolean> = _isButtonEnabled
+
 
     fun login(email: String, password: String) {
-
-        _emailError.value = null
-        _passwordError.value = null
-
-        if (!validateEmail(email) || !validatePassword(password)) return
-
         viewModelScope.launch {
             _isLoading.value = true
-
             analyticsHelper.logEvent("login_attempt")
+
             val result = loginUseCase(email, password)
             result.onSuccess {
                 _loginState.value = result
@@ -54,7 +48,6 @@ class LoginViewModel @Inject constructor(
             }.onFailure { e ->
                 _loginState.value = result
                 analyticsHelper.logEvent("login_error", mapOf("reason" to (e.message ?: "unknown")))
-
                 FirebaseCrashlytics.getInstance().recordException(e)
             }
             _isLoading.value = false
@@ -62,21 +55,42 @@ class LoginViewModel @Inject constructor(
     }
 
      fun validateEmail(email: String): Boolean {
-        var isValid = true
-        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            _emailError.value = R.string.login_toast_input_email
-            isValid = false
-        }
-        return isValid
+         return when {
+             email.isEmpty() -> {
+                 _emailError.value = R.string.login_field_required_email
+                 false
+             }
+             !Patterns.EMAIL_ADDRESS.matcher(email).matches() -> {
+                 _emailError.value = R.string.login_toast_input_email
+                 false
+             }
+             else -> {
+                 _emailError.value = null
+                 true
+             }
+         }
     }
 
     fun validatePassword(password: String): Boolean {
-        var isValid = true
-        if (password.length < 6) {
-            _passwordError.value = R.string.login_toast_input_password
-            isValid = false
+        return when {
+            password.isEmpty() -> {
+                _passwordError.value = R.string.login_field_required_password
+                false
+            }
+            password.length < 6 -> {
+                _passwordError.value = R.string.login_toast_input_password
+                false
+            }
+            else -> {
+                _passwordError.value = null
+                true
+            }
         }
-        return isValid
     }
+    fun onInputChanged(email: String, password: String) {
+        val isEmailValid = validateEmail(email)
+        val isPasswordFieldValid = validatePassword(password)
 
+        _isButtonEnabled.value = isEmailValid && isPasswordFieldValid
+    }
 }
