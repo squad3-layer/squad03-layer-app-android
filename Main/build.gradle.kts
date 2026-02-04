@@ -21,6 +21,10 @@ android {
         //consumerProguardFiles("consumer-rules.pro")
     }
 
+    buildFeatures {
+        viewBinding = true
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -59,8 +63,12 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.retrofit.gson)
 
+    // Design System
+    implementation(libs.mylibrary)
+
     // Firebase
     implementation(platform("com.google.firebase:firebase-bom:34.8.0"))
+    implementation(libs.bundles.firebase)
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-messaging")
     implementation("com.google.firebase:firebase-crashlytics")

@@ -28,4 +28,6 @@
     <string name="reset_password_subtitle">Digite seu endereço de email\npara recuperar sua senha.</string>
     <string name="reset_password_title">Recuperar senha</string>
     <string name="reset_password_hint_email">Digite seu e-mail</string>
+
+    <string name="button_logout">Desconectar</string>
 </resources>

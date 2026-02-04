@@ -14,12 +14,20 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import com.example.feature.authentication.R
+import com.example.feature.authentication.presentation.HomeActivity
 import com.example.feature.authentication.presentation.login.view.LoginActivity
+import com.google.firebase.auth.FirebaseAuth
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
+@AndroidEntryPoint
 @SuppressLint("CustomSplashScreen")
 class SplashActivity : AppCompatActivity() {
+
+    @Inject
+    lateinit var auth: FirebaseAuth
 
     private val delayBeforeStart = 500L
     private val animDuration = 900L
@@ -49,13 +57,32 @@ class SplashActivity : AppCompatActivity() {
 
             delay(animDuration + extraDelay)
 
-            startActivity(Intent(this@SplashActivity, LoginActivity::class.java))
-            finish()
+            if (auth.currentUser != null) {
+                goToMain()
+            } else {
+                goToLogin()
+            }
         }
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+    }
+    private fun goToMain() {
+        val intent = Intent(this, HomeActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+
+        startActivity(intent)
+        finish()
+        return
+    }
+
+    private fun goToLogin() {
+        val intent = Intent(this, LoginActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 }

@@ -44,4 +44,6 @@ dependencies {
 
     implementation(platform("com.google.firebase:firebase-bom:34.8.0"))
     implementation("com.google.firebase:firebase-messaging")
+    implementation("com.google.firebase:firebase-config")
+    implementation("com.google.firebase:firebase-analytics")
 }
