@@ -44,4 +44,7 @@
     <string name="register_cpf_required">"O campo de CPF é obrigatório."</string>
     <string name="register_cpf_must_have_11_digits">"O campo de CPF deve conter 11 dígitos.""</string>
     <string name="dialog_ok">"Ok"</string>
+    <string name="register_email_already_in_use">Este e-mail já está em uso. Tente fazer login ou use outro e-mail.</string>
+    <string name="register_generic_error">Ocorreu um erro ao realizar o cadastro. Tente novamente em instantes.</string>
+    <string name="register_dialog_alert">Atenção</string>
 </resources>

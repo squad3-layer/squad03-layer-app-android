@@ -6,19 +6,23 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.feature.authentication.R
+import com.example.feature.authentication.domain.login.model.AnalyticsHelper
+import com.example.feature.authentication.domain.register.model.RegisterRequest
+import com.example.feature.authentication.domain.register.useCase.RegisterUseCase
+import com.google.firebase.auth.FirebaseAuthUserCollisionException
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class CadastroViewModel @Inject constructor() : ViewModel() {
+class CadastroViewModel @Inject constructor(
+    private val useCase: RegisterUseCase,
+    val analyticsHelper: AnalyticsHelper
+) : ViewModel() {
 
-    private val _resetState = MutableLiveData<Result<Unit>>()
-    val resetState: LiveData<Result<Unit>> = _resetState
-
-    private val _loginState = MutableLiveData<Result<Unit>>()
-    val loginState: LiveData<Result<Unit>> = _loginState
+    private val _registerState = MutableLiveData<Result<Unit>>()
+    val registerState: LiveData<Result<Unit>> = _registerState
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
@@ -41,6 +45,10 @@ class CadastroViewModel @Inject constructor() : ViewModel() {
 
     private val _isButtonEnabled = MutableLiveData<Boolean>(false)
     val isButtonEnabled: LiveData<Boolean> = _isButtonEnabled
+
+    private val _errorState = MutableLiveData<Int?>()
+    val errorState: LiveData<Int?> = _errorState
+
 
 
 
@@ -148,6 +156,25 @@ class CadastroViewModel @Inject constructor() : ViewModel() {
 
         _isButtonEnabled.value = isUsernameValid && isCpfValid && isEmailValid &&
                 isPasswordValid && isConfirmPasswordValid
+    }
+
+    fun register(user: RegisterRequest) {
+        _errorState.value = null
+        viewModelScope.launch {
+            _isLoading.value = true
+            analyticsHelper.logEvent("register_attempt")
+
+            val result = useCase(user)
+            result.onSuccess {
+                _registerState.value = result
+                analyticsHelper.logEvent("register_success")
+            }.onFailure { e ->
+                _registerState.value = result
+                analyticsHelper.logEvent("register_error", mapOf("reason" to (e.message ?: "unknown")))
+                FirebaseCrashlytics.getInstance().recordException(e)
+            }
+            _isLoading.value = false
+        }
     }
 }
 
