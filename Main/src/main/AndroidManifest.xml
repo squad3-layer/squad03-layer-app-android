@@ -5,9 +5,6 @@
 
     <application android:name=".BaseApplication">
         <activity
-            android:name="com.example.feature.authentication.presentation.register.view.CadastroActivity"
-            android:exported="false" />
-        <activity
             android:name=".MainActivity"
             android:exported="false" />
 

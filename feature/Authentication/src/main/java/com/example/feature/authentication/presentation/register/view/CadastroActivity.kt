@@ -105,7 +105,7 @@ class CadastroActivity : AppCompatActivity() {
         androidx.appcompat.app.AlertDialog.Builder(this)
             .setTitle(getString(R.string.login_dialog_alert))
             .setMessage(getString(R.string.login_dialog_authentication_fail))
-            .setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
+            .setPositiveButton(R.string.dialog_ok) { dialog, _ -> dialog.dismiss() }
             .show()
     }
 }

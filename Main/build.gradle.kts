@@ -41,8 +41,6 @@ android {
 
 dependencies {
 
-    implementation("com.github.rafaelKontein23.designe-system-news:mylibrary:v1.0.1")
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
