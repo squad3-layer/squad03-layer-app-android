@@ -18,4 +18,19 @@
     <string name="desc_novousuario2"> Ainda não tem conta? Cadastrar. Botão </string>
     <string name="desc_email">Digite seu email. Campo de Edição</string>
     <string name="desc_senha">Digite sua senha. Campo de Edição</string>
+
+    <string name="register_Name">Digite seu nome de usuário</string>
+    <string name="register_Email">Digite seu email</string>
+    <string name="register_Email_error">Digite um email valido</string>
+    <string name="register_Cpf">Digite seu Cpf</string>
+    <string name="register_Password">Digite sua senha </string>
+    <string name="register_Password_error">Sua senha deve conter 6 caracteres!</string>
+    <string name="register_Password2">Confirme sua senha</string>
+    <string name="register_confirm_passsword_required">O campo confirmar senha é obrigatório.</string>
+    <string name="register_passsword_required">O campo senha é obrigatório.</string>
+    <string name="register_confirm_password_mismatch">O campo senha e confirmar senha devem ser iguais.</string>
+    <string name="register_cpf_invalid">"O campo de CPF está inválido."</string>
+    <string name="register_username_required">"O campo de nome do usuário é obrigatório."</string>
+    <string name="register_cpf_required">"O campo de CPF é obrigatório."</string>
+    <string name="register_cpf_must_have_11_digits">"O campo de CPF deve conter 11 dígitos.""</string>
 </resources>
