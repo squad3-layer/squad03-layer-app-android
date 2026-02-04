@@ -18,6 +18,10 @@
         <activity
             android:name=".presentation.resetPassword.view.ResetPasswordActivity"
             android:exported="false" />
+
+        <activity
+        android:name=".presentation.register.view.CadastroActivity"
+        android:exported="false" />
         <activity
             android:name=".presentation.login.view.LoginActivity"
             android:exported="false" />
