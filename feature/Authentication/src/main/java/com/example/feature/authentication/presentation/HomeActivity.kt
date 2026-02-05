@@ -9,9 +9,12 @@ import androidx.core.view.WindowInsetsCompat
 import com.example.feature.authentication.R
 import com.example.feature.authentication.databinding.ActivityHomeBinding
 import com.example.feature.authentication.presentation.login.view.LoginActivity
+import com.example.feature.notifications.presentation.view.NotificationsActivity
+import com.example.mylibrary.ds.text.DsText
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
+import kotlin.jvm.java
 
 @AndroidEntryPoint
 class HomeActivity : AppCompatActivity() {
@@ -25,6 +28,20 @@ class HomeActivity : AppCompatActivity() {
 
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        binding.toolbar.apply {
+            setToolbarTitle("Home", DsText.TextStyle.DESCRIPTION)
+            setBackButton(show = true) {
+                finish()
+            }
+            setActionButtons(
+                action1Icon = com.example.mylibrary.R.drawable.ds_icon_notification,
+                action1Click = {
+                    val intent = Intent(this@HomeActivity, NotificationsActivity::class.java)
+                    startActivity(intent)
+                }
+            )
+        }
 
         binding.buttonClickLogout.setDsClickListener {
             auth.signOut()
