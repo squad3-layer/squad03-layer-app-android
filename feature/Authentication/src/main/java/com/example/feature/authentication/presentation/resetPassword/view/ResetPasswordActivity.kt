@@ -85,7 +85,7 @@ class ResetPasswordActivity : AppCompatActivity() {
 
         viewModel.resetResult.observe(this) { success ->
             if (success) {
-                Toast.makeText(this, "E-mail de recuperação enviado!", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, getString(R.string.reset_password_toast_success), Toast.LENGTH_LONG).show()
                 finish()
             }
         }
@@ -93,14 +93,14 @@ class ResetPasswordActivity : AppCompatActivity() {
             msg?.let {
                 if (it == "USER_NOT_FOUND") {
                     showErrorDialog(
-                        title = "Erro",
-                        message = "Falha ao tentar enviar email, verifique se o email informado esta correto."
+                        title = getString(R.string.reset_password_dialog_alert),
+                        message = getString(R.string.reset_password_dialog_description)
                     )
                 } else {
                     showErrorDialog(getString(R.string.login_dialog_alert), it)
                 }
-                }
             }
+        }
     }
 
     private fun showErrorDialog(title: String, message: String) {
@@ -111,4 +111,3 @@ class ResetPasswordActivity : AppCompatActivity() {
             .show()
     }
 }
-
