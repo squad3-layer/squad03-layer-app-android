@@ -1,3 +1,5 @@
+
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -36,6 +38,22 @@ android {
     }
     kotlinOptions {
         jvmTarget = "11"
+    }
+
+    flavorDimensions += "brand"
+    productFlavors {
+
+        create("LayerNews") {
+            dimension = "brand"
+            applicationId = "com.exemplo.layer.news"
+            versionName = "1.0.0-alpha"
+        }
+
+        create("LayerSports") {
+            dimension = "brand"
+            applicationId = "com.exemplo.layer.sports"
+            versionName = "1.0.0-alpha"
+        }
     }
 }
 

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Layer News</string>
+    <string name="app_name">Layer Sports</string>
     <string name="splash_logo_description">Logo da Layer News</string>
     <string name="login_dialog_alert">Atenção</string>
     <string name="login_dialog_authentication_fail">Usuário e/ou senha incorretos</string>
