@@ -2,28 +2,27 @@ package com.example.feature.authentication.presentation.register.view
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.Message
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.example.feature.authentication.R
-import com.example.feature.authentication.databinding.ActivityCadastroBinding
+import com.example.feature.authentication.databinding.ActivityRegisterBinding
 import com.example.feature.authentication.presentation.login.view.LoginActivity
-import com.example.feature.authentication.presentation.register.viewModel.CadastroViewModel
+import com.example.feature.authentication.presentation.register.viewModel.RegisterViewModel
 import androidx.core.widget.addTextChangedListener
 import com.example.feature.authentication.domain.register.model.RegisterRequest
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class CadastroActivity : AppCompatActivity() {
+class RegisterActivity : AppCompatActivity() {
 
-    private val viewModel: CadastroViewModel by viewModels()
-    private lateinit var binding: ActivityCadastroBinding
+    private val viewModel: RegisterViewModel by viewModels()
+    private lateinit var binding: ActivityRegisterBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = ActivityCadastroBinding.inflate(layoutInflater)
+        binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         setupViews()

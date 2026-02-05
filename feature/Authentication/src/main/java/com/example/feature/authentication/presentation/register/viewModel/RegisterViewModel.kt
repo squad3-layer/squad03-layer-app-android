@@ -9,14 +9,13 @@ import com.example.feature.authentication.R
 import com.example.feature.authentication.domain.login.model.AnalyticsHelper
 import com.example.feature.authentication.domain.register.model.RegisterRequest
 import com.example.feature.authentication.domain.register.useCase.RegisterUseCase
-import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class CadastroViewModel @Inject constructor(
+class RegisterViewModel @Inject constructor(
     private val useCase: RegisterUseCase,
     val analyticsHelper: AnalyticsHelper
 ) : ViewModel() {
