@@ -1,21 +1,15 @@
 package com.example.feature.authentication.presentation.login.view
 
-import android.R.attr.password
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.View
-import android.widget.EditText
 import android.widget.ProgressBar
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels // Delegado para o ViewModel
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.appcompat.widget.AppCompatButton
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.widget.addTextChangedListener
@@ -24,9 +18,7 @@ import com.example.feature.authentication.databinding.ActivityLoginBinding
 import com.example.feature.authentication.presentation.MainActivity
 import com.example.feature.authentication.presentation.login.viewModel.LoginViewModel
 import com.example.feature.authentication.presentation.resetPassword.view.ResetPasswordActivity
-import com.example.feature.authentication.presentation.register.view.CadastroActivity
-import com.example.mylibrary.ds.button.DsButton
-import com.example.mylibrary.ds.input.DsInput
+import com.example.feature.authentication.presentation.register.view.RegisterActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -63,7 +55,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun setupViews() {
         binding.textClickRegister.setOnClickListener {
-            startActivity(Intent(this, CadastroActivity::class.java))
+            startActivity(Intent(this, RegisterActivity::class.java))
         }
 
         fun validateCurrentInputs() {
