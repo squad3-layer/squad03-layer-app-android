@@ -18,9 +18,7 @@ import com.example.feature.authentication.databinding.ActivityLoginBinding
 import com.example.feature.authentication.presentation.HomeActivity
 import com.example.feature.authentication.presentation.login.viewModel.LoginViewModel
 import com.example.feature.authentication.presentation.resetPassword.view.ResetPasswordActivity
-import com.example.feature.authentication.presentation.register.view.CadastroActivity
-import com.example.mylibrary.ds.button.DsButton
-import com.example.mylibrary.ds.input.DsInput
+import com.example.feature.authentication.presentation.register.view.RegisterActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -57,7 +55,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun setupViews() {
         binding.textClickRegister.setOnClickListener {
-            startActivity(Intent(this, CadastroActivity::class.java))
+            startActivity(Intent(this, RegisterActivity::class.java))
         }
 
         fun validateCurrentInputs() {

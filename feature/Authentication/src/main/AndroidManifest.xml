@@ -20,7 +20,7 @@
             android:exported="false" />
 
         <activity
-        android:name=".presentation.register.view.CadastroActivity"
+        android:name=".presentation.register.view.RegisterActivity"
         android:exported="false" />
         <activity
             android:name=".presentation.login.view.LoginActivity"
