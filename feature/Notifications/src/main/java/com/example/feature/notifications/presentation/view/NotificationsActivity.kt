@@ -1,26 +1,30 @@
 package com.example.feature.notifications.presentation.view
 
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.recyclerview.widget.RecyclerView
-import com.example.feature.notifications.R
+import androidx.activity.ComponentActivity
+import androidx.activity.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.feature.notifications.databinding.ActivityNotificationsBinding
+import com.example.feature.notifications.presentation.view.recyclerview.adapter.NotificationListAdapter
+import com.example.feature.notifications.presentation.viewModel.NotificationsViewModel
 
-class NotificationsActivity : AppCompatActivity() {
+class NotificationsActivity : ComponentActivity() {
 
-    private lateinit var binding: ActivityNotificationBinding
+    private lateinit var binding: ActivityNotificationsBinding
+    private val viewModel: NotificationsViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContentView(R.layout.activity_notifications)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
+        binding = ActivityNotificationsBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        binding.recyclerNotifications.layoutManager = LinearLayoutManager(this)
+
+        viewModel.notifications.observe(this) { notifications ->
+            binding.recyclerNotifications.adapter = NotificationListAdapter(notifications)
         }
-        RecyclerView.Adapter<>
+
+        viewModel.loadNotifications()
+        viewModel.observeNotificationsRealtime()
     }
 }
