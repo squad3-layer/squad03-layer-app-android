@@ -4,18 +4,25 @@ import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.example.feature.authentication.R
+import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+
 @HiltViewModel
-class ResetPasswordViewModel @Inject constructor() : ViewModel() {
+class ResetPasswordViewModel @Inject constructor(
+    private val auth: FirebaseAuth
+) : ViewModel() {
 
     private val _resetState = MutableLiveData<Result<Unit>>()
     val resetState: LiveData<Result<Unit>> = _resetState
+
+    private val _resetResult = MutableLiveData<Boolean>()
+    val resetResult: LiveData<Boolean> = _resetResult
+
+    private val _errorMessage = MutableLiveData<String>()
+    val errorMessage: LiveData<String> = _errorMessage
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
@@ -29,12 +36,34 @@ class ResetPasswordViewModel @Inject constructor() : ViewModel() {
     fun sendResetPasswordEmail(email: String) {
         if (!validateEmail(email)) return
 
-        viewModelScope.launch {
-            _isLoading.value = true
+        _isLoading.value = true
 
-            delay(2000)
-            _resetState.value = Result.success(Unit)
+        auth.fetchSignInMethodsForEmail(email).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val methods = task.result?.signInMethods ?: emptyList<String>()
+
+                if (methods.isNotEmpty()) {
+                    performEmailReset(email)
+                } else {
+                    _isLoading.value = false
+                    _errorMessage.value = "USER_NOT_FOUND"
+                }
+            } else {
+                _isLoading.value = false
+                _errorMessage.value = task.exception?.message ?: "Erro desconhecido"
+            }
+        }
+    }
+
+    private fun performEmailReset(email: String) {
+        auth.sendPasswordResetEmail(email).addOnCompleteListener { task ->
             _isLoading.value = false
+            if (task.isSuccessful) {
+                _resetResult.value = true
+            } else {
+                _resetResult.value = false
+                _errorMessage.value = task.exception?.message ?: "Falha ao enviar e-mail"
+            }
         }
     }
 

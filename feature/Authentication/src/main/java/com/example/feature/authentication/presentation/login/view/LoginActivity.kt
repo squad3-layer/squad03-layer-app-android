@@ -7,7 +7,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ProgressBar
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.viewModels // Delegado para o ViewModel
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.ViewCompat
@@ -15,7 +15,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.widget.addTextChangedListener
 import com.example.feature.authentication.R
 import com.example.feature.authentication.databinding.ActivityLoginBinding
-import com.example.feature.authentication.presentation.MainActivity
+import com.example.feature.authentication.presentation.HomeActivity
 import com.example.feature.authentication.presentation.login.viewModel.LoginViewModel
 import com.example.feature.authentication.presentation.resetPassword.view.ResetPasswordActivity
 import com.example.feature.authentication.presentation.register.view.RegisterActivity
@@ -110,7 +110,11 @@ class LoginActivity : AppCompatActivity() {
 
         viewModel.loginState.observe(this) { result ->
             result.onSuccess {
-                startActivity(Intent(this, MainActivity::class.java))
+                val intent = Intent(this, HomeActivity::class.java).apply {
+                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                }
+                startActivity(intent)
+
                 finish()
             }.onFailure { exception ->
                 showErrorDialog()
