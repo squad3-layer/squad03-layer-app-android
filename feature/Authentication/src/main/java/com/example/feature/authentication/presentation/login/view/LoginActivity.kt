@@ -15,7 +15,6 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.widget.addTextChangedListener
 import com.example.feature.authentication.R
 import com.example.feature.authentication.databinding.ActivityLoginBinding
-import com.example.feature.authentication.presentation.HomeActivity
 import com.example.feature.authentication.presentation.login.viewModel.LoginViewModel
 import com.example.feature.authentication.presentation.resetPassword.view.ResetPasswordActivity
 import com.example.feature.authentication.presentation.register.view.RegisterActivity
@@ -110,7 +109,9 @@ class LoginActivity : AppCompatActivity() {
 
         viewModel.loginState.observe(this) { result ->
             result.onSuccess {
-                val intent = Intent(this, HomeActivity::class.java).apply {
+                // Navigate to HomeActivity without direct dependency
+                val intent = Intent().apply {
+                    setClassName(this@LoginActivity, "com.example.feature.news.presentation.view.HomeActivity")
                     flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 }
                 startActivity(intent)

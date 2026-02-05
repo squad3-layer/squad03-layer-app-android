@@ -9,8 +9,8 @@
             android:exported="false" />
 
         <service
-            android:name=".PushNotificationService"
-            android:exported="false">
+            android:name="com.example.feature.notifications.data.service.FirebaseMessagingService"
+            android:exported="true">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>

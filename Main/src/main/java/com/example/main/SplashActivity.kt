@@ -14,8 +14,8 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import com.example.feature.authentication.R
-import com.example.feature.authentication.presentation.HomeActivity
 import com.example.feature.authentication.presentation.login.view.LoginActivity
+import com.example.feature.news.presentation.view.HomeActivity
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
