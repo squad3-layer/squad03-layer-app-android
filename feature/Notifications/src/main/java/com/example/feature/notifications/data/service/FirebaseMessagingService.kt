@@ -2,12 +2,18 @@ package com.example.feature.notifications.data.service
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
 import android.os.Build
 import androidx.core.app.NotificationCompat
+//import com.example.feature.authentication.presentation.login.view.LoginActivity
 import com.example.feature.notifications.R
+import com.example.feature.notifications.presentation.view.NotificationsActivity
 import com.example.feature.notifications.domain.usecase.SaveNotificationUseCase
 import com.example.feature.notifications.domain.usecase.UpdateExpiredNotificationsUseCase
+import com.example.navigation.Navigator
+import com.example.navigation.routes.NavigationRoute
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
@@ -30,6 +36,9 @@ class FirebaseMessagingService : FirebaseMessagingService() {
 
     @Inject
     lateinit var auth: FirebaseAuth
+
+    @Inject
+    lateinit var navigator: Navigator
 
     private val serviceScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
@@ -76,11 +85,34 @@ class FirebaseMessagingService : FirebaseMessagingService() {
             notificationManager.createNotificationChannel(channel)
         }
 
+        val isUserLoggedIn = auth.currentUser != null
+
+        val intent = if (isUserLoggedIn) {
+            navigator.createIntentForRoute(this, NavigationRoute.Notifications).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+            }
+        } else {
+            navigator.createIntentForRoute(
+                this,
+                NavigationRoute.Login(redirectToNotifications = true)
+            ).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+            }
+        }
+
+        val pendingIntent = PendingIntent.getActivity(
+            this,
+            Random.nextInt(),
+            intent,
+            PendingIntent.FLAG_ONE_SHOT or PendingIntent.FLAG_IMMUTABLE
+        )
+
         val notification = NotificationCompat.Builder(this, channelId)
             .setContentTitle(title)
             .setContentText(message)
             .setSmallIcon(R.drawable.ic_logo_layer)
             .setAutoCancel(true)
+            .setContentIntent(pendingIntent)
             .build()
 
         notificationManager.notify(Random.nextInt(), notification)
