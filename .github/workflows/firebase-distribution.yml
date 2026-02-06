@@ -56,7 +56,7 @@ jobs:
           appId: ${{ secrets.FIREBASE_APP_ID_NEWS }}
           serviceCredentialsFileContent: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_JSON }}
           groups: testers
-          file: Main\LayerNews\release\Main-LayerNews-release.apk
+          file: Main/build/outputs/apk/layerSports/release/Main-LayerNews-release.apk
           releaseNotes: |
             Changes in this LayerNews release:
             ${{ github.event.head_commit.message }}
@@ -82,7 +82,7 @@ jobs:
           appId: ${{ secrets.FIREBASE_APP_ID_SPORTS }}
           serviceCredentialsFileContent: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_JSON }}
           groups: testers
-          file: Main\LayerSports\release\Main-LayerSports-release.apk
+          file: Main/build/outputs/apk/layerSports/release/Main-LayerSports-release.apk
           releaseNotes: |
             Changes in this LayerSports release:
             ${{ github.event.head_commit.message }}
