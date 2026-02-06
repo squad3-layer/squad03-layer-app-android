@@ -2,13 +2,10 @@ name: Deploy to Firebase App Distribution
 
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
   pull_request:
-    types:
-      - closed
-    branches:
-      - main
+    types: [ closed ]
+    branches: [ main ]
 
 jobs:
   deploy:
@@ -30,8 +27,10 @@ jobs:
         run: |
           echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > release-keystore.jks
 
+      # Ajuste o caminho do arquivo conforme o módulo do seu projeto (ex.: app/)
       - name: Decode google-services.json
         run: |
+          mkdir -p Main
           echo "${{ secrets.GOOGLE_SERVICES_JSON }}" | base64 -d > Main/google-services.json
 
       - name: Grant execute permission for gradlew
@@ -53,7 +52,7 @@ jobs:
         uses: wzieba/Firebase-Distribution-Github-Action@v1
         with:
           appId: ${{ secrets.FIREBASE_APP_ID }}
-          serviceCredentialsFileContent: ${{ secrets.FIREBASE_TOKEN }}
+          serviceCredentialsFileContent: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_JSON }}
           groups: testers
           file: Main/build/outputs/apk/release/Main-release.apk
           releaseNotes: |
