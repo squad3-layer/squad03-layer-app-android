@@ -1,7 +1,6 @@
 package com.example.feature.authentication.presentation.resetPassword.view
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.view.View
@@ -16,11 +15,10 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.widget.addTextChangedListener
 import com.example.feature.authentication.R
 import com.example.feature.authentication.databinding.ActivityResetPasswordBinding
-import com.example.feature.authentication.presentation.MainActivity
-import com.example.feature.authentication.presentation.login.viewModel.LoginViewModel
 import com.example.feature.authentication.presentation.resetPassword.viewModel.ResetPasswordViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlin.getValue
-
+@AndroidEntryPoint
 class ResetPasswordActivity : AppCompatActivity() {
 
     private val viewModel: ResetPasswordViewModel by viewModels()
@@ -85,11 +83,31 @@ class ResetPasswordActivity : AppCompatActivity() {
             binding.resetInputFocusEmail.error = resId?.let { getString(it) }
         }
 
-        viewModel.resetState.observe(this) { result ->
-            result.onSuccess {
+        viewModel.resetResult.observe(this) { success ->
+            if (success) {
+                Toast.makeText(this, getString(R.string.reset_password_toast_success), Toast.LENGTH_LONG).show()
                 finish()
             }
         }
+        viewModel.errorMessage.observe(this) { msg ->
+            msg?.let {
+                if (it == "USER_NOT_FOUND") {
+                    showErrorDialog(
+                        title = getString(R.string.reset_password_dialog_alert),
+                        message = getString(R.string.reset_password_dialog_description)
+                    )
+                } else {
+                    showErrorDialog(getString(R.string.login_dialog_alert), it)
+                }
+            }
+        }
+    }
+
+    private fun showErrorDialog(title: String, message: String) {
+        androidx.appcompat.app.AlertDialog.Builder(this)
+            .setTitle(title)
+            .setMessage(message)
+            .setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
+            .show()
     }
 }
-

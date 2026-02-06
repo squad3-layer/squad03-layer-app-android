@@ -7,7 +7,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ProgressBar
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.viewModels // Delegado para o ViewModel
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.ViewCompat
@@ -15,11 +15,13 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.widget.addTextChangedListener
 import com.example.feature.authentication.R
 import com.example.feature.authentication.databinding.ActivityLoginBinding
-import com.example.feature.authentication.presentation.MainActivity
 import com.example.feature.authentication.presentation.login.viewModel.LoginViewModel
 import com.example.feature.authentication.presentation.resetPassword.view.ResetPasswordActivity
 import com.example.feature.authentication.presentation.register.view.RegisterActivity
+import com.example.navigation.Navigator
+import com.example.navigation.routes.NavigationRoute
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
@@ -27,6 +29,8 @@ class LoginActivity : AppCompatActivity() {
     private val viewModel: LoginViewModel by viewModels()
 
     private lateinit var binding: ActivityLoginBinding
+    @Inject
+    lateinit var navigator: Navigator
 
     @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -110,12 +114,20 @@ class LoginActivity : AppCompatActivity() {
 
         viewModel.loginState.observe(this) { result ->
             result.onSuccess {
-                startActivity(Intent(this, MainActivity::class.java))
+                val redirectToNotifications = intent.getBooleanExtra("REDIRECT_TO_NOTIFICATION", false)
+                val route = if (redirectToNotifications) {
+                    NavigationRoute.Notifications
+                } else {
+                    NavigationRoute.Home
+                }
+
+                navigator.navigateToActivity(this@LoginActivity, route)
                 finish()
             }.onFailure { exception ->
                 showErrorDialog()
             }
         }
+
     }
     private fun showErrorDialog() {
         androidx.appcompat.app.AlertDialog.Builder(this)

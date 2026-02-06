@@ -28,7 +28,6 @@
     <string name="reset_password_subtitle">Digite seu endereço de email\npara recuperar sua senha.</string>
     <string name="reset_password_title">Recuperar senha</string>
     <string name="reset_password_hint_email">Digite seu e-mail</string>
-
     <string name="register_Name">Digite seu nome de usuário</string>
     <string name="register_Email">Digite seu email</string>
     <string name="register_Email_error">Digite um email valido</string>
@@ -47,4 +46,13 @@
     <string name="register_email_already_in_use">Este e-mail já está em uso. Tente fazer login ou use outro e-mail.</string>
     <string name="register_generic_error">Ocorreu um erro ao realizar o cadastro. Tente novamente em instantes.</string>
     <string name="register_dialog_alert">Atenção</string>
+
+    <string name="reset_password_dialog_alert">Erro</string>
+    <string name="reset_password_dialog_description">Falha ao tentar enviar email, verifique se o email informado esta correto.</string>
+    <string name="reset_password_toast_success">E-mail de recuperação enviado!</string>
+    <string name="reset_password_accessibility_button">Entrar, Botão.</string>
+    <string name="error_unknown">Erro desconhecido</string>
+    <string name="error_send_email_fail">Falha ao enviar e-mail</string>
+    <string name="error_user_not_found">USER_NOT_FOUND</string>
+
 </resources>
