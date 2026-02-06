@@ -37,7 +37,7 @@ class NotificationsAdapter(
 
         fun bind(notification: Notification) {
             card.apply {
-                card.setTitle(notification.title)
+                card.setTitle(notification.description)
                 card.setDateTime(formatDate(notification.sentTimestamp))
                 card.setIsNew(notification.isNew)
 
