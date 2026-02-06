@@ -1,12 +1,14 @@
 package com.example.feature.notifications.presentation.view
 
 import android.os.Bundle
+import android.view.View
 import androidx.activity.ComponentActivity
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.VIEW_MODEL_STORE_OWNER_KEY
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.feature.notifications.R
@@ -54,7 +56,14 @@ class NotificationsActivity : AppCompatActivity() {
     private fun observeViewModel() {
         lifecycleScope.launch {
             viewModel.notifications.collect { notifications ->
-                adapter.submitList(notifications.map { it.toDomain() })
+                if (notifications.isNullOrEmpty()) {
+                binding.notificationEmpty.visibility = View.VISIBLE
+                binding.recyclerNotifications.visibility = View.GONE
+                } else {
+                    binding.notificationEmpty.visibility = View.GONE
+                    binding.recyclerNotifications.visibility = View.VISIBLE
+                    adapter.submitList(notifications.map { it.toDomain() })
+                }
             }
         }
 

@@ -10,6 +10,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
+    <com.example.mylibrary.ds.text.DsText
+        android:id="@+id/notificationEmpty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/notificationEmpty"
+        android:gravity="center"
+        android:visibility="gone"
+        android:textSize="16dp"
+        android:padding="10dp"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerNotifications"
         android:layout_width="match_parent"
