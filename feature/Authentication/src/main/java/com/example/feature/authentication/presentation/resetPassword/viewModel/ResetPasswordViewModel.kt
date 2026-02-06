@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.feature.authentication.R
-import com.example.feature.authentication.domain.login.model.AnalyticsHelper
+import com.example.services.analytics.AnalyticsTags
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,7 +15,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ResetPasswordViewModel @Inject constructor(
     private val auth: FirebaseAuth,
-    val analyticsHelper: AnalyticsHelper
+    val analyticsHelper: AnalyticsTags
 ) : ViewModel() {
 
     private val _resetState = MutableLiveData<Result<Unit>>()

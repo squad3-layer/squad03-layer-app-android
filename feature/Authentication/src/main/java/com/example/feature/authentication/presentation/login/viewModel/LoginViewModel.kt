@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.feature.authentication.R
-import com.example.feature.authentication.domain.login.model.AnalyticsHelper
+import com.example.services.analytics.AnalyticsTags
 import com.example.feature.authentication.domain.login.useCase.LoginUseCase
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,7 +16,7 @@ import javax.inject.Inject
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     private val loginUseCase: LoginUseCase,
-    val analyticsHelper: AnalyticsHelper
+    val analyticsHelper: AnalyticsTags
 ) : ViewModel() {
 
     private val _loginState = MutableLiveData<Result<Unit>>()
