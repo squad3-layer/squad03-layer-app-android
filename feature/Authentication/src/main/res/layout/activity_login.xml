@@ -5,18 +5,20 @@
     android:id="@+id/screen_view_login"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.login.view.LoginActivity">
+    tools:context=".presentation.login.view.LoginActivity"
+    android:background="@color/white">
 
-    <TextView
+    <com.example.mylibrary.ds.text.DsText
         android:id="@+id/login_Welcome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/titulo"
         android:contentDescription="@string/desc_tiulo"
-        android:fontFamily="@font/poppins_medium"
+        android:fontFamily="@font/poppins_bold"
         android:textAlignment="center"
-        android:textSize="28sp"
-        android:textStyle="bold"
+        android:textSize="24sp"
+        app:dsTextStyle="header"
+        app:dsFontWeight="bold"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -56,15 +58,16 @@
 
     </com.example.mylibrary.ds.input.DsInput>
 
-    <TextView
+    <com.example.mylibrary.ds.text.DsText
         android:id="@+id/text_click_forgot"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/login_text_button_forgout_password"
         android:contentDescription="@string/desc_esqueci"
-        android:fontFamily="@font/poppins_medium"
         android:textColor="@color/blue"
         android:textSize="14sp"
+        app:dsTextStyle="description"
+        android:fontFamily="@font/poppins_medium"
         android:layout_marginTop="34dp"
         android:importantForAccessibility="yes"
         app:layout_constraintEnd_toEndOf="parent"
@@ -81,6 +84,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:textDS="@string/botao"
         android:fontFamily="@font/poppins_medium"
+        android:backgroundTint="@color/blue"
         android:contentDescription="@string/desc_botao"
         android:importantForAccessibility="yes"
         android:clickable="true"
@@ -100,16 +104,17 @@
         android:importantForAccessibility="yes"
         app:layout_constraintTop_toBottomOf="@id/button_click_login">
 
-    <TextView
+    <com.example.mylibrary.ds.text.DsText
         android:id="@+id/login_Text_Register"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/novousuario"
         android:fontFamily="@font/poppins_medium"
         android:importantForAccessibility="no"
+        app:dsTextStyle="description"
         android:textSize="14sp"/>
 
-    <TextView
+    <com.example.mylibrary.ds.text.DsText
         android:id="@+id/text_click_register"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -118,6 +123,7 @@
         android:importantForAccessibility="no"
         android:layout_marginStart="6dp"
         android:textColor="@color/blue"
+        app:dsTextStyle="description"
         android:textSize="14sp"/>
     </LinearLayout>
 
