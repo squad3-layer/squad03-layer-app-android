@@ -18,7 +18,10 @@ import com.example.feature.authentication.databinding.ActivityLoginBinding
 import com.example.feature.authentication.presentation.login.viewModel.LoginViewModel
 import com.example.feature.authentication.presentation.resetPassword.view.ResetPasswordActivity
 import com.example.feature.authentication.presentation.register.view.RegisterActivity
+import com.example.navigation.Navigator
+import com.example.navigation.routes.NavigationRoute
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
@@ -26,6 +29,8 @@ class LoginActivity : AppCompatActivity() {
     private val viewModel: LoginViewModel by viewModels()
 
     private lateinit var binding: ActivityLoginBinding
+    @Inject
+    lateinit var navigator: Navigator
 
     @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -109,18 +114,20 @@ class LoginActivity : AppCompatActivity() {
 
         viewModel.loginState.observe(this) { result ->
             result.onSuccess {
-                // Navigate to HomeActivity without direct dependency
-                val intent = Intent().apply {
-                    setClassName(this@LoginActivity, "com.example.feature.news.presentation.view.HomeActivity")
-                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                val redirectToNotifications = intent.getBooleanExtra("REDIRECT_TO_NOTIFICATION", false)
+                val route = if (redirectToNotifications) {
+                    NavigationRoute.Notifications
+                } else {
+                    NavigationRoute.Home
                 }
-                startActivity(intent)
 
+                navigator.navigateToActivity(this@LoginActivity, route)
                 finish()
             }.onFailure { exception ->
                 showErrorDialog()
             }
         }
+
     }
     private fun showErrorDialog() {
         androidx.appcompat.app.AlertDialog.Builder(this)

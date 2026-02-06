@@ -17,12 +17,17 @@ import com.example.feature.notifications.domain.model.toDomain
 import com.example.feature.notifications.presentation.view.recyclerview.adapter.NotificationsAdapter
 import com.example.feature.notifications.presentation.viewModel.NotificationsViewModel
 import com.example.mylibrary.ds.text.DsText
+import com.example.navigation.Navigator
+import com.example.navigation.routes.NavigationRoute
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class NotificationsActivity : AppCompatActivity() {
 
+    @Inject
+    lateinit var navigator: Navigator
     private lateinit var binding: ActivityNotificationsBinding
     private val viewModel: NotificationsViewModel by viewModels()
 
@@ -82,8 +87,20 @@ class NotificationsActivity : AppCompatActivity() {
         binding.toolbar.apply {
             setToolbarTitle("Notificações", DsText.TextStyle.HEADER, centered = true)
             setBackButton(show = true) {
-                finish()
+                navigateBack()
             }
+        }
+    }
+
+    private fun navigateBack() {
+        if (!isTaskRoot) {
+            finish()
+        } else {
+            navigator.navigateToActivity(
+                this@NotificationsActivity,
+                NavigationRoute.Home
+            )
+            finish()
         }
     }
 }

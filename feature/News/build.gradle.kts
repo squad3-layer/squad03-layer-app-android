@@ -1,8 +1,8 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
+    id("com.google.devtools.ksp") version "2.0.21-1.0.25"
     alias(libs.plugins.hilt)
-    kotlin("kapt")
 }
 
 
@@ -40,6 +40,7 @@ android {
 }
 
 dependencies {
+    implementation(projects.navigation)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
@@ -69,6 +70,6 @@ dependencies {
     implementation(libs.glide.core)
     implementation(libs.hilt.android)
     implementation(libs.androidx.hilt.navigation.fragment)
-    kapt(libs.glide.compiler)
-    kapt(libs.hilt.compiler)
+    ksp(libs.glide.compiler)
+    ksp(libs.hilt.compiler)
 }
