@@ -10,12 +10,11 @@ appcompat = "1.7.1"
 material = "1.13.0"
 activity = "1.12.2"
 constraintlayout = "2.2.1"
-
-
+ksp = "2.0.21-1.0.25"
 glide = "4.16.0"
 hilt = "2.52"
 androidx-hilt = "1.2.0"
-mylibrary = "v1.0.4"
+mylibrary = "v1.0.10"
 navigationFragmentKtx = "2.9.6"
 navigationUiKtx = "2.9.6"
 roomKtx = "2.8.4"
@@ -54,6 +53,7 @@ androidx-navigation-ui-ktx = { group = "androidx.navigation", name = "navigation
 androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "roomKtx" }
 androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "roomKtx" }
 firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore" }
+firebase-config = { group = "com.google.firebase", name = "firebase-config"}
 
 [bundles]
 firebase = [
@@ -61,7 +61,8 @@ firebase = [
     "firebase-auth",
     "firebase-crashlytics",
     "firebase-messaging",
-    "firebase-firestore"
+    "firebase-firestore",
+    "firebase-config"
 ]
 
 
@@ -70,4 +71,4 @@ android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 android-library = { id = "com.android.library", version.ref = "agp" }
-
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
