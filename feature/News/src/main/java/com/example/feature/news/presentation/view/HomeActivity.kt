@@ -11,8 +11,10 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.feature.news.R
 import com.example.feature.news.databinding.ActivityHomeBinding
+import com.example.feature.news.presentation.view.recyclerview.adapter.HomeAdapter
 import com.example.feature.news.presentation.viewModel.HomeViewModel
 import com.example.mylibrary.ds.text.DsText
 import com.example.navigation.Navigator
@@ -20,6 +22,9 @@ import com.example.navigation.routes.NavigationRoute
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
+import androidx.recyclerview.widget.RecyclerView
+
+
 
 @AndroidEntryPoint
 class HomeActivity : AppCompatActivity() {
@@ -31,6 +36,7 @@ class HomeActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityHomeBinding
     private val viewModel: HomeViewModel by viewModels()
+    private lateinit var adapter: HomeAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,6 +49,7 @@ class HomeActivity : AppCompatActivity() {
         setupLogoutButton()
         requestNotificationPermission()
         setupWindowInsets()
+        setupRecyclerView()
     }
 
     private fun setupToolbar() {
@@ -54,7 +61,7 @@ class HomeActivity : AppCompatActivity() {
             setActionButtons(
                 action1Icon = com.example.mylibrary.R.drawable.ds_icon_notification,
                 action1Click = {
-                    viewModel.analyticsHelper.logEvent("notifications_icon_click")
+                    viewModel.logNotificationClick()
                     navigator.navigateToActivity(
                         this@HomeActivity,
                         NavigationRoute.Notifications
@@ -101,6 +108,16 @@ class HomeActivity : AppCompatActivity() {
                     101
                 )
             }
+        }
+    }
+
+    private fun setupRecyclerView() {
+        adapter = HomeAdapter(emptyList())
+        binding.recyclerView.setLayoutManager(LinearLayoutManager(this))
+        binding.recyclerView.adapter = adapter
+
+        viewModel.items.observe(this) { list ->
+            adapter.updateData(list)
         }
     }
 }
