@@ -2,13 +2,11 @@ package com.example.feature.notifications.presentation.view
 
 import android.os.Bundle
 import android.view.View
-import androidx.activity.ComponentActivity
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.lifecycle.VIEW_MODEL_STORE_OWNER_KEY
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.feature.notifications.R
@@ -20,6 +18,7 @@ import com.example.mylibrary.ds.text.DsText
 import com.example.navigation.Navigator
 import com.example.navigation.routes.NavigationRoute
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -31,12 +30,25 @@ class NotificationsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityNotificationsBinding
     private val viewModel: NotificationsViewModel by viewModels()
 
-    private val adapter by lazy { NotificationsAdapter() }
+    private var hasLoggedEmptyState = false
+
+    private val adapter by lazy {
+        NotificationsAdapter(
+            onNotificationClick = { notification ->
+                viewModel.analyticsHelper.logEvent("notification_item_click", mapOf(
+                    "notification_id" to notification.id.toString(),
+                    "notification_description" to notification.description
+                ))
+            }
+        )
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityNotificationsBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        viewModel.analyticsHelper.logScreenView("notifications_screen_view")
 
         enableEdgeToEdge()
 
@@ -60,14 +72,25 @@ class NotificationsActivity : AppCompatActivity() {
 
     private fun observeViewModel() {
         lifecycleScope.launch {
-            viewModel.notifications.collect { notifications ->
-                if (notifications.isNullOrEmpty()) {
-                binding.notificationEmpty.visibility = View.VISIBLE
-                binding.recyclerNotifications.visibility = View.GONE
-                } else {
-                    binding.notificationEmpty.visibility = View.GONE
-                    binding.recyclerNotifications.visibility = View.VISIBLE
-                    adapter.submitList(notifications.map { it.toDomain() })
+            combine(
+                viewModel.notifications,
+                viewModel.isLoading
+            ) { notifications, isLoading ->
+                notifications to isLoading
+            }.collect { (notifications, isLoading) ->
+                if (!isLoading) {
+                    if (notifications.isEmpty()) {
+                        binding.notificationEmpty.visibility = View.VISIBLE
+                        binding.recyclerNotifications.visibility = View.GONE
+                        if (!hasLoggedEmptyState) {
+                            viewModel.analyticsHelper.logEvent("notifications_empty_shown", mapOf("is_empty" to "true"))
+                            hasLoggedEmptyState = true
+                        }
+                    } else {
+                        binding.notificationEmpty.visibility = View.GONE
+                        binding.recyclerNotifications.visibility = View.VISIBLE
+                        adapter.submitList(notifications.map { it.toDomain() })
+                    }
                 }
             }
         }
@@ -78,11 +101,6 @@ class NotificationsActivity : AppCompatActivity() {
             }
         }
 
-        lifecycleScope.launch {
-            viewModel.isLoading.collect { isLoading ->
-                //TODO: Exibir ou ocultar um indicador de carregamento com base no estado de carregamento
-            }
-        }
 
         binding.toolbar.apply {
             setToolbarTitle("Notificações", DsText.TextStyle.HEADER, centered = true)

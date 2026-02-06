@@ -40,6 +40,7 @@ android {
 
 dependencies {
     implementation(projects.navigation)
+    implementation(project(":feature:Authentication"))
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)

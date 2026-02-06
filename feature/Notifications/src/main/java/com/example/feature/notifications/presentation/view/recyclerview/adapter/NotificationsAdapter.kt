@@ -13,8 +13,7 @@ import java.util.Date
 import java.util.Locale
 
 class NotificationsAdapter(
-    //private val onNotificationClick: (Notification) -> Unit,
-    //private val onDeleteClick: (Notification) -> Unit
+    private val onNotificationClick: (Notification) -> Unit
 ) : ListAdapter<Notification, NotificationsAdapter.ViewHolder>(DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -36,11 +35,12 @@ class NotificationsAdapter(
         private val card: DsNotificationCard get() = binding.notificationCard
 
         fun bind(notification: Notification) {
-            card.apply {
-                card.setTitle(notification.description)
-                card.setDateTime(formatDate(notification.sentTimestamp))
-                card.setIsNew(notification.isNew)
+            card.setTitle(notification.description)
+            card.setDateTime(formatDate(notification.sentTimestamp))
+            card.setIsNew(notification.isNew)
 
+            itemView.setOnClickListener {
+                onNotificationClick(notification)
             }
         }
 

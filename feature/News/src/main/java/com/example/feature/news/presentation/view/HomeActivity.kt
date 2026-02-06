@@ -5,6 +5,7 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -12,6 +13,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.feature.news.R
 import com.example.feature.news.databinding.ActivityHomeBinding
+import com.example.feature.news.presentation.viewModel.HomeViewModel
 import com.example.mylibrary.ds.text.DsText
 import com.example.navigation.Navigator
 import com.example.navigation.routes.NavigationRoute
@@ -28,6 +30,7 @@ class HomeActivity : AppCompatActivity() {
     lateinit var navigator: Navigator
 
     private lateinit var binding: ActivityHomeBinding
+    private val viewModel: HomeViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,6 +54,7 @@ class HomeActivity : AppCompatActivity() {
             setActionButtons(
                 action1Icon = com.example.mylibrary.R.drawable.ds_icon_notification,
                 action1Click = {
+                    viewModel.analyticsHelper.logEvent("notifications_icon_click")
                     navigator.navigateToActivity(
                         this@HomeActivity,
                         NavigationRoute.Notifications
