@@ -2,10 +2,10 @@ name: Deploy to Firebase App Distribution
 
 on:
   push:
-    branches: [ dev ]
+    branches: [ main ]
   pull_request:
     types: [ closed ]
-    branches: [ dev ]
+    branches: [ main ]
 
 jobs:
   deploy:
@@ -50,7 +50,6 @@ jobs:
             -Pandroid.injected.signing.key.alias=$KEY_ALIAS \
             -Pandroid.injected.signing.key.password=$KEY_PASSWORD
 
-      # Debug: listar arquivos gerados para LayerNews
       - name: List LayerNews APK outputs
         run: ls -lh Main/build/outputs/apk/LayerNews/release
 
@@ -59,7 +58,7 @@ jobs:
         with:
           appId: ${{ secrets.FIREBASE_APP_ID_NEWS }}
           serviceCredentialsFileContent: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_JSON }}
-          groups: testers
+          groups: Managers,QA
           file: Main/build/outputs/apk/LayerNews/release/Main-LayerNews-release.apk
           releaseNotes: |
             Changes in this LayerNews release:
@@ -80,7 +79,6 @@ jobs:
             -Pandroid.injected.signing.key.alias=$KEY_ALIAS \
             -Pandroid.injected.signing.key.password=$KEY_PASSWORD
 
-      # Debug: listar arquivos gerados para LayerSports
       - name: List LayerSports APK outputs
         run: ls -lh Main/build/outputs/apk/LayerSports/release
 
@@ -89,7 +87,7 @@ jobs:
         with:
           appId: ${{ secrets.FIREBASE_APP_ID_SPORTS }}
           serviceCredentialsFileContent: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_JSON }}
-          groups: testers
+          groups: Managers,QA
           file: Main/build/outputs/apk/LayerSports/release/Main-LayerSports-release.apk
           releaseNotes: |
             Changes in this LayerSports release:
