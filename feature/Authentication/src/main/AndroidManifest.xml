@@ -12,14 +12,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.LayerApp">
+
         <activity
             android:name=".presentation.resetPassword.view.ResetPasswordActivity"
             android:exported="false" />
+
+        <activity
+        android:name=".presentation.register.view.RegisterActivity"
+        android:exported="false" />
         <activity
             android:name=".presentation.login.view.LoginActivity"
-            android:exported="false" />
-        <activity
-            android:name=".presentation.MainActivity"
             android:exported="false" />
 
         <meta-data

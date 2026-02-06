@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    tools:context=".presentation.register.view.RegisterActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!-- Título -->
+        <TextView
+            android:id="@+id/Register_Title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cadastro"
+            android:fontFamily="@font/poppins_bold"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="124dp"
+
+            />
+
+        <!-- Campo de usuário -->
+        <com.example.mylibrary.ds.input.DsInput
+            android:id="@+id/inputUsuario"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:inputKeyboardType="text"
+            android:hint="@string/register_Name"
+            app:layout_constraintTop_toBottomOf="@id/Register_Title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="24dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp"/>
+
+        <!-- Campo de email -->
+        <com.example.mylibrary.ds.input.DsInput
+            android:id="@+id/inputEmail"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:inputKeyboardType="email"
+            android:hint="@string/register_Email"
+            app:layout_constraintTop_toBottomOf="@id/inputUsuario"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="16dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp"/>
+
+        <!-- Campo de CPF -->
+        <com.example.mylibrary.ds.input.DsInput
+            android:id="@+id/inputCpf"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:inputKeyboardType="cpf"
+            android:hint="@string/register_Cpf"
+            app:layout_constraintTop_toBottomOf="@id/inputEmail"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="16dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp"/>
+
+        <!-- Campo de senha -->
+        <com.example.mylibrary.ds.input.DsInput
+            android:id="@+id/inputSenha"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:inputKeyboardType="password"
+            android:hint="@string/register_Password"
+            app:layout_constraintTop_toBottomOf="@id/inputCpf"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="16dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp"/>
+
+        <!-- Campo de confirmar senha -->
+        <com.example.mylibrary.ds.input.DsInput
+            android:id="@+id/inputConfirmarSenha"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:inputKeyboardType="password"
+            android:hint="@string/register_Password2"
+            app:layout_constraintTop_toBottomOf="@id/inputSenha"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="16dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp"/>
+
+        <!-- Botão de cadastro -->
+        <com.example.mylibrary.ds.button.DsButton
+            android:id="@+id/register_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:textDS="Cadastrar"
+            app:layout_constraintTop_toBottomOf="@id/inputConfirmarSenha"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:background="@color/blue"
+            android:layout_marginTop="32dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

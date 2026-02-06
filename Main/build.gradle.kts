@@ -1,10 +1,10 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.hilt)
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
-    kotlin("kapt")
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.hilt)
 }
 
 android {
@@ -19,6 +19,10 @@ android {
         versionName = "1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         //consumerProguardFiles("consumer-rules.pro")
+    }
+
+    buildFeatures {
+        viewBinding = true
     }
 
     buildTypes {
@@ -37,6 +41,24 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
+
+    flavorDimensions += "brand"
+    productFlavors {
+
+        create("LayerNews") {
+            dimension = "brand"
+            applicationId = "com.exemplo.layer.news"
+            versionName = "1.1.0"
+            versionCode = 2
+        }
+
+        create("LayerSports") {
+            dimension = "brand"
+            applicationId = "com.exemplo.layer.sports"
+            versionName = "1.1.0"
+            versionCode = 2
+        }
+    }
 }
 
 dependencies {
@@ -44,9 +66,10 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
-    implementation(project(":feature:Authentication"))
-    implementation(project(":feature:Notifications"))
-    implementation(project(":feature:News"))
+    implementation(projects.navigation)
+    implementation(projects.feature.authentication)
+    implementation(projects.feature.notifications)
+    implementation(projects.feature.news)
 
     implementation(libs.hilt.android)
     implementation(libs.androidx.activity)
@@ -54,16 +77,17 @@ dependencies {
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.androidx.room.ktx)
-    kapt(libs.hilt.compiler)
+    ksp(libs.hilt.compiler)
 
     implementation(libs.retrofit)
     implementation(libs.retrofit.gson)
 
+    // Design System
+    implementation(libs.mylibrary)
+
     // Firebase
-    implementation(platform("com.google.firebase:firebase-bom:34.8.0"))
-    implementation("com.google.firebase:firebase-analytics")
-    implementation("com.google.firebase:firebase-messaging")
-    implementation("com.google.firebase:firebase-crashlytics")
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.bundles.firebase)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

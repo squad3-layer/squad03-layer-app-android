@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Layer News</string>
+    <string name="app_name">Layer Sports</string>
     <string name="splash_logo_description">Logo da Layer News</string>
     <string name="login_dialog_alert">Atenção</string>
     <string name="login_dialog_authentication_fail">Usuário e/ou senha incorretos</string>
@@ -28,4 +28,31 @@
     <string name="reset_password_subtitle">Digite seu endereço de email\npara recuperar sua senha.</string>
     <string name="reset_password_title">Recuperar senha</string>
     <string name="reset_password_hint_email">Digite seu e-mail</string>
+    <string name="register_Name">Digite seu nome de usuário</string>
+    <string name="register_Email">Digite seu email</string>
+    <string name="register_Email_error">Digite um email valido</string>
+    <string name="register_Cpf">Digite seu Cpf</string>
+    <string name="register_Password">Digite sua senha </string>
+    <string name="register_Password_error">Sua senha deve conter 6 caracteres!</string>
+    <string name="register_Password2">Confirme sua senha</string>
+    <string name="register_confirm_passsword_required">O campo confirmar senha é obrigatório.</string>
+    <string name="register_passsword_required">O campo senha é obrigatório.</string>
+    <string name="register_confirm_password_mismatch">O campo senha e confirmar senha devem ser iguais.</string>
+    <string name="register_cpf_invalid">"O campo de CPF está inválido."</string>
+    <string name="register_username_required">"O campo de nome do usuário é obrigatório."</string>
+    <string name="register_cpf_required">"O campo de CPF é obrigatório."</string>
+    <string name="register_cpf_must_have_11_digits">"O campo de CPF deve conter 11 dígitos.""</string>
+    <string name="dialog_ok">"Ok"</string>
+    <string name="register_email_already_in_use">Este e-mail já está em uso. Tente fazer login ou use outro e-mail.</string>
+    <string name="register_generic_error">Ocorreu um erro ao realizar o cadastro. Tente novamente em instantes.</string>
+    <string name="register_dialog_alert">Atenção</string>
+
+    <string name="reset_password_dialog_alert">Erro</string>
+    <string name="reset_password_dialog_description">Falha ao tentar enviar email, verifique se o email informado esta correto.</string>
+    <string name="reset_password_toast_success">E-mail de recuperação enviado!</string>
+    <string name="reset_password_accessibility_button">Entrar, Botão.</string>
+    <string name="error_unknown">Erro desconhecido</string>
+    <string name="error_send_email_fail">Falha ao enviar e-mail</string>
+    <string name="error_user_not_found">USER_NOT_FOUND</string>
+
 </resources>

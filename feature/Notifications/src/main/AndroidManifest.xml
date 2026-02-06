@@ -2,9 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
     <application>
+        <activity
+            android:name=".presentation.view.NotificationsActivity"
+            android:exported="true" />
     <service
-        android:name=".data.service.MyFirebaseMessagingService"
-        android:exported="false">
+        android:name=".data.service.FirebaseMessagingService"
+        android:exported="true">
         <intent-filter>
             <action android:name="com.google.firebase.MESSAGING_EVENT" />
         </intent-filter>

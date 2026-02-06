@@ -1,8 +1,8 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.ksp)
     alias(libs.plugins.hilt)
-    kotlin("kapt")
 }
 
 android {
@@ -39,7 +39,7 @@ android {
 }
 
 dependencies {
-
+    implementation(projects.navigation)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
@@ -49,6 +49,7 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     implementation(libs.androidx.navigation.fragment.ktx)
+
 
     // Design System
     implementation(libs.mylibrary)
@@ -69,6 +70,6 @@ dependencies {
     implementation(libs.glide.core)
     implementation(libs.hilt.android)
     implementation(libs.androidx.hilt.navigation.fragment)
-    kapt(libs.glide.compiler)
-    kapt(libs.hilt.compiler)
+    ksp(libs.glide.compiler)
+    ksp(libs.hilt.compiler)
 }
