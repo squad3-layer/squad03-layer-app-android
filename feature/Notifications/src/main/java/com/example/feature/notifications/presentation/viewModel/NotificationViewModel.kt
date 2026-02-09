@@ -2,7 +2,7 @@ package com.example.feature.notifications.presentation.viewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.feature.authentication.domain.login.model.AnalyticsHelper
+import com.example.services.analytics.AnalyticsTags
 import com.example.feature.notifications.data.local.entity.NotificationEntity
 import com.example.feature.notifications.domain.usecase.DeleteNotificationUseCase
 import com.example.feature.notifications.domain.usecase.GetAllNotificationsUseCase
@@ -21,7 +21,7 @@ class NotificationsViewModel @Inject constructor(
     private val getNewNotificationsCountUseCase: GetNewNotificationsCountUseCase,
     private val deleteNotificationUseCase: DeleteNotificationUseCase,
     private val updateExpiredNotificationsUseCase: UpdateExpiredNotificationsUseCase,
-    val analyticsHelper: AnalyticsHelper
+    val analyticsHelper: AnalyticsTags
 ) : ViewModel() {
 
     private val _notifications = MutableStateFlow<List<NotificationEntity>>(emptyList())

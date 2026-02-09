@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.feature.authentication.R
-import com.example.feature.authentication.domain.login.model.AnalyticsHelper
+import com.example.services.analytics.AnalyticsTags
 import com.example.feature.authentication.domain.register.model.RegisterRequest
 import com.example.feature.authentication.domain.register.useCase.RegisterUseCase
 import com.google.firebase.crashlytics.FirebaseCrashlytics
@@ -17,7 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class RegisterViewModel @Inject constructor(
     private val useCase: RegisterUseCase,
-    val analyticsHelper: AnalyticsHelper
+    val analyticsHelper: AnalyticsTags
 ) : ViewModel() {
 
     private val _registerState = MutableLiveData<Result<Unit>>()
