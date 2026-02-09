@@ -4,18 +4,20 @@ import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.feature.authentication.R
-import com.example.feature.authentication.domain.login.model.AnalyticsHelper
-import com.google.firebase.auth.FirebaseAuth
+import com.example.services.analytics.AnalyticsTags
+import com.example.services.authentication.AuthenticationService
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
 @HiltViewModel
 class ResetPasswordViewModel @Inject constructor(
-    private val auth: FirebaseAuth,
-    val analyticsHelper: AnalyticsHelper
+    private val authService: AuthenticationService,
+    val analyticsHelper: AnalyticsTags
 ) : ViewModel() {
 
     private val _resetState = MutableLiveData<Result<Unit>>()
@@ -39,47 +41,22 @@ class ResetPasswordViewModel @Inject constructor(
     fun sendResetPasswordEmail(email: String) {
         if (!validateEmail(email)) return
 
-        _isLoading.value = true
-        analyticsHelper.logEvent("reset_password_attempt")
+        viewModelScope.launch {
+            _isLoading.value = true
+            analyticsHelper.logEvent("reset_password_attempt")
 
-        auth.fetchSignInMethodsForEmail(email).addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                val methods = task.result?.signInMethods ?: emptyList<String>()
-
-                if (methods.isNotEmpty()) {
-                    performEmailReset(email)
-                    analyticsHelper.logEvent("reset_password_user_found")
-                } else {
-
-                    _isLoading.value = false
-                    _errorMessage.value = "USER_NOT_FOUND"
-                    analyticsHelper.logEvent("reset_password_error", mapOf("reason" to "user_not_found"))
-
-                }
-            } else {
-
-                _isLoading.value = false
-                val exception = task.exception
-                _errorMessage.value = exception?.message ?: "Erro desconhecido"
-
-
-                analyticsHelper.logEvent("reset_password_technical_error")
-                exception?.let {
-                    FirebaseCrashlytics.getInstance().recordException(it)
-                }
-            }
-        }
-    }
-
-    private fun performEmailReset(email: String) {
-        auth.sendPasswordResetEmail(email).addOnCompleteListener { task ->
-            _isLoading.value = false
-            if (task.isSuccessful) {
+            val result = authService.sendPasswordResetEmail(email)
+            result.onSuccess {
                 _resetResult.value = true
-            } else {
+                _resetState.value = Result.success(Unit)
+                analyticsHelper.logEvent("reset_password_success")
+            }.onFailure { e ->
                 _resetResult.value = false
-                _errorMessage.value = task.exception?.message ?: "Falha ao enviar e-mail"
+                _errorMessage.value = e.message ?: "Falha ao enviar e-mail"
+                analyticsHelper.logEvent("reset_password_error", mapOf("reason" to (e.message ?: "unknown")))
+                FirebaseCrashlytics.getInstance().recordException(e)
             }
+            _isLoading.value = false
         }
     }
 

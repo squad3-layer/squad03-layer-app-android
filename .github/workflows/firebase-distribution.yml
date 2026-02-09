@@ -1,0 +1,94 @@
+name: Deploy to Firebase App Distribution
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    types: [ closed ]
+    branches: [ main ]
+
+jobs:
+  deploy:
+    if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.pull_request.merged == true)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: 'gradle'
+
+      - name: Decode Keystore
+        run: |
+          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > release-keystore.jks
+
+      - name: Decode google-services.json
+        run: |
+          mkdir -p Main
+          echo "${{ secrets.GOOGLE_SERVICES_JSON }}" | base64 -d > Main/google-services.json
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      # ---------------------------
+      # Build LayerNews Release APK
+      # ---------------------------
+      - name: Build LayerNews Release APK
+        env:
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        run: |
+          ./gradlew assembleLayerNewsRelease \
+            -Pandroid.injected.signing.store.file=${{ github.workspace }}/release-keystore.jks \
+            -Pandroid.injected.signing.store.password=$KEYSTORE_PASSWORD \
+            -Pandroid.injected.signing.key.alias=$KEY_ALIAS \
+            -Pandroid.injected.signing.key.password=$KEY_PASSWORD
+
+      - name: List LayerNews APK outputs
+        run: ls -lh Main/build/outputs/apk/LayerNews/release
+
+      - name: Upload LayerNews to Firebase
+        uses: wzieba/Firebase-Distribution-Github-Action@v1
+        with:
+          appId: ${{ secrets.FIREBASE_APP_ID_NEWS }}
+          serviceCredentialsFileContent: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_JSON }}
+          groups: Managers,QA
+          file: Main/build/outputs/apk/LayerNews/release/Main-LayerNews-release.apk
+          releaseNotes: |
+            Changes in this LayerNews release:
+            ${{ github.event.head_commit.message }}
+
+      # ---------------------------
+      # Build LayerSports Release APK
+      # ---------------------------
+      - name: Build LayerSports Release APK
+        env:
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        run: |
+          ./gradlew assembleLayerSportsRelease \
+            -Pandroid.injected.signing.store.file=${{ github.workspace }}/release-keystore.jks \
+            -Pandroid.injected.signing.store.password=$KEYSTORE_PASSWORD \
+            -Pandroid.injected.signing.key.alias=$KEY_ALIAS \
+            -Pandroid.injected.signing.key.password=$KEY_PASSWORD
+
+      - name: List LayerSports APK outputs
+        run: ls -lh Main/build/outputs/apk/LayerSports/release
+
+      - name: Upload LayerSports to Firebase
+        uses: wzieba/Firebase-Distribution-Github-Action@v1
+        with:
+          appId: ${{ secrets.FIREBASE_APP_ID_SPORTS }}
+          serviceCredentialsFileContent: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_JSON }}
+          groups: Managers,QA
+          file: Main/build/outputs/apk/LayerSports/release/Main-LayerSports-release.apk
+          releaseNotes: |
+            Changes in this LayerSports release:
+            ${{ github.event.head_commit.message }}

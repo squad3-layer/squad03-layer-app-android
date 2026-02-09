@@ -2,37 +2,33 @@ package com.example.feature.authentication.data.register.repository
 
 import com.example.feature.authentication.domain.register.model.RegisterRequest
 import com.example.feature.authentication.domain.register.repository.RegisterRepository
+import com.example.services.authentication.AuthenticationService
+import com.example.services.database.FirestoreService
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 
 class RegisterRepositoryImpl @Inject constructor(
-    private val firebaseAuth: FirebaseAuth,
-    private val firestore: FirebaseFirestore
+    private val authService: AuthenticationService,
+    private val firestoreService: FirestoreService,
+    private val firebaseAuth: FirebaseAuth
 ) : RegisterRepository {
 
     override suspend fun signUp(user: RegisterRequest): Result<Unit> {
         return try {
-            val authResult = firebaseAuth
-                .createUserWithEmailAndPassword(user.email, user.password)
-                .await()
+            authService.signUp(user.email, user.password).onSuccess {
+                val uid = firebaseAuth.currentUser?.uid
+                    ?: throw IllegalStateException("Ocorreu um erro ao recuperar o UID.")
 
-            val uid = authResult.user?.uid
-                ?: throw IllegalStateException("Ocorreu um erro ao recuperar o UID.")
+                val userMap = mapOf(
+                    "uid" to uid,
+                    "email" to user.email,
+                    "name" to user.username,
+                    "cpf" to user.cpf
+                )
 
-            val userMap = hashMapOf(
-                "uid" to uid,
-                "email" to user.email,
-                "name" to user.username,
-                "cpf" to user.cpf
-            )
-
-            firestore.collection("users")
-                .document(uid)
-                .set(userMap)
-                .await()
+                firestoreService.saveDocument("users", uid, userMap)
+            }.getOrThrow()
             Result.success(Unit)
 
         } catch (e: Exception) {
