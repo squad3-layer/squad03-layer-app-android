@@ -3,6 +3,9 @@
 
     <application>
         <activity
+            android:name=".presentation.view.DetailsNewsActivity"
+            android:exported="false" />
+        <activity
             android:name=".presentation.view.HomeActivity"
             android:exported="false" />
     </application>
