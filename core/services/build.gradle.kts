@@ -47,6 +47,10 @@ dependencies {
     // Coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.7.3")
 
+    // Retrofit & Gson
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.gson)
+
     // Hilt
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)

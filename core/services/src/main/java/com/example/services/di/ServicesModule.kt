@@ -9,15 +9,20 @@ import com.example.services.authentication.AuthenticationService
 import com.example.services.authentication.AuthenticationServiceImpl
 import com.example.services.database.FirestoreService
 import com.example.services.database.FirestoreServiceImpl
-import com.google.firebase.analytics.FirebaseAnalytics
+import com.example.services.network.ApiService
+import com.example.services.network.NetworkService
+import com.example.services.network.NetworkServiceImpl
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import dagger.Binds
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
 @Module
@@ -66,5 +71,35 @@ object ServicesModule {
         firestore: FirebaseFirestore
     ): FirestoreService {
         return FirestoreServiceImpl(firestore)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGson(): Gson {
+        return Gson()
+    }
+
+    @Provides
+    @Singleton
+    fun provideRetrofit(gson: Gson): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl("https://api.example.com/")
+            .addConverterFactory(GsonConverterFactory.create(gson))
+            .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideApiService(retrofit: Retrofit): ApiService {
+        return retrofit.create(ApiService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideNetworkService(
+        apiService: ApiService,
+        gson: Gson
+    ): NetworkService {
+        return NetworkServiceImpl(apiService, gson)
     }
 }
