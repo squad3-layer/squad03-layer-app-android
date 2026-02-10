@@ -10,7 +10,6 @@ import com.example.services.analytics.AnalyticsTags
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val getTopHeadlinesUseCase: GetTopHeadlinesUseCase,
@@ -48,5 +47,8 @@ class HomeViewModel @Inject constructor(
 
     fun logNotificationClick() {
         analyticsHelper.logEvent("notifications_icon_click")
+
+    fun logFavoriteClick() {
+        analyticsHelper.logEvent("favorites_icon_click")
     }
 }

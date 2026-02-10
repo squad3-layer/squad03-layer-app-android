@@ -37,4 +37,3 @@ class NewsRepositoryImpl @Inject constructor(
         )
     }
 }
-

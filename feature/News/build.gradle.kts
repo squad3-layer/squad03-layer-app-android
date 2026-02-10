@@ -51,6 +51,7 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     implementation(libs.androidx.navigation.fragment.ktx)
+    implementation("io.coil-kt:coil:2.4.0")
 
     // Design System
     implementation(libs.mylibrary)
