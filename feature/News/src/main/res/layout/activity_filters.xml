@@ -40,7 +40,7 @@
                 android:id="@+id/titleOrdering"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Ordenação"
+                android:text="@string/filters_ordering"
                 app:dsTextStyle="description"
                 app:dsFontWeight="medium"
                 android:textSize="14sp"
@@ -65,7 +65,7 @@
                     style="@style/Widget.Material3.Chip.Assist"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Publicação"
+                    android:text="@string/filters_ordering_published_at"
                     android:checkable="true"
                     android:checked="true"/>
 
@@ -74,7 +74,7 @@
                     style="@style/Widget.Material3.Chip.Assist"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Popularidade"
+                    android:text="@string/filters_ordering_popularity"
                     android:checkable="true"/>
 
                 <com.google.android.material.chip.Chip
@@ -82,7 +82,7 @@
                     style="@style/Widget.Material3.Chip.Assist"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Relevância"
+                    android:text="@string/filters_ordering_relevance"
                     android:checkable="true"/>
             </com.google.android.material.chip.ChipGroup>
 
@@ -91,7 +91,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
-                android:text="Período"
+                android:text="@string/filters_period"
                 app:dsFontWeight="medium"
                 android:textSize="14sp"
                 app:dsTextStyle="description"
@@ -103,7 +103,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                android:hint="digite a data inicial"
+                android:hint="@string/filters_start_date_hint"
                 app:inputKeyboardType="text"
                 app:layout_constraintTop_toBottomOf="@id/titlePeriod"
                 app:layout_constraintStart_toStartOf="parent"
@@ -114,19 +114,18 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                android:hint="digite a data final"
+                android:hint="@string/filters_end_date_hint"
                 app:inputKeyboardType="text"
                 app:layout_constraintTop_toBottomOf="@id/inputStartDate"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
 
-            <!-- Categoria -->
             <com.example.mylibrary.ds.text.DsText
                 android:id="@+id/titleCategory"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
-                android:text="Categoria"
+                android:text="@string/filters_category"
                 android:textSize="14sp"
                 app:dsFontWeight="medium"
                 app:dsTextStyle="description"
@@ -151,7 +150,7 @@
                     style="@style/Widget.Material3.Chip.Assist"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Geral"
+                    android:text="@string/filters_category_general"
                     android:checkable="true"
                     android:checked="true"/>
 
@@ -160,7 +159,7 @@
                     style="@style/Widget.Material3.Chip.Assist"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Negócios"
+                    android:text="@string/filters_category_business"
                     android:checkable="true"/>
 
                 <com.google.android.material.chip.Chip
@@ -168,7 +167,7 @@
                     style="@style/Widget.Material3.Chip.Assist"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Tecnologia"
+                    android:text="@string/filters_category_tech"
                     android:checkable="true"/>
 
                 <com.google.android.material.chip.Chip
@@ -176,7 +175,7 @@
                     style="@style/Widget.Material3.Chip.Assist"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Esportes"
+                    android:text="@string/filters_category_sports"
                     android:checkable="true"/>
 
                 <com.google.android.material.chip.Chip
@@ -184,7 +183,7 @@
                     style="@style/Widget.Material3.Chip.Assist"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Saúde"
+                    android:text="@string/filters_category_health"
                     android:checkable="true"/>
 
                 <com.google.android.material.chip.Chip
@@ -192,7 +191,7 @@
                     style="@style/Widget.Material3.Chip.Assist"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Ciência"
+                    android:text="@string/filters_category_science"
                     android:checkable="true"/>
             </com.google.android.material.chip.ChipGroup>
 
@@ -201,7 +200,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
-                android:text="Idioma"
+                android:text="@string/filters_language"
                 android:textSize="14sp"
                 app:dsFontWeight="medium"
                 app:dsTextStyle="description"
@@ -226,7 +225,7 @@
                     style="@style/Widget.Material3.Chip.Assist"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Português"
+                    android:text="@string/filters_language_pt"
                     android:checkable="true"
                     android:checked="true"/>
 
@@ -235,7 +234,7 @@
                     style="@style/Widget.Material3.Chip.Assist"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Inglês"
+                    android:text="@string/filters_language_en"
                     android:checkable="true"/>
 
                 <com.google.android.material.chip.Chip
@@ -243,7 +242,7 @@
                     style="@style/Widget.Material3.Chip.Assist"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Espanhol"
+                    android:text="@string/filters_language_es"
                     android:checkable="true"/>
             </com.google.android.material.chip.ChipGroup>
 
@@ -255,14 +254,14 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/chipsLanguage"
-                app:textDS="Aplicar" />
+                app:textDS="@string/filters_button_apply" />
 
             <com.example.mylibrary.ds.button.DsButton
                 android:id="@+id/buttonClear"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                app:textDS="Limpar"
+                app:textDS="@string/filters_button_clear"
                 app:buttonType="text"
                 app:layout_constraintTop_toBottomOf="@id/buttonApply"
                 app:layout_constraintStart_toStartOf="parent"
