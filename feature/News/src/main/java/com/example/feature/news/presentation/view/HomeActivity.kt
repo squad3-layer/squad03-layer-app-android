@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -22,9 +23,6 @@ import com.example.navigation.routes.NavigationRoute
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
-import androidx.recyclerview.widget.RecyclerView
-
-
 
 @AndroidEntryPoint
 class HomeActivity : AppCompatActivity() {
@@ -50,6 +48,7 @@ class HomeActivity : AppCompatActivity() {
         requestNotificationPermission()
         setupWindowInsets()
         setupRecyclerView()
+        observeViewModel()
     }
 
     private fun setupToolbar() {
@@ -65,6 +64,14 @@ class HomeActivity : AppCompatActivity() {
                     navigator.navigateToActivity(
                         this@HomeActivity,
                         NavigationRoute.Notifications
+                    )
+                },
+                action2Icon = com.example.mylibrary.R.drawable.ds_icon_person, // alterar o icone
+                action2Click = {
+                    viewModel.logNotificationClick() //mudar para favorito quando disponivel
+                    navigator.navigateToActivity(
+                        this@HomeActivity,
+                        NavigationRoute.Notifications //mudar para favorito quando disponivel
                     )
                 }
             )
@@ -113,11 +120,26 @@ class HomeActivity : AppCompatActivity() {
 
     private fun setupRecyclerView() {
         adapter = HomeAdapter(emptyList())
-        binding.recyclerView.setLayoutManager(LinearLayoutManager(this))
+        binding.recyclerView.layoutManager = LinearLayoutManager(this)
         binding.recyclerView.adapter = adapter
+    }
 
-        viewModel.items.observe(this) { list ->
-            adapter.updateData(list)
+    private fun observeViewModel() {
+        viewModel.articles.observe(this) { articles ->
+            adapter.updateData(articles)
+        }
+
+        viewModel.isLoading.observe(this) { isLoading ->
+            binding.recyclerView.visibility = if (isLoading) View.GONE else View.VISIBLE
+        }
+
+        viewModel.error.observe(this) { error ->
+            if (error != null) {
+                android.widget.Toast.makeText(this, error, android.widget.Toast.LENGTH_SHORT).show()
+            }
         }
     }
 }
+
+
+
