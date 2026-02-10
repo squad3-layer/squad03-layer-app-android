@@ -48,7 +48,8 @@ class HomeViewModel @Inject constructor(
     fun logNotificationClick() {
         analyticsHelper.logEvent("notifications_icon_click")
 
-    fun logFavoriteClick() {
-        analyticsHelper.logEvent("favorites_icon_click")
+        fun logFavoriteClick() {
+            analyticsHelper.logEvent("favorites_icon_click")
+        }
     }
 }
