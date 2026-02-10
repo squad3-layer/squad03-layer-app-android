@@ -5,11 +5,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.feature.news.databinding.NewsItemBinding
-import com.example.feature.news.domain.model.News
+import com.example.feature.news.domain.model.Article
 
 class HomeAdapter(
-    private var items: List<News>
-) : RecyclerView.Adapter<HomeAdapter.NewsViewHolder>() {
+    private var items: List<Article>
+) : RecyclerView.Adapter<HomeAdapter.HomeViewHolder>() {
 
     inner class NewsViewHolder(private val binding: NewsItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -39,8 +39,10 @@ class HomeAdapter(
 
     override fun getItemCount(): Int = items.size
 
-    fun updateData(newItems: List<News>) {
-        items = newItems
-        notifyDataSetChanged()
+    fun updateData(newItems: List<Article>?) {
+        if (newItems != null) {
+            items = newItems
+            notifyDataSetChanged()
+        }
     }
 }

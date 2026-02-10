@@ -1,8 +1,9 @@
 package com.example.feature.news.domain.repository
 
-import com.example.feature.news.domain.model.News
+import com.example.feature.news.domain.model.NewsResponse
+import kotlinx.coroutines.flow.Flow
 
 interface NewsRepository {
-    suspend fun getTopHeadlines(): List<News>
+    suspend fun getTopHeadlines(country: String = "us", page: Int = 1): Result<NewsResponse>
+    fun observeTopHeadlines(country: String = "us"): Flow<Result<NewsResponse>>
 }
-

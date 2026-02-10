@@ -1,3 +1,10 @@
 <resources>
     <string name="button_logout">Desconectar</string>
+    <string name="details_news_image_accessibility">Imagem da notícia</string>
+    <string name="details_news_favorite_button_accessibility">Icone favoritar - Botão</string>
+    <string name="details_news_share_button_accessibility">Icone Compartilhar - Botão</string>
+    <string name="details_news_text_title">Mercado financeiro reage positivamente</string>
+    <string name="details_news_text_date">04/12/2022</string>
+    <string name="details_news_text_author">Por João Silva</string>
+    <string name="details_news_text_description">Investidores mostram otimismo com as novas políticas ...</string>
 </resources>
