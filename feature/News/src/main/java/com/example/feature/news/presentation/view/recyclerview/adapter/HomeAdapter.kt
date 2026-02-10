@@ -11,8 +11,22 @@ class HomeAdapter(
     private var items: List<Article>
 ) : RecyclerView.Adapter<HomeAdapter.HomeViewHolder>() {
 
-    inner class NewsViewHolder(private val binding: NewsItemBinding) :
+    inner class HomeViewHolder(private val binding: NewsItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(news: Article) {
+            binding.tvTitle.text = news.title
+            binding.tvDescription.text = news.description
+            binding.tvDate.text = news.publishedAt
+
+            // Carregar imagem com Coil
+            binding.imgCover.load(news.urlToImage) {
+                crossfade(true)
+                placeholder(com.example.mylibrary.R.drawable.ds_icon_person) //arrumar
+                error(com.example.mylibrary.R.drawable.ds_icon_person) // arrumar
+            }
+        }
+    }
 
         fun bind(news: News) {
             binding.tvTitle.text = news.title
@@ -33,7 +47,7 @@ class HomeAdapter(
         return NewsViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: NewsViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: HomeViewHolder, position: Int) {
         holder.bind(items[position])
     }
 
