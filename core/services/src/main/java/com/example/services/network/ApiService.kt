@@ -6,13 +6,13 @@ import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Path
-import retrofit2.http.Query
+import retrofit2.http.QueryMap
 
 interface ApiService {
     @GET("{endpoint}")
     suspend fun get(
         @Path("endpoint") endpoint: String,
-        @Query("params") params: Map<String, String>? = null
+        @QueryMap params: Map<String, String>? = null
     ): Map<String, Any>
 
     @POST("{endpoint}")

@@ -1,7 +1,7 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
-    id("com.google.devtools.ksp") version "2.0.21-1.0.25"
+    alias(libs.plugins.ksp)
     alias(libs.plugins.hilt)
 }
 
@@ -59,15 +59,13 @@ dependencies {
     implementation(platform(libs.firebase.bom))
     implementation(libs.bundles.firebase)
 
-
     // Lifecycle / Retrofit
     implementation(libs.androidx.lifecycle.viewmodel)
     implementation(libs.androidx.lifecycle.livedata)
     implementation(libs.retrofit)
     implementation(libs.retrofit.gson)
 
-
-// Glide / Hilt
+    // Glide / Hilt
     implementation(libs.glide.core)
     implementation(libs.hilt.android)
     implementation(libs.androidx.hilt.navigation.fragment)

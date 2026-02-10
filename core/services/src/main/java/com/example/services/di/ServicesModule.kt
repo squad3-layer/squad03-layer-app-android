@@ -83,7 +83,7 @@ object ServicesModule {
     @Singleton
     fun provideRetrofit(gson: Gson): Retrofit {
         return Retrofit.Builder()
-            .baseUrl("https://api.example.com/")
+            .baseUrl("https://newsapi.org/")
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
     }
