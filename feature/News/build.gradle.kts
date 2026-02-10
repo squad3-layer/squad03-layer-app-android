@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt)
+    id("kotlin-parcelize")
 }
 
 
@@ -59,6 +60,7 @@ dependencies {
     // Firebase
     implementation(platform(libs.firebase.bom))
     implementation(libs.bundles.firebase)
+    implementation("com.google.firebase:firebase-firestore")
 
     // Lifecycle / Retrofit
     implementation(libs.androidx.lifecycle.viewmodel)

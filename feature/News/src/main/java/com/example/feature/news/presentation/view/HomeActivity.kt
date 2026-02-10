@@ -1,6 +1,7 @@
 package com.example.feature.news.presentation.view
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
@@ -120,7 +121,12 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun setupRecyclerView() {
-        adapter = HomeAdapter(emptyList())
+        adapter = HomeAdapter(emptyList()) { article ->
+            val intent = Intent(this, DetailsNewsActivity::class.java).apply {
+                putExtra("ARTICLE_DATA", article)
+            }
+            startActivity(intent)
+        }
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
         binding.recyclerView.adapter = adapter
 
