@@ -66,6 +66,14 @@ class HomeActivity : AppCompatActivity() {
                         this@HomeActivity,
                         NavigationRoute.Notifications
                     )
+                },
+                action2Icon = com.example.mylibrary.R.drawable.ds_icon_person, // alterar o icone
+                action2Click = {
+                    viewModel.logNotificationClick() //mudar para favorito quando disponivel
+                    navigator.navigateToActivity(
+                        this@HomeActivity,
+                        NavigationRoute.Notifications //mudar para favorito quando disponivel
+                    )
                 }
             )
         }
