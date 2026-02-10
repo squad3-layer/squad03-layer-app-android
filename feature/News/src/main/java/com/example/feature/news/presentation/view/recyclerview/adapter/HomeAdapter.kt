@@ -28,9 +28,23 @@ class HomeAdapter(
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeViewHolder {
+        fun bind(news: News) {
+            binding.tvTitle.text = news.title
+            binding.tvDescription.text = news.description
+            binding.tvDate.text = news.date
+
+            // Carregar imagem com Coil
+            binding.imgCover.load(news.imageUrl) {
+                crossfade(true)
+                placeholder(com.example.mylibrary.R.drawable.ds_icon_person) //arrumar
+                error(com.example.mylibrary.R.drawable.ds_icon_person) // arrumar
+            }
+        }
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsViewHolder {
         val binding = NewsItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return HomeViewHolder(binding)
+        return NewsViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: HomeViewHolder, position: Int) {
