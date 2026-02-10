@@ -68,16 +68,17 @@ class HomeActivity : AppCompatActivity() {
                         NavigationRoute.Notifications
                     )
                 },
-                action2Icon = com.example.mylibrary.R.drawable.ds_heart_fill, // alterar o icone
+                action2Icon = com.example.mylibrary.R.drawable.ds_heart_fill,
                 action2Click = {
-                    viewModel.logNotificationClick() //mudar para favorito quando disponivel
-                    navigator.navigateToActivity(
-                        this@HomeActivity,
-                        NavigationRoute.Notifications //mudar para favorito quando disponivel
-                    )
+                    openFiltersScreen()
                 }
             )
         }
+    }
+
+    private fun openFiltersScreen() {
+        val intent = Intent(this, FiltersActivity::class.java)
+        startActivity(intent)
     }
 
     private fun setupLogoutButton() {
