@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.feature.news.R
 import com.example.feature.news.databinding.ActivityHomeBinding
 import com.example.feature.news.presentation.view.recyclerview.adapter.HomeAdapter
+import com.example.feature.news.presentation.view.recyclerview.decoration.ItemSpacingDecoration
 import com.example.feature.news.presentation.viewModel.HomeViewModel
 import com.example.mylibrary.ds.text.DsText
 import com.example.navigation.Navigator
@@ -66,7 +67,7 @@ class HomeActivity : AppCompatActivity() {
                         NavigationRoute.Notifications
                     )
                 },
-                action2Icon = com.example.mylibrary.R.drawable.ds_icon_person, // alterar o icone
+                action2Icon = com.example.mylibrary.R.drawable.ds_heart_fill, // alterar o icone
                 action2Click = {
                     viewModel.logNotificationClick() //mudar para favorito quando disponivel
                     navigator.navigateToActivity(
@@ -122,6 +123,9 @@ class HomeActivity : AppCompatActivity() {
         adapter = HomeAdapter(emptyList())
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
         binding.recyclerView.adapter = adapter
+
+        val spacingInPixels = resources.getDimensionPixelSize(R.dimen.spacing_16)
+        binding.recyclerView.addItemDecoration(ItemSpacingDecoration(spacingInPixels))
     }
 
     private fun observeViewModel() {
