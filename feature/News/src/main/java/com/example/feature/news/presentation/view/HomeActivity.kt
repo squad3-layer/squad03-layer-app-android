@@ -6,17 +6,23 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.PopupMenu
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.feature.news.R
 import com.example.feature.news.databinding.ActivityHomeBinding
 import com.example.feature.news.presentation.view.recyclerview.adapter.HomeAdapter
+import com.example.feature.news.presentation.view.recyclerview.adapter.NewsLoadStateAdapter
 import com.example.feature.news.presentation.view.recyclerview.decoration.ItemSpacingDecoration
 import com.example.feature.news.presentation.viewModel.HomeViewModel
 import com.example.mylibrary.ds.text.DsText
@@ -24,10 +30,12 @@ import com.example.navigation.Navigator
 import com.example.navigation.routes.NavigationRoute
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class HomeActivity : AppCompatActivity() {
+
     @Inject
     lateinit var auth: FirebaseAuth
 
@@ -38,6 +46,13 @@ class HomeActivity : AppCompatActivity() {
     private val viewModel: HomeViewModel by viewModels()
     private lateinit var adapter: HomeAdapter
 
+    companion object {
+        private const val NOTIFICATION_PERMISSION_REQUEST_CODE = 101
+        private const val POPUP_FIELD_NAME = "mPopup"
+        private const val FORCE_SHOW_ICON_METHOD = "setForceShowIcon"
+        private const val EXTRA_ARTICLE_DATA = "ARTICLE_DATA"
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -46,7 +61,6 @@ class HomeActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         setupToolbar()
-        setupLogoutButton()
         requestNotificationPermission()
         setupWindowInsets()
         setupRecyclerView()
@@ -55,42 +69,68 @@ class HomeActivity : AppCompatActivity() {
 
     private fun setupToolbar() {
         binding.toolbar.apply {
-            setToolbarTitle("Home", DsText.TextStyle.DESCRIPTION)
-            setBackButton(show = true) {
-                finish()
-            }
-            setActionButtons(
-                action1Icon = com.example.mylibrary.R.drawable.ds_icon_notification,
-                action1Click = {
-                    viewModel.logNotificationClick()
-                    navigator.navigateToActivity(
-                        this@HomeActivity,
-                        NavigationRoute.Notifications
-                    )
-                },
-                action2Icon = com.example.mylibrary.R.drawable.ds_heart_fill, // alterar o icone
-                action2Click = {
-                    viewModel.logNotificationClick() //mudar para favorito quando disponivel
-                    navigator.navigateToActivity(
-                        this@HomeActivity,
-                        NavigationRoute.Notifications //mudar para favorito quando disponivel
-                    )
-                }
-            )
+            setToolbarTitle(context.getString(R.string.news), DsText.TextStyle.HEADER)
+            setHamburgerMenu { showHamburgerMenu() }
         }
     }
 
-    private fun setupLogoutButton() {
-        binding.buttonClickLogout.setDsClickListener {
-            performLogout()
+    private fun showHamburgerMenu() {
+        showPopupMenu(binding.toolbar)
+    }
+
+    private fun showPopupMenu(anchorView: View) {
+        val popupMenu = PopupMenu(this, anchorView)
+        popupMenu.menuInflater.inflate(R.menu.menu, popupMenu.menu)
+
+        enableMenuIcons(popupMenu)
+        setupMenuItemClickListener(popupMenu)
+
+        popupMenu.show()
+    }
+
+    private fun enableMenuIcons(popupMenu: PopupMenu) {
+        try {
+            val popupField = PopupMenu::class.java.getDeclaredField(POPUP_FIELD_NAME)
+            popupField.isAccessible = true
+            val menuPopup = popupField.get(popupMenu)
+            menuPopup?.javaClass
+                ?.getDeclaredMethod(FORCE_SHOW_ICON_METHOD, Boolean::class.java)
+                ?.invoke(menuPopup, true)
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
+    }
+
+    private fun setupMenuItemClickListener(popupMenu: PopupMenu) {
+        popupMenu.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.menu_favorites -> handleFavoritesClick()
+                R.id.menu_notifications -> handleNotificationsClick()
+                R.id.menu_logout -> handleLogoutClick()
+                else -> false
+            }
+        }
+    }
+
+    private fun handleFavoritesClick(): Boolean {
+        Toast.makeText(this, R.string.favorites_menu, Toast.LENGTH_SHORT).show()
+        return true
+    }
+
+    private fun handleNotificationsClick(): Boolean {
+        navigator.navigateToActivity(this, NavigationRoute.Notifications)
+        return true
+    }
+
+    private fun handleLogoutClick(): Boolean {
+        performLogout()
+        return true
     }
 
     private fun performLogout() {
         auth.signOut()
-
         navigator.navigateToActivity(
-            this@HomeActivity,
+            this,
             NavigationRoute.Login(redirectToNotifications = false)
         )
         finish()
@@ -114,38 +154,41 @@ class HomeActivity : AppCompatActivity() {
                 ActivityCompat.requestPermissions(
                     this,
                     arrayOf(Manifest.permission.POST_NOTIFICATIONS),
-                    101
+                    NOTIFICATION_PERMISSION_REQUEST_CODE
                 )
             }
         }
     }
 
     private fun setupRecyclerView() {
-        adapter = HomeAdapter(emptyList()) { article ->
+        adapter = HomeAdapter { article ->
             val intent = Intent(this, DetailsNewsActivity::class.java).apply {
-                putExtra("ARTICLE_DATA", article)
+                putExtra(EXTRA_ARTICLE_DATA, article)
             }
             startActivity(intent)
         }
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
-        binding.recyclerView.adapter = adapter
+        binding.recyclerView.adapter = adapter.withLoadStateFooter(
+            footer = NewsLoadStateAdapter { adapter.retry() }
+        )
 
         val spacingInPixels = resources.getDimensionPixelSize(R.dimen.spacing_16)
         binding.recyclerView.addItemDecoration(ItemSpacingDecoration(spacingInPixels))
     }
 
     private fun observeViewModel() {
-        viewModel.articles.observe(this) { articles ->
-            adapter.updateData(articles)
+        lifecycleScope.launch {
+            viewModel.articles.collect { pagingData ->
+                adapter.submitData(pagingData)
+            }
         }
 
-        viewModel.isLoading.observe(this) { isLoading ->
-            binding.recyclerView.visibility = if (isLoading) View.GONE else View.VISIBLE
-        }
+        lifecycleScope.launch {
+            adapter.loadStateFlow.collect { loadStates ->
+                val isLoading = loadStates.refresh is LoadState.Loading
 
-        viewModel.error.observe(this) { error ->
-            if (error != null) {
-                android.widget.Toast.makeText(this, error, android.widget.Toast.LENGTH_SHORT).show()
+                binding.shimmerLayout.root.isVisible = isLoading
+                binding.recyclerView.isVisible = !isLoading
             }
         }
     }

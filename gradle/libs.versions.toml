@@ -19,7 +19,7 @@ navigationFragmentKtx = "2.9.6"
 navigationUiKtx = "2.9.6"
 roomKtx = "2.8.4"
 firebaseFirestoreKtx = "26.1.0"
-
+paging = "3.4.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -54,6 +54,9 @@ androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = 
 androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "roomKtx" }
 firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore" }
 firebase-config = { group = "com.google.firebase", name = "firebase-config"}
+androidx-paging-runtime = { group = "androidx.paging", name = "paging-runtime-ktx", version.ref = "paging" }
+androidx-paging-common = { group = "androidx.paging", name = "paging-common-ktx", version.ref = "paging" }
+shimmer = { group = "com.facebook.shimmer", name = "shimmer", version = "0.5.0" }
 
 [bundles]
 firebase = [
