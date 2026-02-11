@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Base.Theme.LayerApp" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="popupMenuStyle">@style/Widget.App.PopupMenu</item>
+        <item name="android:popupMenuStyle">@style/Widget.App.PopupMenu</item>
+    </style>
+
+    <style name="Theme.LayerApp" parent="Base.Theme.LayerApp" />
+
+    <style name="Widget.App.PopupMenu" parent="Widget.Material3.PopupMenu">
+        <item name="android:popupBackground">@android:color/white</item>
+    </style>
+</resources>
+
+

@@ -1,49 +1,44 @@
 package com.example.feature.news.presentation.viewModel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
+import com.example.feature.news.data.paging.NewsPagingSource
 import com.example.feature.news.domain.model.Article
-import com.example.feature.news.domain.usecase.GetTopHeadlinesUseCase
+import com.example.feature.news.domain.repository.NewsRepository
 import com.example.services.analytics.AnalyticsTags
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val getTopHeadlinesUseCase: GetTopHeadlinesUseCase,
+    private val newsRepository: NewsRepository,
     val analyticsHelper: AnalyticsTags
 ) : ViewModel() {
 
-    private val _articles = MutableLiveData<List<Article>>()
-    val articles: LiveData<List<Article>> = _articles
+    private var currentCountry = "us"
 
-    private val _isLoading = MutableLiveData<Boolean>()
-    val isLoading: LiveData<Boolean> = _isLoading
+    val articles: Flow<PagingData<Article>> = createPager(currentCountry)
 
-    private val _error = MutableLiveData<String?>()
-    val error: LiveData<String?> = _error
-
-    init {
-        loadTopHeadlines()
+    private fun createPager(country: String): Flow<PagingData<Article>> {
+        return Pager(
+            config = PagingConfig(
+                pageSize = 20,
+                enablePlaceholders = false,
+                initialLoadSize = 20
+            ),
+            pagingSourceFactory = {
+                NewsPagingSource(newsRepository, country)
+            }
+        ).flow.cachedIn(viewModelScope)
     }
 
     fun loadTopHeadlines(country: String = "us") {
-        viewModelScope.launch {
-            _isLoading.value = true
-
-            val result = getTopHeadlinesUseCase(country)
-            result.onSuccess { newsResponse ->
-                _articles.value = newsResponse.articles
-                _error.value = null
-            }.onFailure { exception ->
-                val errorMessage = "Alinhar mensagem de feedback de erro"
-                _error.value = errorMessage
-            }
-            _isLoading.value = false
-        }
+        currentCountry = country
     }
 
     fun logNotificationClick() {
