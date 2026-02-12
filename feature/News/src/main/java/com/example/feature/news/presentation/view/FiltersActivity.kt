@@ -1,15 +1,23 @@
 package com.example.feature.news.presentation.view
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.feature.news.databinding.ActivityFiltersBinding
+import com.example.feature.news.presentation.viewModel.FiltersViewModel
+import com.example.mylibrary.ds.chip.DsChip
+import com.example.mylibrary.ds.chip.DsChipGroup
 import com.example.mylibrary.ds.text.DsText
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class FiltersActivity : AppCompatActivity() {
     private lateinit var binding: ActivityFiltersBinding
+    private val viewModel: FiltersViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -18,9 +26,11 @@ class FiltersActivity : AppCompatActivity() {
         binding = ActivityFiltersBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        setupToolbar()
         setupWindowInsets()
+        setupToolbar()
+        setupChips()
         setupListeners()
+        observeViewModel()
     }
 
     private fun setupToolbar() {
@@ -40,24 +50,78 @@ class FiltersActivity : AppCompatActivity() {
         }
     }
 
+    private fun setupChips() {
+        val orderingOptions = viewModel.getOrderingOptions()
+        if (orderingOptions.isNotEmpty()) {
+            binding.chipsOrdering.addChips(orderingOptions)
+            binding.chipsOrdering.selectChip(0)
+        }
+
+        val categories = viewModel.getCategories()
+        if (categories.isNotEmpty()) {
+            binding.chipsCategory.addChips(categories)
+            binding.chipsCategory.selectChip(0)
+        }
+    }
+
     private fun setupListeners() {
         binding.buttonApply.setDsClickListener {
-            // TODO: Aplicar os filtros selecionados e retornar para a HomeActivity
+            viewModel.applyFilters()
+            val filters = viewModel.getCurrentFilters()
+
+            val resultIntent = Intent().apply {
+                putExtra(EXTRA_CATEGORY, filters.category)
+                putExtra(EXTRA_SHOULD_REVERSE, filters.shouldReverseOrder)
+            }
+            setResult(RESULT_OK, resultIntent)
             finish()
         }
 
         binding.buttonClear.setDsClickListener {
-            // TODO: limpar todos os filtros para o estado padrão
-            clearFilters()
+            viewModel.clearFilters()
+        }
+
+        binding.chipsOrdering.setOnChipSelectionListener(
+            object : DsChipGroup.OnChipSelectionListener {
+                override fun onChipSelected(
+                    chip: DsChip,
+                    position: Int,
+                    isSelected: Boolean
+                ) {
+                    if (isSelected) {
+                        viewModel.onOrderingSelected(position)
+                    }
+                }
+            }
+        )
+
+        binding.chipsCategory.setOnChipSelectionListener(
+            object : DsChipGroup.OnChipSelectionListener {
+                override fun onChipSelected(
+                    chip: DsChip,
+                    position: Int,
+                    isSelected: Boolean
+                ) {
+                    if (isSelected) {
+                        viewModel.onCategorySelected(position)
+                    }
+                }
+            }
+        )
+    }
+
+    private fun observeViewModel() {
+        viewModel.selectedOrdering.observe(this) { position ->
+            binding.chipsOrdering.selectChip(position)
+        }
+
+        viewModel.selectedCategory.observe(this) { position ->
+            binding.chipsCategory.selectChip(position)
         }
     }
 
-    private fun clearFilters() {
-        // TODO: viewmodel.clearFilters()
-        binding.chipOrderingPublishedAt.isChecked = true
-        binding.chipCategoryGeneral.isChecked = true
-        binding.chipLangPt.isChecked = true
-        binding.inputStartDate.setText("")
-        binding.inputEndDate.setText("")
+    companion object {
+        const val EXTRA_CATEGORY = "extra_category"
+        const val EXTRA_SHOULD_REVERSE = "extra_should_reverse"
     }
 }

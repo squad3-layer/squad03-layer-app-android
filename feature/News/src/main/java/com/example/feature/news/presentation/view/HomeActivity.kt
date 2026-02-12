@@ -7,6 +7,7 @@ import android.os.Build
 import android.os.Bundle
 import android.view.View
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -16,6 +17,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.feature.news.R
 import com.example.feature.news.databinding.ActivityHomeBinding
+import com.example.feature.news.domain.model.NewsFilters
 import com.example.feature.news.presentation.view.recyclerview.adapter.HomeAdapter
 import com.example.feature.news.presentation.view.recyclerview.decoration.ItemSpacingDecoration
 import com.example.feature.news.presentation.viewModel.HomeViewModel
@@ -37,6 +39,22 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var binding: ActivityHomeBinding
     private val viewModel: HomeViewModel by viewModels()
     private lateinit var adapter: HomeAdapter
+
+    private val filtersLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == RESULT_OK) {
+            val category = result.data?.getStringExtra(FiltersActivity.EXTRA_CATEGORY)
+            val shouldReverse = result.data?.getBooleanExtra(FiltersActivity.EXTRA_SHOULD_REVERSE, false) ?: false
+
+            val filters = NewsFilters(
+                category = category,
+                shouldReverseOrder = shouldReverse
+            )
+
+            viewModel.applyFilters(filters)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,7 +96,7 @@ class HomeActivity : AppCompatActivity() {
 
     private fun openFiltersScreen() {
         val intent = Intent(this, FiltersActivity::class.java)
-        startActivity(intent)
+        filtersLauncher.launch(intent)
     }
 
     private fun setupLogoutButton() {
