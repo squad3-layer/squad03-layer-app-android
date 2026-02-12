@@ -7,7 +7,11 @@ import javax.inject.Inject
 class GetTopHeadlinesUseCase @Inject constructor(
     private val newsRepository: NewsRepository
 ) {
-    suspend operator fun invoke(country: String = "us", page: Int = 1): Result<NewsResponse> {
-        return newsRepository.getTopHeadlines(country, page)
+    suspend operator fun invoke(
+        country: String = "us",
+        page: Int = 1,
+        category: String? = null
+    ): Result<NewsResponse> {
+        return newsRepository.getTopHeadlines(country, page, category)
     }
 }
