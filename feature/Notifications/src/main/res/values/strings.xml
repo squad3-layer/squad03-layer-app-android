@@ -1,3 +1,5 @@
 <resources>
     <string name="notificationEmpty">"Não há novas notificações."</string>
+
+    <string name="desc_notification_empty">"Não há novas notificações."</string>
 </resources>

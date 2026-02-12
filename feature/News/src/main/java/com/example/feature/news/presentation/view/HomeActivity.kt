@@ -19,6 +19,7 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.feature.analytics.AnalyticsHelper
 import com.example.feature.news.R
 import com.example.feature.news.databinding.ActivityHomeBinding
 import com.example.feature.news.presentation.view.recyclerview.adapter.HomeAdapter
@@ -46,6 +47,8 @@ class HomeActivity : AppCompatActivity() {
     private val viewModel: HomeViewModel by viewModels()
     private lateinit var adapter: HomeAdapter
 
+    private lateinit var analyticsHelper: AnalyticsHelper
+
     companion object {
         private const val NOTIFICATION_PERMISSION_REQUEST_CODE = 101
         private const val POPUP_FIELD_NAME = "mPopup"
@@ -60,6 +63,8 @@ class HomeActivity : AppCompatActivity() {
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        analyticsHelper = AnalyticsHelper(this)
+
         setupToolbar()
         requestNotificationPermission()
         setupWindowInsets()
@@ -67,7 +72,7 @@ class HomeActivity : AppCompatActivity() {
         observeViewModel()
     }
 
-    private fun setupToolbar() {
+       private fun setupToolbar() {
         binding.toolbar.apply {
             setToolbarTitle(context.getString(R.string.news), DsText.TextStyle.HEADER)
             setHamburgerMenu { showHamburgerMenu() }
@@ -191,6 +196,11 @@ class HomeActivity : AppCompatActivity() {
                 binding.recyclerView.isVisible = !isLoading
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        analyticsHelper.logEvent("view_home")
     }
 }
 

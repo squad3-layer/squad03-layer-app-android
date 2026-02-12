@@ -12,6 +12,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import coil.load
+import com.example.feature.analytics.AnalyticsHelper
 import com.example.feature.news.R
 import com.example.feature.news.databinding.ActivityDetailsNewsBinding
 import com.example.feature.news.domain.model.Article
@@ -27,12 +28,19 @@ class DetailsNewsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailsNewsBinding
     private val viewModel: DetailNewsViewModel by viewModels()
 
+    private lateinit var analyticsHelper: AnalyticsHelper
+
+    val news = intent.getParcelableExtra<Article>("NEWS_DATA")
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
         binding = ActivityDetailsNewsBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        analyticsHelper = AnalyticsHelper(this)
 
         val article = intent.getParcelableExtra<Article>("ARTICLE_DATA")
 
@@ -46,8 +54,17 @@ class DetailsNewsActivity : AppCompatActivity() {
 
             viewModel.checkIfIsFavorite(data.url)
             binding.icFavoriteButton?.setOnClickListener {
-                viewModel.toggleFavorite(data)
+                data?.let {
+                    val newsId = it.id.toString
+                    if (viewModel.isFavorite.value == true) {
+                        analyticsHelper.logRemoveFavorite(newsId)
+                    } else {
+                        analyticsHelper.logAddToFavorites(it.id.toString())
+                    }
+                    viewModel.toggleFavorite(it)
+                }
             }
+
 
             binding.icShareButton?.setOnClickListener {
                 shareNews(
