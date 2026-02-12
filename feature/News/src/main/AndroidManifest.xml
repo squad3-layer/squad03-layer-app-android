@@ -5,6 +5,10 @@
 
     <application>
         <activity
+            android:name=".presentation.view.favorites.FavoritesActivity"
+            android:exported="false" />
+
+        <activity
             android:name=".presentation.view.FiltersActivity"
             android:exported="false" />
         <activity

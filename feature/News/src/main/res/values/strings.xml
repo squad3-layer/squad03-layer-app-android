@@ -1,5 +1,7 @@
 <resources>
+    <string name="news">Noticias</string>
     <string name="button_logout">Desconectar</string>
+    <string name="hint_search">Procure a notícia</string>
     <string name="details_news_image_accessibility">Imagem da notícia</string>
     <string name="details_news_favorite_button_accessibility">Icone favoritar - Botão</string>
     <string name="details_news_share_button_accessibility">Icone Compartilhar - Botão</string>
@@ -7,6 +9,13 @@
     <string name="details_news_text_date">04/12/2022</string>
     <string name="details_news_text_author">Por João Silva</string>
     <string name="details_news_text_description">Investidores mostram otimismo com as novas políticas ...</string>
+    <string name="notifications_menu">Notificações</string>
+    <string name="favorites_menu">Favoritos</string>
+    <string name="logout_menu">Sair</string>
+    <string name="empty_favorites">Nenhum favorito ainda</string>
+    <string name="favorites_title">Favoritos</string>
+    <string name="error_load_favorites">Erro ao carregar favoritos</string>
+    <string name="retry">Tentar novamente</string>
     <string name="filters_ordering">Ordenação</string>
     <string name="filters_ordering_published_at">Publicação</string>
     <string name="filters_ordering_popularity">Popularidade</string>
@@ -28,3 +37,4 @@
     <string name="filters_button_apply">Aplicar</string>
     <string name="filters_button_clear">Limpar</string>
 </resources>
+

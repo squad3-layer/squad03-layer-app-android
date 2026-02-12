@@ -16,19 +16,19 @@ class RegisterRepositoryImpl @Inject constructor(
 
     override suspend fun signUp(user: RegisterRequest): Result<Unit> {
         return try {
-            authService.signUp(user.email, user.password).onSuccess {
-                val uid = firebaseAuth.currentUser?.uid
-                    ?: throw IllegalStateException("Ocorreu um erro ao recuperar o UID.")
+            authService.signUp(user.email, user.password).getOrThrow()
+            val uid = firebaseAuth.currentUser?.uid
+                ?: throw IllegalStateException("Ocorreu um erro ao recuperar o UID.")
 
-                val userMap = mapOf(
-                    "uid" to uid,
-                    "email" to user.email,
-                    "name" to user.username,
-                    "cpf" to user.cpf
-                )
+            val userMap = mapOf(
+                "uid" to uid,
+                "email" to user.email,
+                "name" to user.username,
+                "cpf" to user.cpf
+            )
 
-                firestoreService.saveDocument("users", uid, userMap)
-            }.getOrThrow()
+            firestoreService.saveDocument("users", uid, userMap).getOrThrow()
+
             Result.success(Unit)
 
         } catch (e: Exception) {
