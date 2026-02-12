@@ -14,32 +14,60 @@ jobs:
       contents: read
 
     steps:
+      - name: Auto-assign PR author
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const prAuthor = context.payload.pull_request.user.login;
+            
+            await github.rest.issues.addAssignees({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.pull_request.number,
+              assignees: [prAuthor]
+            });
+
       - name: Request reviewers
         uses: actions/github-script@v7
         with:
           script: |
-            github.rest.pulls.requestReviewers({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              pull_number: context.payload.pull_request.number,
-              reviewers: ['mrenann', 'Edgar-AAS']
-            });
+            const prAuthor = context.payload.pull_request.user.login;
+            const allReviewers = ['mrenann', 'Edgar-AAS'];
+            const reviewers = allReviewers.filter(reviewer => reviewer !== prAuthor);
+            
+            if (reviewers.length > 0) {
+              await github.rest.pulls.requestReviewers({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: context.payload.pull_request.number,
+                reviewers: reviewers
+              });
+            }
 
-      - name: Add feature label if needed
+      - name: Add labels based on title
         uses: actions/github-script@v7
         with:
           script: |
             const title = context.payload.pull_request.title.toLowerCase();
-            const hasPrefix = title.startsWith('feature:') || 
-                            title.startsWith('fix:') || 
-                            title.startsWith('refactor:');
+            const labels = [];
             
-            if (!hasPrefix) {
-              github.rest.issues.addLabels({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                issue_number: context.payload.pull_request.number,
-                labels: ['feature']
-              });
+            if (title.startsWith('feature:')) {
+              labels.push('feature');
+            } else if (title.startsWith('fix:')) {
+              labels.push('bug');
+            } else if (title.startsWith('refactor:')) {
+              labels.push('refactor');
+            } else if (title.startsWith('test:')) {
+              labels.push('tests');
+            } else if (title.startsWith('docs:')) {
+              labels.push('documentation');
+            } else {
+              labels.push('feature');
             }
-
+            
+            await github.rest.issues.setLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.pull_request.number,
+              labels: labels
+            });
