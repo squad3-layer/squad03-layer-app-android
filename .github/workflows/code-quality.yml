@@ -25,17 +25,32 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
+      - name: Decode google-services.json
+        run: |
+          mkdir -p Main
+          echo "${{ secrets.GOOGLE_SERVICES_JSON }}" | base64 -d > Main/google-services.json
+
       - name: Run Android Lint
         run: ./gradlew lint
         continue-on-error: true
+
+      - name: List lint reports
+        if: always()
+        run: |
+          echo "Searching for lint reports..."
+          find . -type f -path "*/build/reports/lint-results*" -o -path "*/build/reports/lint*.html" || echo "No lint reports found"
 
       - name: Upload lint reports
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: lint-results
-          path: '**/build/reports/lint-results-*.html'
+          path: |
+            **/build/reports/lint-results*.html
+            **/build/reports/lint-results*.xml
+            **/build/reports/lint*.html
           retention-days: 7
+          if-no-files-found: warn
 
       - name: Check lint results
         if: always()
