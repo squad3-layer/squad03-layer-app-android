@@ -2,36 +2,34 @@ package com.example.feature.news.presentation.view.recyclerview.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.feature.news.databinding.NewsItemBinding
 import com.example.feature.news.domain.model.Article
-import com.example.feature.news.utils.formatDate
 import java.text.SimpleDateFormat
-import java.util.Calendar
 import java.util.Locale
 
-class HomeAdapter(
+class FavoritesAdapter(
     private val onItemClick: (Article) -> Unit
-) : PagingDataAdapter<Article, HomeAdapter.HomeViewHolder>(ArticleDiffCallback()) {
+) : ListAdapter<Article, FavoritesAdapter.FavoritesViewHolder>(ArticleDiffCallback()) {
 
-    inner class HomeViewHolder(private val binding: NewsItemBinding) :
+    inner class FavoritesViewHolder(private val binding: NewsItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(news: Article) {
+        fun bind(article: Article) {
             binding.root.setOnClickListener {
-                onItemClick(news)
+                onItemClick(article)
             }
             binding.newCard.apply {
                 setNews(
-                    title = news.title,
-                    description = news.description ?: "",
-                    time = formatDate(news.publishedAt),
+                    title = article.title,
+                    description = article.description ?: "",
+                    time = formatDate(article.publishedAt),
                     imageLoader = {
-                        contentDescription = news.title
-                        load(news.urlToImage) {
+                        contentDescription = article.title
+                        load(article.urlToImage) {
                             crossfade(true)
                             placeholder(com.example.mylibrary.R.drawable.ds_icon_person)
                             error(com.example.mylibrary.R.drawable.ds_icon_person)
@@ -40,16 +38,27 @@ class HomeAdapter(
                 )
             }
         }
+
+        private fun formatDate(dateString: String): String {
+            return try {
+                val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault())
+                val outputFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+                val date = inputFormat.parse(dateString)
+                date?.let { outputFormat.format(it) } ?: dateString
+            } catch (e: Exception) {
+                dateString
+            }
+        }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoritesViewHolder {
         val binding = NewsItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return HomeViewHolder(binding)
+        return FavoritesViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: HomeViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: FavoritesViewHolder, position: Int) {
         val article = getItem(position)
-        article?.let { holder.bind(it) }
+        holder.bind(article)
     }
 
     class ArticleDiffCallback : DiffUtil.ItemCallback<Article>() {

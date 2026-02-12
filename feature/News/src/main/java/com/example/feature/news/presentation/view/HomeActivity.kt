@@ -113,7 +113,7 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun handleFavoritesClick(): Boolean {
-        Toast.makeText(this, R.string.favorites_menu, Toast.LENGTH_SHORT).show()
+        navigator.navigateToActivity(this, NavigationRoute.Favorites)
         return true
     }
 

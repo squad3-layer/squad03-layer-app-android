@@ -1,0 +1,45 @@
+name: PR Automation
+
+on:
+  pull_request:
+    types: [opened]
+    branches:
+      - dev
+
+jobs:
+  pr-automation:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      contents: read
+
+    steps:
+      - name: Request reviewers
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.pulls.requestReviewers({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.payload.pull_request.number,
+              reviewers: ['mrenann', 'Edgar-AAS']
+            });
+
+      - name: Add feature label if needed
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const title = context.payload.pull_request.title.toLowerCase();
+            const hasPrefix = title.startsWith('feature:') || 
+                            title.startsWith('fix:') || 
+                            title.startsWith('refactor:');
+            
+            if (!hasPrefix) {
+              github.rest.issues.addLabels({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.payload.pull_request.number,
+                labels: ['feature']
+              });
+            }
+

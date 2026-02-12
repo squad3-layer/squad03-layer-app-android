@@ -13,5 +13,6 @@ sealed class NavigationRoute(val className: String) {
     data object Home : NavigationRoute("com.example.feature.news.presentation.view.HomeActivity")
     data object Notifications : NavigationRoute("com.example.feature.notifications.presentation.view.NotificationsActivity")
 
+    data object Favorites : NavigationRoute("com.example.feature.news.presentation.view.favorites.FavoritesActivity")
     open fun getExtras(): Map<String, Any>? = null
 }
