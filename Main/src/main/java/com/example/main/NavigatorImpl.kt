@@ -6,7 +6,6 @@ import android.content.Intent
 import com.example.navigation.Navigator
 import com.example.navigation.routes.NavigationRoute
 import javax.inject.Inject
-import kotlin.or
 
 class NavigatorImpl @Inject constructor() : Navigator {
 
@@ -31,9 +30,14 @@ class NavigatorImpl @Inject constructor() : Navigator {
             setClassName(context, route.className)
 
             when (route) {
-                is NavigationRoute.Home, is NavigationRoute.Notifications, is NavigationRoute.Login -> {
+                is NavigationRoute.Login -> {
                     flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                }}
+                }
+                is NavigationRoute.Home -> {
+                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                }
+                is NavigationRoute.Notifications, is NavigationRoute.Favorites -> {}
+            }
 
             route.getExtras()?.forEach { (key, value) ->
                 when (value) {

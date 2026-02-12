@@ -1,6 +1,8 @@
 package com.example.feature.news.di
 
+import com.example.feature.news.data.favorites.FavoritesRepositoryImpl
 import com.example.feature.news.data.repository.NewsRepositoryImpl
+import com.example.feature.news.domain.repository.FavoritesRepository
 import com.example.feature.news.domain.repository.NewsRepository
 import dagger.Binds
 import dagger.Module
@@ -17,5 +19,11 @@ abstract class NewsModule {
     abstract fun bindNewsRepository(
         impl: NewsRepositoryImpl
     ): NewsRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindFavoritesRepository(
+        impl: FavoritesRepositoryImpl
+    ): FavoritesRepository
 }
 
