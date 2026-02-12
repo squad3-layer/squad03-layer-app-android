@@ -37,19 +37,75 @@ jobs:
           path: '**/build/reports/lint-results-*.html'
           retention-days: 7
 
+      - name: Check lint results
+        if: always()
+        id: lint-check
+        run: |
+          if find . -name "lint-results-*.xml" -type f | grep -q .; then
+            echo "lint_files_found=true" >> $GITHUB_OUTPUT
+            errors=$(find . -name "lint-results-*.xml" -exec grep -o 'severity="Error"' {} + | wc -l || echo "0")
+            warnings=$(find . -name "lint-results-*.xml" -exec grep -o 'severity="Warning"' {} + | wc -l || echo "0")
+            echo "errors=$errors" >> $GITHUB_OUTPUT
+            echo "warnings=$warnings" >> $GITHUB_OUTPUT
+          else
+            echo "lint_files_found=false" >> $GITHUB_OUTPUT
+            echo "errors=0" >> $GITHUB_OUTPUT
+            echo "warnings=0" >> $GITHUB_OUTPUT
+          fi
+        continue-on-error: true
+
       - name: Comment PR with results
         if: always()
         uses: actions/github-script@v7
         with:
           script: |
-            const message = `## 📊 Code Quality Report
+            const runId = context.runId;
+            const repoUrl = `https://github.com/${context.repo.owner}/${context.repo.repo}`;
+            const runUrl = `${repoUrl}/actions/runs/${runId}`;
+            const errors = '${{ steps.lint-check.outputs.errors }}' || '0';
+            const warnings = '${{ steps.lint-check.outputs.warnings }}' || '0';
             
-            ✅ Lint analysis completed!
+            let statusEmoji = '✅';
+            let statusText = 'Lint analysis completed successfully!';
             
-            📋 Artifacts generated:
-            - **Lint Results**: Check the artifacts section for detailed lint reports
+            if (errors > 0) {
+              statusEmoji = '❌';
+              statusText = `Found ${errors} error(s) and ${warnings} warning(s)`;
+            } else if (warnings > 0) {
+              statusEmoji = '⚠️';
+              statusText = `Found ${warnings} warning(s)`;
+            }
             
-            Please review the reports and fix any critical issues before merging.`;
+            const actionRequired = errors > 0 
+              ? '🚨 **Action Required**: Please fix the errors before merging.' 
+              : warnings > 0 
+                ? '⚠️ **Recommended**: Review and fix warnings when possible.' 
+                : '✅ **Great!** No issues found.';
+            
+            const message = [
+              '## 📊 Code Quality Report',
+              '',
+              `${statusEmoji} **${statusText}**`,
+              '',
+              '### 📈 Summary',
+              '| Type | Count |',
+              '|------|-------|',
+              `| ❌ Errors | ${errors} |`,
+              `| ⚠️ Warnings | ${warnings} |`,
+              '',
+              '### 📋 Detailed Reports',
+              '',
+              `📄 **[View Lint Reports (Artifacts)](${runUrl})**`,
+              `🔍 **[Full Workflow Run](${runUrl})**`,
+              '',
+              '### 📥 How to access artifacts:',
+              '1. Click on the **View Lint Reports** link above',
+              '2. Scroll down to the **Artifacts** section at the bottom',
+              '3. Download `lint-results` to view detailed HTML reports',
+              '',
+              '---',
+              actionRequired
+            ].join('\n');
             
             await github.rest.issues.createComment({
               owner: context.repo.owner,
