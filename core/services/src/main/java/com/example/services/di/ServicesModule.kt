@@ -12,6 +12,8 @@ import com.example.services.database.FirestoreServiceImpl
 import com.example.services.network.ApiService
 import com.example.services.network.NetworkService
 import com.example.services.network.NetworkServiceImpl
+import com.example.services.storage.PreferencesService
+import com.example.services.storage.PreferencesServiceImpl
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.analytics.FirebaseAnalytics
@@ -101,5 +103,13 @@ object ServicesModule {
         gson: Gson
     ): NetworkService {
         return NetworkServiceImpl(apiService, gson)
+    }
+
+    @Provides
+    @Singleton
+    fun providePreferencesService(
+        @ApplicationContext context: Context
+    ): PreferencesService {
+        return PreferencesServiceImpl(context)
     }
 }

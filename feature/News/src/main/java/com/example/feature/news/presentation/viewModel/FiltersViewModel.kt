@@ -3,13 +3,17 @@ package com.example.feature.news.presentation.viewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.feature.news.data.preferences.FilterPreferences
 import com.example.feature.news.domain.model.NewsFilters
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 
 @HiltViewModel
-class FiltersViewModel @Inject constructor(): ViewModel() {
+class FiltersViewModel @Inject constructor(
+    private val filterPreferences: FilterPreferences
+): ViewModel() {
+
     private val _selectedOrdering = MutableLiveData<Int>()
     val selectedOrdering: LiveData<Int> = _selectedOrdering
 
@@ -45,8 +49,8 @@ class FiltersViewModel @Inject constructor(): ViewModel() {
     )
 
     init {
-        _selectedOrdering.value = 0
-        _selectedCategory.value = 0
+        _selectedOrdering.value = filterPreferences.getSelectedOrdering()
+        _selectedCategory.value = filterPreferences.getSelectedCategory()
     }
 
     fun getOrderingOptions(): List<String> = orderingOptions
@@ -55,15 +59,20 @@ class FiltersViewModel @Inject constructor(): ViewModel() {
 
     fun onOrderingSelected(position: Int) {
         _selectedOrdering.value = position
+        filterPreferences.saveSelectedOrdering(position)
     }
 
     fun onCategorySelected(position: Int) {
         _selectedCategory.value = position
+        filterPreferences.saveSelectedCategory(position)
     }
 
     fun applyFilters() {
         val orderingIndex = _selectedOrdering.value ?: 0
         val categoryIndex = _selectedCategory.value ?: 0
+
+        filterPreferences.saveSelectedOrdering(orderingIndex)
+        filterPreferences.saveSelectedCategory(categoryIndex)
 
         val categoryName = categories[categoryIndex]
 
@@ -78,6 +87,8 @@ class FiltersViewModel @Inject constructor(): ViewModel() {
     fun clearFilters() {
         _selectedOrdering.value = 0
         _selectedCategory.value = 0
+
+        filterPreferences.clearFilters()
 
         _appliedFilters.value = NewsFilters(
             category = null,
