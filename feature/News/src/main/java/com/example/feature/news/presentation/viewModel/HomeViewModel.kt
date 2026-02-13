@@ -37,7 +37,7 @@ class HomeViewModel @Inject constructor(
     val articles: Flow<PagingData<Article>> = combine(
         _filters,
         _country,
-        _searchQuery.debounce(1000L) // 500ms debounce
+        _searchQuery.debounce(1000L) 
     ) { filters, country, query ->
         Triple(filters, country, query)
     }.flatMapLatest { (filters, country, query) ->
