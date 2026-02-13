@@ -20,7 +20,7 @@
         android:importantForAccessibility="yes"
         android:gravity="center"
         android:visibility="gone"
-        android:textSize="16dp"
+        android:textSize="16sp"
         android:padding="10dp"/>
 
     <androidx.recyclerview.widget.RecyclerView

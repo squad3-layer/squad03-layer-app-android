@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".presentation.login.view.LoginActivity"
-    android:background="@color/white">
+    android:background="#FFFFFF">
 
     <com.example.mylibrary.ds.text.DsText
         android:id="@+id/login_Welcome"
@@ -14,10 +14,9 @@
         android:layout_height="wrap_content"
         android:text="@string/titulo"
         android:contentDescription="@string/desc_tiulo"
-        android:fontFamily="@font/poppins_bold"
+        app:dsTextStyle="header"
         android:textAlignment="center"
         android:textSize="24sp"
-        app:dsTextStyle="header"
         app:dsFontWeight="bold"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -67,7 +66,6 @@
         android:textColor="@color/blue"
         android:textSize="14sp"
         app:dsTextStyle="description"
-        android:fontFamily="@font/poppins_medium"
         android:layout_marginTop="34dp"
         android:importantForAccessibility="yes"
         app:layout_constraintEnd_toEndOf="parent"
@@ -83,7 +81,7 @@
         android:layout_marginEnd="24dp"
         app:layout_constraintHorizontal_bias="0.0"
         app:textDS="@string/botao"
-        android:fontFamily="@font/poppins_medium"
+        app:dsTextStyle="subtitle"
         android:backgroundTint="@color/blue"
         android:contentDescription="@string/desc_botao"
         android:importantForAccessibility="yes"
@@ -109,7 +107,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/novousuario"
-        android:fontFamily="@font/poppins_medium"
         android:importantForAccessibility="no"
         app:dsTextStyle="description"
         android:textSize="14sp"/>
@@ -119,7 +116,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/novousuario2"
-        android:fontFamily="@font/poppins_medium"
         android:importantForAccessibility="no"
         android:layout_marginStart="6dp"
         android:textColor="@color/blue"

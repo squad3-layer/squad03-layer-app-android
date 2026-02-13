@@ -52,7 +52,8 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     implementation(libs.androidx.navigation.fragment.ktx)
-    implementation("io.coil-kt:coil:2.4.0")
+    implementation(libs.coil)
+
 
     // Design System
     implementation(libs.mylibrary)
@@ -60,7 +61,7 @@ dependencies {
     // Firebase
     implementation(platform(libs.firebase.bom))
     implementation(libs.bundles.firebase)
-    implementation("com.google.firebase:firebase-firestore")
+    implementation(libs.firebase.firestore)
 
     // Lifecycle / Retrofit
     implementation(libs.androidx.lifecycle.viewmodel)
