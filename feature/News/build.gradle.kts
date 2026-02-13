@@ -52,8 +52,7 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     implementation(libs.androidx.navigation.fragment.ktx)
-    implementation(libs.coil)
-
+    implementation("io.coil-kt:coil:2.4.0")
 
     // Design System
     implementation(libs.mylibrary)
@@ -61,7 +60,7 @@ dependencies {
     // Firebase
     implementation(platform(libs.firebase.bom))
     implementation(libs.bundles.firebase)
-    implementation(libs.firebase.firestore)
+    implementation("com.google.firebase:firebase-firestore")
 
     // Lifecycle / Retrofit
     implementation(libs.androidx.lifecycle.viewmodel)
@@ -79,6 +78,11 @@ dependencies {
     // Paging 3
     implementation(libs.androidx.paging.runtime)
     implementation(libs.androidx.paging.common)
+
+    // Room Database
+    implementation(libs.androidx.room.ktx)
+    implementation(libs.androidx.room.paging)
+    ksp(libs.androidx.room.compiler)
 
     // Shimmer
     implementation(libs.shimmer)

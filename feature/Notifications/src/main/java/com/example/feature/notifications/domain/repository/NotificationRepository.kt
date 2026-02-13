@@ -1,6 +1,6 @@
 package com.example.feature.notifications.domain.repository
 
-import com.example.feature.notifications.data.local.entity.NotificationEntity
+import com.example.services.database.local.entity.NotificationEntity
 import kotlinx.coroutines.flow.Flow
 
 interface NotificationRepository {

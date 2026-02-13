@@ -1,13 +1,17 @@
 package com.example.feature.news.data.repository
 
+import androidx.paging.PagingSource
 import com.example.feature.news.domain.model.NewsResponse
 import com.example.feature.news.domain.repository.NewsRepository
+import com.example.services.database.local.dao.ArticleDao
+import com.example.services.database.local.entity.ArticleEntity
 import com.example.services.network.NetworkService
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class NewsRepositoryImpl @Inject constructor(
-    private val networkService: NetworkService
+    private val networkService: NetworkService,
+    private val articleDao: ArticleDao
 ) : NewsRepository {
 
     private val apiKey = "60b253dd44c046dc83105fa3f130b064"
@@ -51,5 +55,21 @@ class NewsRepositoryImpl @Inject constructor(
                 "apiKey" to apiKey
             )
         )
+    }
+
+    override fun getCachedArticles(
+        category: String?,
+        query: String?,
+        shouldReverseOrder: Boolean
+    ): PagingSource<Int, ArticleEntity> {
+        return if (shouldReverseOrder) {
+            articleDao.getArticlesPagingReversed(category, query)
+        } else {
+            articleDao.getArticlesPaging(category, query)
+        }
+    }
+
+    override suspend fun hasCachedData(category: String?, query: String?): Boolean {
+        return articleDao.getArticlesByFilter(category, query) != null
     }
 }

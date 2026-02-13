@@ -33,6 +33,7 @@ import com.example.feature.news.presentation.viewModel.HomeViewModel
 import com.example.mylibrary.ds.text.DsText
 import com.example.navigation.Navigator
 import com.example.navigation.routes.NavigationRoute
+import com.example.services.notification.helper.NotificationPermissionHelper
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -204,19 +205,7 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun requestNotificationPermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            if (ContextCompat.checkSelfPermission(
-                    this,
-                    Manifest.permission.POST_NOTIFICATIONS
-                ) != PackageManager.PERMISSION_GRANTED
-            ) {
-                ActivityCompat.requestPermissions(
-                    this,
-                    arrayOf(Manifest.permission.POST_NOTIFICATIONS),
-                    NOTIFICATION_PERMISSION_REQUEST_CODE
-                )
-            }
-        }
+        NotificationPermissionHelper.requestNotificationPermission(this)
     }
 
     private fun setupRecyclerView() {
