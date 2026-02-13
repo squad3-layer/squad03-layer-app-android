@@ -5,6 +5,7 @@ plugins {
     id("com.google.firebase.crashlytics")
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt)
+    id("kotlin-parcelize")
 }
 
 android {
@@ -30,7 +31,8 @@ android {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
+                "../core/services/proguard-rules.pro"
             )
         }
     }
@@ -67,6 +69,7 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(projects.navigation)
+    implementation(projects.core.services)
     implementation(projects.feature.authentication)
     implementation(projects.feature.notifications)
     implementation(projects.feature.news)
@@ -88,6 +91,7 @@ dependencies {
     // Firebase
     implementation(platform(libs.firebase.bom))
     implementation(libs.bundles.firebase)
+    implementation("com.google.firebase:firebase-firestore")
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

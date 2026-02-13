@@ -28,6 +28,7 @@
     <string name="reset_password_subtitle">Digite seu endereço de email\npara recuperar sua senha.</string>
     <string name="reset_password_title">Recuperar senha</string>
     <string name="reset_password_hint_email">Digite seu e-mail</string>
+    <string name="register_Title">Cadastro</string>
     <string name="register_Name">Digite seu nome de usuário</string>
     <string name="register_Email">Digite seu email</string>
     <string name="register_Email_error">Digite um email valido</string>
@@ -42,7 +43,7 @@
     <string name="register_username_required">"O campo de nome do usuário é obrigatório."</string>
     <string name="register_cpf_required">"O campo de CPF é obrigatório."</string>
     <string name="register_cpf_must_have_11_digits">"O campo de CPF deve conter 11 dígitos.""</string>
-    <string name="dialog_ok">"Ok"</string>
+    <string name="dialog_ok">"OK"</string>
     <string name="register_email_already_in_use">Este e-mail já está em uso. Tente fazer login ou use outro e-mail.</string>
     <string name="register_generic_error">Ocorreu um erro ao realizar o cadastro. Tente novamente em instantes.</string>
     <string name="register_dialog_alert">Atenção</string>

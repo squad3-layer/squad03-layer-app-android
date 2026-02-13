@@ -1,8 +1,9 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
-    id("com.google.devtools.ksp") version "2.0.21-1.0.25"
+    alias(libs.plugins.ksp)
     alias(libs.plugins.hilt)
+    id("kotlin-parcelize")
 }
 
 
@@ -41,7 +42,7 @@ android {
 
 dependencies {
     implementation(projects.navigation)
-    implementation(project(":feature:Authentication"))
+    implementation(projects.core.services)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
@@ -51,6 +52,7 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     implementation(libs.androidx.navigation.fragment.ktx)
+    implementation("io.coil-kt:coil:2.4.0")
 
     // Design System
     implementation(libs.mylibrary)
@@ -58,7 +60,7 @@ dependencies {
     // Firebase
     implementation(platform(libs.firebase.bom))
     implementation(libs.bundles.firebase)
-
+    implementation("com.google.firebase:firebase-firestore")
 
     // Lifecycle / Retrofit
     implementation(libs.androidx.lifecycle.viewmodel)
@@ -66,11 +68,22 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.retrofit.gson)
 
-
-// Glide / Hilt
+    // Glide / Hilt
     implementation(libs.glide.core)
     implementation(libs.hilt.android)
     implementation(libs.androidx.hilt.navigation.fragment)
     ksp(libs.glide.compiler)
     ksp(libs.hilt.compiler)
+
+    // Paging 3
+    implementation(libs.androidx.paging.runtime)
+    implementation(libs.androidx.paging.common)
+
+    // Room Database
+    implementation(libs.androidx.room.ktx)
+    implementation(libs.androidx.room.paging)
+    ksp(libs.androidx.room.compiler)
+
+    // Shimmer
+    implementation(libs.shimmer)
 }

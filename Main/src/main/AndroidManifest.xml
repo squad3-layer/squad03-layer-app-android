@@ -1,17 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <queries>
+        <package android:name="com.google.android.gms" />
+    </queries>
+
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
-    <application android:name=".BaseApplication">
+    <application
+        android:name=".BaseApplication"
+        android:theme="@style/Theme.LayerApp">
         <activity
             android:name=".MainActivity"
             android:exported="false" />
 
+        <!-- Firebase Cloud Messaging Service is now in core.services module -->
         <service
-            android:name="com.example.feature.notifications.data.service.FirebaseMessagingService"
-            android:exported="true">
+            android:name="com.example.services.notification.service.CoreFirebaseMessagingService"
+            android:exported="true"
+            android:directBootAware="true"
+            android:stopWithTask="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
