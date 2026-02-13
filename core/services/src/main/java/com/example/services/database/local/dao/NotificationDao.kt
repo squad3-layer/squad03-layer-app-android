@@ -1,11 +1,11 @@
-package com.example.feature.notifications.data.local.dao
+package com.example.services.database.local.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
-import com.example.feature.notifications.data.local.entity.NotificationEntity
+import com.example.services.database.local.entity.NotificationEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -38,3 +38,4 @@ interface NotificationDao {
     @Query("SELECT COUNT(*) FROM notifications WHERE isNew = 1")
     fun getNewNotificationsCount(): Flow<Int>
 }
+

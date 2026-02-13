@@ -42,3 +42,4 @@ object NewsPreferencesModule {
         return FilterPreferences(preferencesService)
     }
 }
+

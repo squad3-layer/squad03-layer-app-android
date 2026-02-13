@@ -51,14 +51,10 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
     implementation(libs.mylibrary)
 
-
     // Firebase
     implementation(platform(libs.firebase.bom))
     implementation(libs.bundles.firebase)
 
-    // Room Database
-    implementation(libs.androidx.room.ktx)
-    ksp(libs.androidx.room.compiler)
 
     // Hilt (Dependency Injection)
     implementation(libs.hilt.android)

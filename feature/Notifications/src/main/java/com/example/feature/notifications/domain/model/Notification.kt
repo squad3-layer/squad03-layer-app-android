@@ -1,6 +1,6 @@
 package com.example.feature.notifications.domain.model
 
-import com.example.feature.notifications.data.local.entity.NotificationEntity
+import com.example.services.database.local.entity.NotificationEntity
 
 data class Notification(
     val id: Long,
