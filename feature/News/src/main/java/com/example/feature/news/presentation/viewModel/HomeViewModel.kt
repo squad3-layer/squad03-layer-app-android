@@ -1,5 +1,6 @@
 package com.example.feature.news.presentation.viewModel
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
@@ -15,6 +16,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.flatMapLatest
 import javax.inject.Inject
 
@@ -27,10 +29,18 @@ class HomeViewModel @Inject constructor(
 
     private val _filters = MutableStateFlow(NewsFilters())
     private val _country = MutableStateFlow("us")
+    private val _searchQuery = MutableStateFlow("")
 
-    val articles: Flow<PagingData<Article>> = combine(_filters, _country) { filters, country ->
-        Pair(filters, country)
-    }.flatMapLatest { (filters, country) ->
+    private val _filtersCount = MutableLiveData<Int>()
+    val filtersCount = _filtersCount
+
+    val articles: Flow<PagingData<Article>> = combine(
+        _filters,
+        _country,
+        _searchQuery.debounce(1000L) // 500ms debounce
+    ) { filters, country, query ->
+        Triple(filters, country, query)
+    }.flatMapLatest { (filters, country, query) ->
         Pager(
             config = PagingConfig(
                 pageSize = 20,
@@ -42,7 +52,8 @@ class HomeViewModel @Inject constructor(
                     getTopHeadlinesUseCase,
                     country,
                     filters.category,
-                    filters.shouldReverseOrder
+                    filters.shouldReverseOrder,
+                    query.ifBlank { null }
                 )
             }
         ).flow
@@ -50,6 +61,10 @@ class HomeViewModel @Inject constructor(
 
     fun applyFilters(filters: NewsFilters) {
         _filters.value = filters
+    }
+
+    fun onSearchQueryChanged(query: String) {
+        _searchQuery.value = query
     }
 
     fun loadTopHeadlines(country: String = "us") {

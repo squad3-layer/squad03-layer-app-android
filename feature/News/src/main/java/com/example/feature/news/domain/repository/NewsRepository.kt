@@ -7,7 +7,8 @@ interface NewsRepository {
     suspend fun getTopHeadlines(
         country: String = "us",
         page: Int = 1,
-        category: String? = null
+        category: String? = null,
+        query: String? = null
     ): Result<NewsResponse>
 
     fun observeTopHeadlines(country: String = "us"): Flow<Result<NewsResponse>>

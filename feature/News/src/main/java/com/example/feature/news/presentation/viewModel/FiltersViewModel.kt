@@ -74,6 +74,11 @@ class FiltersViewModel @Inject constructor(
         filterPreferences.saveSelectedOrdering(orderingIndex)
         filterPreferences.saveSelectedCategory(categoryIndex)
 
+        var count = 0
+        if (categoryIndex != 0) count++
+        if (orderingIndex != 0) count++
+        filterPreferences.saveActiveFiltersCount(count)
+
         val categoryName = categories[categoryIndex]
 
         val filters = NewsFilters(

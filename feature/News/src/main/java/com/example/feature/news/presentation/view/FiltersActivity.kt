@@ -98,6 +98,7 @@ class FiltersActivity : AppCompatActivity() {
                     isSelected: Boolean
                 ) {
                     if (isSelected) {
+                        chip.contentDescription
                         viewModel.onOrderingSelected(position)
                     }
                 }

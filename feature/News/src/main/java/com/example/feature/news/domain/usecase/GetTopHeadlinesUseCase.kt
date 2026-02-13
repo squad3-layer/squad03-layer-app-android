@@ -10,8 +10,9 @@ class GetTopHeadlinesUseCase @Inject constructor(
     suspend operator fun invoke(
         country: String = "us",
         page: Int = 1,
-        category: String? = null
+        category: String? = null,
+        query: String? = null
     ): Result<NewsResponse> {
-        return newsRepository.getTopHeadlines(country, page, category)
+        return newsRepository.getTopHeadlines(country, page, category, query)
     }
 }

@@ -17,11 +17,13 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
+import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.feature.news.R
 import com.example.feature.news.databinding.ActivityHomeBinding
+import com.example.feature.news.data.preferences.FilterPreferences
 import com.example.feature.news.domain.model.NewsFilters
 import com.example.feature.news.presentation.view.recyclerview.adapter.HomeAdapter
 import com.example.feature.news.presentation.view.recyclerview.adapter.NewsLoadStateAdapter
@@ -44,6 +46,9 @@ class HomeActivity : AppCompatActivity() {
     @Inject
     lateinit var navigator: Navigator
 
+    @Inject
+    lateinit var filterPreferences: FilterPreferences
+
     private lateinit var binding: ActivityHomeBinding
     private val viewModel: HomeViewModel by viewModels()
     private lateinit var adapter: HomeAdapter
@@ -62,6 +67,7 @@ class HomeActivity : AppCompatActivity() {
                 )
 
                 viewModel.applyFilters(filters)
+                updateFilterBadge()
             }
         }
     }
@@ -85,6 +91,19 @@ class HomeActivity : AppCompatActivity() {
         setupWindowInsets()
         setupRecyclerView()
         observeViewModel()
+        bindSearchInput()
+        updateFilterBadge()
+    }
+
+    private fun bindSearchInput() {
+        binding.searchinput.addTextChangedListener {
+            viewModel.onSearchQueryChanged(it.toString())
+        }
+    }
+
+    private fun updateFilterBadge() {
+        val count = filterPreferences.getActiveFiltersCount()
+        binding.iconFilter.setBadgeCount(count)
     }
 
     private fun setupToolbar() {
@@ -218,6 +237,4 @@ class HomeActivity : AppCompatActivity() {
         }
     }
 }
-
-
 

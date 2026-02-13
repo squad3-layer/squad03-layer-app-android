@@ -9,13 +9,14 @@ class NewsPagingSource(
     private val getTopHeadlinesUseCase: GetTopHeadlinesUseCase,
     private val country: String,
     private val category: String? = null,
-    private val shouldReverseOrder: Boolean = false
+    private val shouldReverseOrder: Boolean = false,
+    private val query: String? = null
 ) : PagingSource<Int, Article>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Article> {
         return try {
             val page = params.key ?: 1
-            val result = getTopHeadlinesUseCase(country, page, category)
+            val result = getTopHeadlinesUseCase(country, page, category, query)
 
             result.fold(
                 onSuccess = { newsResponse ->
