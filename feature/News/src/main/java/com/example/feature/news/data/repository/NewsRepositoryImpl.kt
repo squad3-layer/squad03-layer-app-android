@@ -15,7 +15,8 @@ class NewsRepositoryImpl @Inject constructor(
     override suspend fun getTopHeadlines(
         country: String,
         page: Int,
-        category: String?
+        category: String?,
+        query: String?
     ): Result<NewsResponse> {
         val params = mutableMapOf(
             "country" to country,
@@ -25,6 +26,12 @@ class NewsRepositoryImpl @Inject constructor(
 
         category?.let {
             params["category"] = it
+        }
+
+        query?.let {
+            if (it.isNotBlank()) {
+                params["q"] = it
+            }
         }
 
         return networkService.get(
