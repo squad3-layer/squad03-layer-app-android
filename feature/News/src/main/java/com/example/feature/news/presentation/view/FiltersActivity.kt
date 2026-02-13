@@ -7,7 +7,6 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.customview.R
 import com.example.feature.news.databinding.ActivityFiltersBinding
 import com.example.feature.news.presentation.viewModel.FiltersViewModel
 import com.example.mylibrary.ds.chip.DsChip
@@ -27,6 +26,8 @@ class FiltersActivity : AppCompatActivity() {
         binding = ActivityFiltersBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        viewModel.analyticsHelper.logScreenView("screen_view_filters")
+
         setupWindowInsets()
         setupToolbar()
         setupChips()
@@ -37,6 +38,7 @@ class FiltersActivity : AppCompatActivity() {
         binding.toolbar.apply {
             setToolbarTitle("Filtros", DsText.TextStyle.HEADER)
             setBackButton(show = true) {
+                viewModel.analyticsHelper.logEvent("button_click", mapOf("button_name" to "filters_back_button"))
                 finish()
             }
         }
@@ -71,6 +73,7 @@ class FiltersActivity : AppCompatActivity() {
 
     private fun setupListeners() {
         binding.buttonApply.setDsClickListener {
+            viewModel.analyticsHelper.logEvent("button_click", mapOf("button_name" to "filters_apply_button"))
             viewModel.applyFilters()
 
             val filters = viewModel.getCurrentFilters()
@@ -85,6 +88,7 @@ class FiltersActivity : AppCompatActivity() {
         }
 
         binding.buttonClear.setDsClickListener {
+            viewModel.analyticsHelper.logEvent("button_click", mapOf("button_name" to "filters_clear_button"))
             viewModel.clearFilters()
             binding.chipsOrdering.selectChip(0)
             binding.chipsCategory.selectChip(0)
@@ -100,7 +104,13 @@ class FiltersActivity : AppCompatActivity() {
                 ) {
                     if (isSelected) {
                         val orderingOptions = viewModel.getOrderingOptions()
-                        chip.contentDescription = "${orderingOptions.getOrNull(position)}, selecionado"
+                        val selectedOption = orderingOptions.getOrNull(position) ?: "unknown"
+                        chip.contentDescription = "$selectedOption, selecionado"
+
+                        viewModel.analyticsHelper.logEvent("chip_click", mapOf(
+                            "chip_type" to "ordering",
+                            "chip_value" to selectedOption
+                        ))
                         viewModel.onOrderingSelected(position)
                     }
                 }
@@ -116,7 +126,13 @@ class FiltersActivity : AppCompatActivity() {
                 ) {
                     if (isSelected) {
                         val categories = viewModel.getCategories()
-                        chip.contentDescription = "${categories.getOrNull(position)}, selecionado"
+                        val selectedCategory = categories.getOrNull(position) ?: "unknown"
+                        chip.contentDescription = "$selectedCategory, selecionado"
+
+                        viewModel.analyticsHelper.logEvent("chip_click", mapOf(
+                            "chip_type" to "category",
+                            "chip_value" to selectedCategory
+                        ))
                         viewModel.onCategorySelected(position)
                     }
                 }

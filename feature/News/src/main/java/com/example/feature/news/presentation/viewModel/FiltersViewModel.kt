@@ -5,13 +5,15 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.feature.news.data.preferences.FilterPreferences
 import com.example.feature.news.domain.model.NewsFilters
+import com.example.services.analytics.AnalyticsTags
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 
 @HiltViewModel
 class FiltersViewModel @Inject constructor(
-    private val filterPreferences: FilterPreferences
+    private val filterPreferences: FilterPreferences,
+    val analyticsHelper: AnalyticsTags
 ): ViewModel() {
 
     private val _selectedOrdering = MutableLiveData<Int>()

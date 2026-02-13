@@ -113,6 +113,7 @@ class HomeActivity : AppCompatActivity() {
         }
 
         binding.iconFilter.setOnClickListener {
+            viewModel.analyticsHelper.logEvent("icon_click", mapOf("icon_name" to "filter_icon"))
             val intent = Intent(this, FiltersActivity::class.java)
             filterResultLauncher.launch(intent)
         }
