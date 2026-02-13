@@ -1,13 +1,14 @@
 package com.example.feature.news.presentation.view
 
 import android.Manifest
+import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.PopupMenu
@@ -22,6 +23,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.feature.analytics.AnalyticsHelper
 import com.example.feature.news.R
 import com.example.feature.news.databinding.ActivityHomeBinding
+import com.example.feature.news.domain.model.NewsFilters
 import com.example.feature.news.presentation.view.recyclerview.adapter.HomeAdapter
 import com.example.feature.news.presentation.view.recyclerview.adapter.NewsLoadStateAdapter
 import com.example.feature.news.presentation.view.recyclerview.decoration.ItemSpacingDecoration
@@ -48,6 +50,23 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var adapter: HomeAdapter
 
     private lateinit var analyticsHelper: AnalyticsHelper
+    private val filterResultLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            result.data?.let { data ->
+                val category = data.getStringExtra(FiltersActivity.EXTRA_CATEGORY)
+                val shouldReverse = data.getBooleanExtra(FiltersActivity.EXTRA_SHOULD_REVERSE, false)
+
+                val filters = NewsFilters(
+                    category = category,
+                    shouldReverseOrder = shouldReverse
+                )
+
+                viewModel.applyFilters(filters)
+            }
+        }
+    }
 
     companion object {
         private const val NOTIFICATION_PERMISSION_REQUEST_CODE = 101
@@ -76,6 +95,11 @@ class HomeActivity : AppCompatActivity() {
         binding.toolbar.apply {
             setToolbarTitle(context.getString(R.string.news), DsText.TextStyle.HEADER)
             setHamburgerMenu { showHamburgerMenu() }
+        }
+
+        binding.iconFilter.setOnClickListener {
+            val intent = Intent(this, FiltersActivity::class.java)
+            filterResultLauncher.launch(intent)
         }
     }
 

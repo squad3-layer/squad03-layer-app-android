@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/screen_view_filters"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    tools:context=".presentation.view.FiltersActivity">
+
+        <com.example.mylibrary.ds.toolbar.DsToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <ScrollView
+            android:id="@+id/scrollContent"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:fillViewport="true"
+            app:layout_constraintTop_toBottomOf="@id/toolbar"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:paddingTop="20dp"
+                android:paddingBottom="24dp">
+
+                <com.example.mylibrary.ds.text.DsText
+                    android:id="@+id/titleOrdering"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/filters_ordering"
+                    app:dsTextStyle="description"
+                    app:dsFontWeight="medium"
+                    android:textSize="14sp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <com.example.mylibrary.ds.chip.DsChipGroup
+                    android:id="@+id/chipsOrdering"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    app:chipSpacing="12dp"
+                    app:layout_constraintTop_toBottomOf="@id/titleOrdering"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+                <com.example.mylibrary.ds.text.DsText
+                    android:id="@+id/titleCategory"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
+                    android:text="@string/filters_category"
+                    android:textSize="14sp"
+                    app:dsFontWeight="medium"
+                    app:dsTextStyle="description"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/chipsOrdering" />
+
+                <com.example.mylibrary.ds.chip.DsChipGroup
+                    android:id="@+id/chipsCategory"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    app:chipSpacing="12dp"
+                    app:layout_constraintTop_toBottomOf="@id/titleCategory"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+                <com.example.mylibrary.ds.button.DsButton
+                    android:id="@+id/buttonApply"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/chipsCategory"
+                    app:textDS="@string/filters_button_apply" />
+
+                <com.example.mylibrary.ds.button.DsButton
+                    android:id="@+id/buttonClear"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:textStyle="bold"
+                    app:textDS="@string/filters_button_clear"
+                    app:buttonType="text"
+                    app:backgroundColorDS="@color/background_offWhite"
+                    app:layout_constraintTop_toBottomOf="@id/buttonApply"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
