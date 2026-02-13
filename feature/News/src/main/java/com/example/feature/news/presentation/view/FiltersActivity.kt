@@ -7,6 +7,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.customview.R
 import com.example.feature.news.databinding.ActivityFiltersBinding
 import com.example.feature.news.presentation.viewModel.FiltersViewModel
 import com.example.mylibrary.ds.chip.DsChip
@@ -98,7 +99,8 @@ class FiltersActivity : AppCompatActivity() {
                     isSelected: Boolean
                 ) {
                     if (isSelected) {
-                        chip.contentDescription
+                        val orderingOptions = viewModel.getOrderingOptions()
+                        chip.contentDescription = "${orderingOptions.getOrNull(position)}, selecionado"
                         viewModel.onOrderingSelected(position)
                     }
                 }
@@ -113,6 +115,8 @@ class FiltersActivity : AppCompatActivity() {
                     isSelected: Boolean
                 ) {
                     if (isSelected) {
+                        val categories = viewModel.getCategories()
+                        chip.contentDescription = "${categories.getOrNull(position)}, selecionado"
                         viewModel.onCategorySelected(position)
                     }
                 }

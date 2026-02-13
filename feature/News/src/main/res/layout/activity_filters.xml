@@ -41,6 +41,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/filters_ordering"
                     app:dsTextStyle="description"
+                    android:contentDescription="@string/filters_ordering_title_description"
                     app:dsFontWeight="medium"
                     android:textSize="14sp"
                     app:layout_constraintTop_toTopOf="parent"
@@ -64,6 +65,7 @@
                     android:text="@string/filters_category"
                     android:textSize="14sp"
                     app:dsFontWeight="medium"
+                    android:contentDescription="@string/filters_category_title_description"
                     app:dsTextStyle="description"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/chipsOrdering" />
@@ -87,6 +89,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/chipsCategory"
+                    android:contentDescription="@string/filters_button_apply"
                     app:textDS="@string/filters_button_apply" />
 
                 <com.example.mylibrary.ds.button.DsButton
@@ -96,6 +99,7 @@
                     android:layout_marginTop="12dp"
                     android:textStyle="bold"
                     app:textDS="@string/filters_button_clear"
+                    android:contentDescription="@string/filters_button_clear"
                     app:buttonType="text"
                     app:backgroundColorDS="@color/background_offWhite"
                     app:layout_constraintTop_toBottomOf="@id/buttonApply"
