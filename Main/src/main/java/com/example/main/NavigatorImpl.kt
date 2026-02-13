@@ -36,6 +36,9 @@ class NavigatorImpl @Inject constructor() : Navigator {
                 is NavigationRoute.Home -> {
                     flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 }
+                is NavigationRoute.Filters -> {
+                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                }
                 is NavigationRoute.Notifications, is NavigationRoute.Favorites -> {}
             }
 

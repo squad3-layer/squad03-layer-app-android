@@ -30,12 +30,11 @@ class FiltersActivity : AppCompatActivity() {
         setupToolbar()
         setupChips()
         setupListeners()
-        observeViewModel()
     }
 
     private fun setupToolbar() {
         binding.toolbar.apply {
-            setToolbarTitle("Filtros", DsText.TextStyle.DESCRIPTION)
+            setToolbarTitle("Filtros", DsText.TextStyle.HEADER)
             setBackButton(show = true) {
                 finish()
             }
@@ -52,34 +51,44 @@ class FiltersActivity : AppCompatActivity() {
 
     private fun setupChips() {
         val orderingOptions = viewModel.getOrderingOptions()
+
         if (orderingOptions.isNotEmpty()) {
             binding.chipsOrdering.addChips(orderingOptions)
-            binding.chipsOrdering.selectChip(0)
+
+            val selectedOrderingPosition = viewModel.selectedOrdering.value ?: 0
+            binding.chipsOrdering.selectChip(selectedOrderingPosition)
         }
 
         val categories = viewModel.getCategories()
-        if (categories.isNotEmpty()) {
+
+        if(categories.isNotEmpty()) {
             binding.chipsCategory.addChips(categories)
-            binding.chipsCategory.selectChip(0)
+            val selectedCategoryPosition = viewModel.selectedCategory.value ?: 0
+            binding.chipsCategory.selectChip(selectedCategoryPosition)
         }
     }
 
     private fun setupListeners() {
         binding.buttonApply.setDsClickListener {
             viewModel.applyFilters()
+
             val filters = viewModel.getCurrentFilters()
 
             val resultIntent = Intent().apply {
                 putExtra(EXTRA_CATEGORY, filters.category)
                 putExtra(EXTRA_SHOULD_REVERSE, filters.shouldReverseOrder)
             }
+
             setResult(RESULT_OK, resultIntent)
             finish()
         }
 
         binding.buttonClear.setDsClickListener {
             viewModel.clearFilters()
+            binding.chipsOrdering.selectChip(0)
+            binding.chipsCategory.selectChip(0)
         }
+
 
         binding.chipsOrdering.setOnChipSelectionListener(
             object : DsChipGroup.OnChipSelectionListener {
@@ -108,16 +117,6 @@ class FiltersActivity : AppCompatActivity() {
                 }
             }
         )
-    }
-
-    private fun observeViewModel() {
-        viewModel.selectedOrdering.observe(this) { position ->
-            binding.chipsOrdering.selectChip(position)
-        }
-
-        viewModel.selectedCategory.observe(this) { position ->
-            binding.chipsCategory.selectChip(position)
-        }
     }
 
     companion object {

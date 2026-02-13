@@ -10,7 +10,7 @@ class NewsRepositoryImpl @Inject constructor(
     private val networkService: NetworkService
 ) : NewsRepository {
 
-    private val apiKey = "04c50de441384af98e6c7d4107ab1546"
+    private val apiKey = "209fb8d6e6944c37b3a7ccd84bf3a654"
 
     override suspend fun getTopHeadlines(
         country: String,
