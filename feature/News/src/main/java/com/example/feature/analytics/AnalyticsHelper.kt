@@ -1,6 +1,5 @@
 package com.example.feature.analytics
 
-
 import android.content.Context
 import android.os.Bundle
 import com.google.firebase.analytics.FirebaseAnalytics
@@ -9,7 +8,7 @@ class AnalyticsHelper(context: Context) {
 
     private val firebaseAnalytics: FirebaseAnalytics = FirebaseAnalytics.getInstance(context)
 
-    fun logEvent(eventName: String, params: Map<String, String>? = null) {
+    private fun logEvent(eventName: String, params: Map<String, String>? = null) {
         val bundle = Bundle()
         params?.forEach { (key, value) ->
             bundle.putString(key, value)
@@ -17,35 +16,45 @@ class AnalyticsHelper(context: Context) {
         firebaseAnalytics.logEvent(eventName, bundle)
     }
 
-    // 👉 Funções específicas para cada evento
-
     fun logViewHome() {
         logEvent("view_home")
     }
 
-    fun logClickNewsCard(newsId: String, category: String) {
-        logEvent("click_news_card", mapOf("news_id" to newsId, "category" to category))
+    fun logClickNews(identifier: String) {
+        logEvent("click_news", mapOf("news_identifier" to identifier))
     }
 
-    fun logAddToFavorites(newsId: String) {
-        logEvent("add_to_favorites", mapOf("news_id" to newsId))
+    fun logClickMenu() {
+        logEvent("click_menu")
     }
 
-    fun logRemoveFavorite(newsId: String) {
-        logEvent("remove_favorite", mapOf("news_id" to newsId))
+    fun logClickMenuOption(optionName: String) {
+        logEvent("click_menu_option", mapOf("option" to optionName))
     }
 
-    fun logViewFavorites(count: Int) {
-        logEvent("view_favorites", mapOf("favorites_count" to count.toString()))
+    fun logViewDetails(newsId: String) {
+        logEvent("view_details", mapOf("news_id" to newsId))
+    }
+
+    fun logShareNews(newsId: String) {
+        logEvent("share_news", mapOf("news_id" to newsId))
     }
 
 
-    fun logClickMenuFavorites() {
-        logEvent("click_menu_favorites")
+    fun logAddToFavorites(identifier: String) {
+        logEvent("add_to_favorites", mapOf("news_identifier" to identifier))
     }
 
-    fun logClickMenuNotifications() {
-        logEvent("click_menu_notifications")
+    fun logRemoveFavorite(identifier: String) {
+        logEvent("remove_favorite", mapOf("news_identifier" to identifier))
     }
+
+    fun logViewFavorites() {
+        logEvent("view_favorites")
+    }
+
+    fun logClickFavoriteItem(newsId: String) {
+        logEvent("click_favorite_item", mapOf("news_id" to newsId))
+    }
+
 }
-

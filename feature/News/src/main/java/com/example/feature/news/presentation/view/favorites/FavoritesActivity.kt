@@ -10,6 +10,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.feature.analytics.AnalyticsHelper
 import com.example.feature.news.R
 import com.example.feature.news.databinding.ActivityFavoritesBinding
 import com.example.feature.news.presentation.view.DetailsNewsActivity
@@ -27,6 +28,8 @@ class FavoritesActivity : AppCompatActivity() {
     private val viewModel: FavoritesViewModel by viewModels()
     private lateinit var adapter: FavoritesAdapter
 
+    private lateinit var analyticsHelper: AnalyticsHelper
+
     companion object {
         private const val EXTRA_ARTICLE_DATA = "ARTICLE_DATA"
     }
@@ -38,6 +41,8 @@ class FavoritesActivity : AppCompatActivity() {
         binding = ActivityFavoritesBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        analyticsHelper = AnalyticsHelper(this)
+
         setupToolbar()
         setupWindowInsets()
         setupRecyclerView()
@@ -46,6 +51,7 @@ class FavoritesActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+        analyticsHelper.logViewFavorites()
         // Recarrega favoritos toda vez que volta para esta tela
         viewModel.loadFavorites()
     }
@@ -69,6 +75,7 @@ class FavoritesActivity : AppCompatActivity() {
 
     private fun setupRecyclerView() {
         adapter = FavoritesAdapter { article ->
+            analyticsHelper.logClickFavoriteItem(article.url ?: article.title)
             val intent = Intent(this, DetailsNewsActivity::class.java).apply {
                 putExtra(EXTRA_ARTICLE_DATA, article)
             }

@@ -80,6 +80,7 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun showHamburgerMenu() {
+        analyticsHelper.logClickMenu()
         showPopupMenu(binding.toolbar)
     }
 
@@ -109,9 +110,18 @@ class HomeActivity : AppCompatActivity() {
     private fun setupMenuItemClickListener(popupMenu: PopupMenu) {
         popupMenu.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
-                R.id.menu_favorites -> handleFavoritesClick()
-                R.id.menu_notifications -> handleNotificationsClick()
-                R.id.menu_logout -> handleLogoutClick()
+                R.id.menu_favorites -> {
+                    analyticsHelper.logClickMenuOption("favorites")
+                    handleFavoritesClick()
+                }
+                R.id.menu_notifications ->{
+                    analyticsHelper.logClickMenuOption("notification")
+                    handleNotificationsClick()
+                }
+                R.id.menu_logout -> {
+                    analyticsHelper.logClickMenuOption("logout")
+                    handleLogoutClick()
+                }
                 else -> false
             }
         }
@@ -167,6 +177,7 @@ class HomeActivity : AppCompatActivity() {
 
     private fun setupRecyclerView() {
         adapter = HomeAdapter { article ->
+            analyticsHelper.logClickNews(article.url ?: article.title)
             val intent = Intent(this, DetailsNewsActivity::class.java).apply {
                 putExtra(EXTRA_ARTICLE_DATA, article)
             }
@@ -200,7 +211,7 @@ class HomeActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        analyticsHelper.logEvent("view_home")
+        analyticsHelper.logViewHome()
     }
 }
 
