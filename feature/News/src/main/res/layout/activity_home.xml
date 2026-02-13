@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent"                />
 
     <LinearLayout
         android:id="@+id/filter_layout"
@@ -30,6 +30,8 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:hint="@string/hint_search"
+            android:contentDescription="@string/desc_search_bar"
+            android:importantForAccessibility="yes"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"/>
 
@@ -38,6 +40,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ds_icon_filter"
+            android:contentDescription="@string/desc_filter_button"
+            android:importantForAccessibility="yes"
             app:badgeCount="0" />
     </LinearLayout>
 

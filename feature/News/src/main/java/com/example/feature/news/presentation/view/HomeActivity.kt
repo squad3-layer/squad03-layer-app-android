@@ -20,6 +20,7 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.feature.analytics.AnalyticsHelper
 import com.example.feature.news.R
 import com.example.feature.news.databinding.ActivityHomeBinding
 import com.example.feature.news.domain.model.NewsFilters
@@ -48,6 +49,7 @@ class HomeActivity : AppCompatActivity() {
     private val viewModel: HomeViewModel by viewModels()
     private lateinit var adapter: HomeAdapter
 
+    private lateinit var analyticsHelper: AnalyticsHelper
     private val filterResultLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
@@ -80,6 +82,8 @@ class HomeActivity : AppCompatActivity() {
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        analyticsHelper = AnalyticsHelper(this)
+
         setupToolbar()
         requestNotificationPermission()
         setupWindowInsets()
@@ -87,7 +91,7 @@ class HomeActivity : AppCompatActivity() {
         observeViewModel()
     }
 
-    private fun setupToolbar() {
+       private fun setupToolbar() {
         binding.toolbar.apply {
             setToolbarTitle(context.getString(R.string.news), DsText.TextStyle.HEADER)
             setHamburgerMenu { showHamburgerMenu() }
@@ -100,6 +104,7 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun showHamburgerMenu() {
+        analyticsHelper.logClickMenu()
         showPopupMenu(binding.toolbar)
     }
 
@@ -129,9 +134,18 @@ class HomeActivity : AppCompatActivity() {
     private fun setupMenuItemClickListener(popupMenu: PopupMenu) {
         popupMenu.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
-                R.id.menu_favorites -> handleFavoritesClick()
-                R.id.menu_notifications -> handleNotificationsClick()
-                R.id.menu_logout -> handleLogoutClick()
+                R.id.menu_favorites -> {
+                    analyticsHelper.logClickMenuOption("favorites")
+                    handleFavoritesClick()
+                }
+                R.id.menu_notifications ->{
+                    analyticsHelper.logClickMenuOption("notification")
+                    handleNotificationsClick()
+                }
+                R.id.menu_logout -> {
+                    analyticsHelper.logClickMenuOption("logout")
+                    handleLogoutClick()
+                }
                 else -> false
             }
         }
@@ -187,6 +201,7 @@ class HomeActivity : AppCompatActivity() {
 
     private fun setupRecyclerView() {
         adapter = HomeAdapter { article ->
+            analyticsHelper.logClickNews(article.url ?: article.title)
             val intent = Intent(this, DetailsNewsActivity::class.java).apply {
                 putExtra(EXTRA_ARTICLE_DATA, article)
             }
@@ -216,6 +231,11 @@ class HomeActivity : AppCompatActivity() {
                 binding.recyclerView.isVisible = !isLoading
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        analyticsHelper.logViewHome()
     }
 }
 

@@ -16,6 +16,9 @@
     <string name="favorites_title">Favoritos</string>
     <string name="error_load_favorites">Erro ao carregar favoritos</string>
     <string name="retry">Tentar novamente</string>
+    <string name="desc_no_favorites">Nenhum favorito ainda..</string>
+    <string name="desc_search_bar">Procure sua noticia. Campo de edição.</string>
+    <string name="desc_filter_button">Botão. Adicionar filtros.</string>
     <string name="filters_ordering">Ordenação</string>
     <string name="filters_ordering_published_at">Publicação</string>
     <string name="filters_ordering_popularity">Popularidade</string>

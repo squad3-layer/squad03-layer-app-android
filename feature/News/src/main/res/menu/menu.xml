@@ -8,7 +8,8 @@
             android:icon="@drawable/ds_heart_outlined"
             android:title="@string/favorites_menu"
             app:showAsAction="never"
-            app:iconTint="@android:color/black" />
+            app:iconTint="@android:color/black"
+            />
 
         <item
             android:id="@+id/menu_notifications"
