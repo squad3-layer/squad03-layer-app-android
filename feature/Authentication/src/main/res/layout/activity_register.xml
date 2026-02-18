@@ -29,13 +29,12 @@
             android:layout_height="wrap_content"
             android:text="@string/register_Title"
             android:textSize="24sp"
+            android:textStyle="bold"
             app:dsTextStyle="header"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="124dp"
-
-            />
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="32dp"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
         <!-- Campo de usuário -->
         <com.example.mylibrary.ds.input.DsInput
@@ -47,7 +46,7 @@
             app:layout_constraintTop_toBottomOf="@id/Register_Title"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="42dp"
             android:layout_marginLeft="24dp"
             android:layout_marginRight="24dp"/>
 
@@ -61,7 +60,7 @@
             app:layout_constraintTop_toBottomOf="@id/inputUsuario"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="28dp"
             android:layout_marginLeft="24dp"
             android:layout_marginRight="24dp"/>
 
@@ -75,7 +74,7 @@
             app:layout_constraintTop_toBottomOf="@id/inputEmail"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="28dp"
             android:layout_marginLeft="24dp"
             android:layout_marginRight="24dp"/>
 
@@ -89,7 +88,7 @@
             app:layout_constraintTop_toBottomOf="@id/inputCpf"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="28dp"
             android:layout_marginLeft="24dp"
             android:layout_marginRight="24dp"/>
 
@@ -103,7 +102,7 @@
             app:layout_constraintTop_toBottomOf="@id/inputSenha"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="28dp"
             android:layout_marginLeft="24dp"
             android:layout_marginRight="24dp"/>
 
@@ -112,7 +111,7 @@
             android:id="@+id/register_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:textDS="Cadastrar"
+            app:textDS="@string/register_button_title"
             app:layout_constraintTop_toBottomOf="@id/inputConfirmarSenha"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
