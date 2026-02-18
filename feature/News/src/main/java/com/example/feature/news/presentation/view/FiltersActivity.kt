@@ -36,7 +36,7 @@ class FiltersActivity : AppCompatActivity() {
 
     private fun setupToolbar() {
         binding.toolbar.apply {
-            setToolbarTitle("Filtros", DsText.TextStyle.HEADER)
+            setToolbarTitle(getString(com.example.feature.news.R.string.filters_title), DsText.TextStyle.HEADER)
             setBackButton(show = true) {
                 viewModel.analyticsHelper.logEvent("button_click", mapOf("button_name" to "filters_back_button"))
                 finish()

@@ -41,5 +41,6 @@
     <string name="filters_button_clear">Limpar</string>
     <string name="filters_ordering_title_description">Título da seção de ordenação</string>
     <string name="filters_category_title_description">Título da seção de categorias</string>
+    <string name="filters_title">Filtros</string>
 </resources>
 

@@ -2,14 +2,18 @@ package com.example.feature.authentication.presentation.register.view
 
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import com.example.feature.authentication.R
 import com.example.feature.authentication.databinding.ActivityRegisterBinding
 import com.example.feature.authentication.presentation.login.view.LoginActivity
 import com.example.feature.authentication.presentation.register.viewModel.RegisterViewModel
 import androidx.core.widget.addTextChangedListener
 import com.example.feature.authentication.domain.register.model.RegisterRequest
+import com.example.mylibrary.ds.text.DsText
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -21,12 +25,32 @@ class RegisterActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
 
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         setupViews()
         observeViewModel()
+        setupWindowInsets()
+        setupToolbar()
+    }
+
+    private fun setupToolbar() {
+        binding.toolbar.apply {
+            setBackButton(show = true) {
+                viewModel.analyticsHelper.logEvent("button_click", mapOf("button_name" to "register_back_button"))
+                finish()
+            }
+        }
+    }
+
+    private fun setupWindowInsets() {
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
     }
 
     private fun setupViews() {

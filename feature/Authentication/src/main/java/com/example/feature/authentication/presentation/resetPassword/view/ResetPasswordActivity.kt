@@ -42,6 +42,16 @@ class ResetPasswordActivity : AppCompatActivity() {
         }
         setupViews()
         observeViewModel()
+        setupToolbar()
+    }
+
+    private fun setupToolbar() {
+        binding.toolbar.apply {
+            setBackButton(show = true) {
+                viewModel.analyticsHelper.logEvent("button_click", mapOf("button_name" to "reset_password_back_button"))
+                finish()
+            }
+        }
     }
 
     private fun setupViews() {
