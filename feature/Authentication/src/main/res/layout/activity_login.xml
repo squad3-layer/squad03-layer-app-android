@@ -82,7 +82,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:textDS="@string/botao"
         app:dsTextStyle="subtitle"
-        android:backgroundTint="@color/blue"
+        app:backgroundColorDS="@color/primary_color"
         android:contentDescription="@string/desc_botao"
         android:importantForAccessibility="yes"
         android:clickable="true"

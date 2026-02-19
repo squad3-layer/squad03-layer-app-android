@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.feature.notifications.R
 import com.example.feature.notifications.databinding.NotificationItemBinding
 import com.example.feature.notifications.domain.model.Notification
 import com.example.mylibrary.ds.card.notification.DsNotificationCard
@@ -38,6 +39,7 @@ class NotificationsAdapter(
             card.setTitle(notification.description)
             card.setDateTime(formatDate(notification.sentTimestamp))
             card.setIsNew(notification.isNew)
+            card.setChipBackgroundColor(R.color.primary_color)
 
             itemView.setOnClickListener {
                 onNotificationClick(notification)

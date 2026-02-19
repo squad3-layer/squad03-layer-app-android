@@ -2,6 +2,7 @@ package com.example.feature.authentication.presentation.register.view
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -13,7 +14,6 @@ import com.example.feature.authentication.presentation.login.view.LoginActivity
 import com.example.feature.authentication.presentation.register.viewModel.RegisterViewModel
 import androidx.core.widget.addTextChangedListener
 import com.example.feature.authentication.domain.register.model.RegisterRequest
-import com.example.mylibrary.ds.text.DsText
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -106,8 +106,10 @@ class RegisterActivity : AppCompatActivity() {
         fun updateButtonState() {
 
             val isButtonEnabled = viewModel.isButtonEnabled.value ?: false
-            binding.registerButton.isEnabled = isButtonEnabled
-            binding.registerButton.alpha = if(isButtonEnabled) 1.0f else 0.5f
+            val isAppLoading = viewModel.isLoading.value ?: false
+
+            binding.registerButton.isEnabled = isButtonEnabled && !isAppLoading
+            binding.registerButton.alpha = if (isButtonEnabled && !isAppLoading) 1.0f else 0.5f
         }
 
         viewModel.isButtonEnabled.observe(this) { updateButtonState() }
@@ -130,6 +132,11 @@ class RegisterActivity : AppCompatActivity() {
 
         viewModel.confirmPasswordError.observe(this) { resId ->
             binding.inputConfirmarSenha.error = resId?.let { getString(it) }
+        }
+
+        viewModel.isLoading.observe(this) { isLoading ->
+            binding.progressBarLoading.visibility = if (isLoading) View.VISIBLE else View.GONE
+            updateButtonState()
         }
 
         viewModel.registerState.observe(this) { result ->
