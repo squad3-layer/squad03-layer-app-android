@@ -34,9 +34,12 @@ A modern Android news application with multi-flavor support, featuring Firebase 
 
 ## 🌟 Overview
 
-Layer App is a news aggregator Android application built with modern Android development practices. It features two product flavors (News and Sports) with complete Firebase integration, including authentication, push notifications, analytics, and Firestore database.
+Layer App is a news aggregator Android application built with modern Android development practices. It features two product
+flavors (News and Sports) with complete Firebase integration, including authentication, push notifications, analytics,
+and Firestore database.
 
-The app fetches news from external APIs, caches them locally using Room database with pagination support, and provides real-time push notifications with expiration management.
+The app fetches news from external APIs, caches them locally using Room database with pagination support, and provides 
+real-time push notifications with expiration management.
 
 ---
 
@@ -224,7 +227,7 @@ squad03-layer-app-android/
 ### Clone the Repository
 
 ```powershell
-git clone https://github.com/your-org/squad03-layer-app-android.git
+git clone https://github.com/squad3-layer/squad03-layer-app-android.git
 cd squad03-layer-app-android
 ```
 
@@ -440,26 +443,6 @@ NotificationsActivity displays from database
 2. Create new campaign
 3. Select target app (LayerNews or LayerSports)
 4. Send test message
-
-#### Using FCM Verification Script:
-
-```powershell
-./verify-fcm-setup.ps1
-```
-
-This script checks:
-- Google Services JSON configuration
-- Firebase dependencies
-- FCM service registration
-- SHA fingerprints
-
-#### Monitor FCM Logs:
-
-```powershell
-adb logcat -s CoreFCMService:D FirebaseMessaging:D
-```
-
----
 
 ## 📄 License
 
@@ -752,7 +735,7 @@ squad03-layer-app-android/
 ### Clonar o repositório
 
 ```powershell
-git clone https://github.com/your-org/squad03-layer-app-android.git
+git clone https://github.com/squad3-layer/squad03-layer-app-android.git
 cd squad03-layer-app-android
 ```
 
@@ -971,25 +954,6 @@ NotificationsActivity exibe a notificação do banco de dados
 3. Selecione o aplicativo de destino(LayerNews or LayerSports)
 4. Envie uma mensagem de teste
 
-#### Usando o FCM Verification Script:
-
-```powershell
-./verify-fcm-setup.ps1
-```
-
-Esse script checa:
-- Configuração do Google Services JSON 
-- Dependências do Firebase 
-- Registro de serviço FCM 
-- SHA fingerprints
-
-#### Monitorar registros do FCM:
-
-```powershell
-adb logcat -s CoreFCMService:D FirebaseMessaging:D
-```
-
----
 
 ## 📄 Licença
 
