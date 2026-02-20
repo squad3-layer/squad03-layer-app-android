@@ -55,7 +55,13 @@
     <string name="reset_password_accessibility_button">Entrar, Botão.</string>
     <string name="reset_password_button_title">Enviar</string>
     <string name="error_unknown">Erro desconhecido</string>
-    <string name="error_send_email_fail">Falha ao enviar e-mail</string>
+    <string name="error_send_email_fail">Falha ao enviar e-mail de redefinição de senha.</string>
+    <string name="error_email_badly_formatted">O endereço de e-mail está mal formatado.</string>
+    <string name="error_no_user_record">Não há registro de usuário correspondente a este e-mail.</string>
+    <string name="error_invalid_password">A senha é inválida.</string>
+    <string name="error_user_disabled">Esta conta de usuário foi desabilitada.</string>
+    <string name="error_too_many_requests">Muitas tentativas. Tente novamente mais tarde.</string>
+    <string name="error_network_error">Erro de rede. Verifique sua conexão.</string>
     <string name="error_user_not_found">USER_NOT_FOUND</string>
 
 </resources>
