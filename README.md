@@ -1,8 +1,6 @@
 
 # Layer News & Sports App 📱
 
-![img.png](img.png)
-![img_1.png](img_1.png)
 
 <div align="center">
 
@@ -513,9 +511,6 @@ Made with ❤️ by Squad 03
 ---------------------------------------------------------------
 
 # Layer News & Sports App 📱
-
-![img.png](img.png)
-![img_1.png](img_1.png)
 
 
 ## Versão em Português
