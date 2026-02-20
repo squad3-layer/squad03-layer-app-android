@@ -2,6 +2,7 @@ package com.example.feature.notifications.presentation.view.recyclerview.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -39,7 +40,7 @@ class NotificationsAdapter(
             card.setTitle(notification.description)
             card.setDateTime(formatDate(notification.sentTimestamp))
             card.setIsNew(notification.isNew)
-            card.setChipBackgroundColor(R.color.primary_color)
+            card.setChipBackgroundColor(ContextCompat.getColor(itemView.context, R.color.primary_color))
 
             itemView.setOnClickListener {
                 onNotificationClick(notification)
