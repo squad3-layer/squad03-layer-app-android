@@ -26,8 +26,8 @@ class ResetPasswordViewModel @Inject constructor(
     private val _resetResult = MutableLiveData<Boolean>()
     val resetResult: LiveData<Boolean> = _resetResult
 
-    private val _errorMessage = MutableLiveData<String>()
-    val errorMessage: LiveData<String> = _errorMessage
+    private val _errorMessage = MutableLiveData<Int>()
+    val errorMessage: LiveData<Int> = _errorMessage
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
@@ -52,7 +52,7 @@ class ResetPasswordViewModel @Inject constructor(
                 analyticsHelper.logEvent("reset_password_success")
             }.onFailure { e ->
                 _resetResult.value = false
-                _errorMessage.value = e.message ?: "Falha ao enviar e-mail"
+                _errorMessage.value = getLocalizedErrorMessage(e)
                 analyticsHelper.logEvent("reset_password_error", mapOf("reason" to (e.message ?: "unknown")))
                 FirebaseCrashlytics.getInstance().recordException(e)
             }
@@ -81,5 +81,18 @@ class ResetPasswordViewModel @Inject constructor(
 
     fun onInputChanged(email: String) {
         _isButtonEnabled.value = validateEmail(email)
+    }
+
+    private fun getLocalizedErrorMessage(exception: Throwable): Int {
+        val message = exception.message ?: return R.string.error_unknown
+        return when {
+            message.contains("badly formatted") -> R.string.error_email_badly_formatted
+            message.contains("no user record") -> R.string.error_no_user_record
+            message.contains("invalid password") -> R.string.error_invalid_password
+            message.contains("user disabled") -> R.string.error_user_disabled
+            message.contains("too many requests") -> R.string.error_too_many_requests
+            message.contains("network error") -> R.string.error_network_error
+            else -> R.string.error_send_email_fail
+        }
     }
 }
