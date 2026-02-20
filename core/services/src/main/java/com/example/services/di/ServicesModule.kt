@@ -15,6 +15,8 @@ import com.example.services.network.NetworkServiceImpl
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
+import com.google.firebase.remoteconfig.remoteConfigSettings
 import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
@@ -75,13 +77,14 @@ object ServicesModule {
 
     @Provides
     @Singleton
+    @ServicesGson
     fun provideGson(): Gson {
         return Gson()
     }
 
     @Provides
     @Singleton
-    fun provideRetrofit(gson: Gson): Retrofit {
+    fun provideRetrofit(@ServicesGson gson: Gson): Retrofit {
         return Retrofit.Builder()
             .baseUrl("https://newsapi.org/")
             .addConverterFactory(GsonConverterFactory.create(gson))
@@ -98,8 +101,18 @@ object ServicesModule {
     @Singleton
     fun provideNetworkService(
         apiService: ApiService,
-        gson: Gson
+        @ServicesGson gson: Gson
     ): NetworkService {
         return NetworkServiceImpl(apiService, gson)
+    }
+    @Provides
+    @Singleton
+    fun provideRemoteConfig(): FirebaseRemoteConfig {
+        val remoteConfig = FirebaseRemoteConfig.getInstance()
+        val configSettings = remoteConfigSettings {
+            minimumFetchIntervalInSeconds = 0
+        }
+        remoteConfig.setConfigSettingsAsync(configSettings)
+        return remoteConfig
     }
 }

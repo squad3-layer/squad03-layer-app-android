@@ -15,10 +15,13 @@ glide = "4.16.0"
 hilt = "2.52"
 androidx-hilt = "1.2.0"
 mylibrary = "v1.0.15"
+mydesignsystem = "1.0.22"
 navigationFragmentKtx = "2.9.6"
 navigationUiKtx = "2.9.6"
 roomKtx = "2.8.4"
+lifecycleRuntimeKtx = "2.8.7"
 firebaseFirestoreKtx = "26.1.0"
+benchmarkCommon = "1.4.1"
 
 
 [libraries]
@@ -39,6 +42,8 @@ androidx-constraintlayout = { group = "androidx.constraintlayout", name = "const
 androidx-lifecycle-viewmodel = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version = "2.10.0" }
 androidx-lifecycle-livedata = { group = "androidx.lifecycle", name = "lifecycle-livedata-ktx", version = "2.10.0" }
 mylibrary = { module = "com.github.rafaelKontein23.designe-system-news:mylibrary", version.ref = "mylibrary" }
+mydesignsystem = { module = "com.domleondev:designsystem", version.ref = "mydesignsystem" }
+androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version = "3.0.0" }
 retrofit-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version = "3.0.0" }
 
@@ -54,6 +59,7 @@ androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = 
 androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "roomKtx" }
 firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore" }
 firebase-config = { group = "com.google.firebase", name = "firebase-config"}
+androidx-benchmark-common = { group = "androidx.benchmark", name = "benchmark-common", version.ref = "benchmarkCommon" }
 
 [bundles]
 firebase = [

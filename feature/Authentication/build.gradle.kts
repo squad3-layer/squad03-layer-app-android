@@ -11,6 +11,7 @@ android {
 
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
 
     defaultConfig {
@@ -36,6 +37,19 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
+
+    flavorDimensions += "brand"
+    productFlavors {
+
+        create("LayerNews") {
+            dimension = "brand"
+
+        }
+
+        create("LayerSports") {
+            dimension = "brand"
+                }
+    }
 }
 
 dependencies {
@@ -50,10 +64,12 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     implementation(libs.androidx.navigation.fragment.ktx)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
 
 
     // Design System
     implementation(libs.mylibrary)
+    api(libs.mydesignsystem)
 
     // Firebase
     implementation(platform(libs.firebase.bom))

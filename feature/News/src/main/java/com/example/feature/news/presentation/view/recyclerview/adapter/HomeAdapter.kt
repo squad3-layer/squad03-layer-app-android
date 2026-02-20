@@ -11,13 +11,17 @@ import java.util.Calendar
 import java.util.Locale
 
 class HomeAdapter(
-    private var items: List<Article>
+    private var items: List<Article>,
+    private val onItemClick: (Article) -> Unit
 ) : RecyclerView.Adapter<HomeAdapter.HomeViewHolder>() {
 
     inner class HomeViewHolder(private val binding: NewsItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(news: Article) {
+            binding.root.setOnClickListener {
+                onItemClick(news)
+            }
            binding.newCard.apply {
                setNews(
                    title = news.title,

@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt)
+    id("kotlin-parcelize")
 }
 
 
@@ -37,6 +38,18 @@ android {
     buildFeatures {
         viewBinding = true
     }
+    flavorDimensions += "brand"
+    productFlavors {
+
+        create("LayerNews") {
+            dimension = "brand"
+
+        }
+
+        create("LayerSports") {
+            dimension = "brand"
+        }
+    }
 }
 
 dependencies {
@@ -55,10 +68,12 @@ dependencies {
 
     // Design System
     implementation(libs.mylibrary)
+    api(libs.mydesignsystem)
 
     // Firebase
     implementation(platform(libs.firebase.bom))
     implementation(libs.bundles.firebase)
+    implementation("com.google.firebase:firebase-firestore")
 
     // Lifecycle / Retrofit
     implementation(libs.androidx.lifecycle.viewmodel)
