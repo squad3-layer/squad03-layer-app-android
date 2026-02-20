@@ -4,49 +4,67 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
+    android:background="#FFFFFF"
     tools:context=".presentation.view.HomeActivity">
 
-    <!-- Toolbar no topo -->
     <com.example.mylibrary.ds.toolbar.DsToolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"                />
 
+    <LinearLayout
+        android:id="@+id/filter_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="12dp"
 
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
 
-    </com.example.mylibrary.ds.toolbar.DsToolbar>
+        <com.example.mylibrary.ds.input.DsInput
+            android:id="@+id/searchinput"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:hint="@string/hint_search"
+            android:contentDescription="@string/desc_search_bar"
+            android:importantForAccessibility="yes"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"/>
 
-    <!-- RecyclerView ocupa o espaço entre toolbar e botão -->
+        <com.example.mylibrary.ds.icon.DsIcon
+            android:id="@+id/icon_filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ds_icon_filter"
+            android:contentDescription="@string/desc_filter_button"
+            android:importantForAccessibility="yes"
+            app:badgeCount="0" />
+    </LinearLayout>
+
+    <include
+        android:id="@+id/shimmerLayout"
+        layout="@layout/shimmer_loading_layout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/filter_layout"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:clipToPadding="false"
         android:padding="10dp"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
-        app:layout_constraintBottom_toTopOf="@id/button_click_logout"
+        app:layout_constraintTop_toBottomOf="@id/filter_layout"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
-    <!-- Botão de logout no rodapé -->
-    <com.example.mylibrary.ds.button.DsButton
-        android:id="@+id/button_click_logout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:addStatesFromChildren="true"
-        android:background="@color/red_100"
-        android:layout_marginStart="@dimen/size_24"
-        android:layout_marginEnd="@dimen/size_24"
-        android:clickable="true"
-        android:focusable="true"
-        app:textDS="@string/button_logout"
-        android:textColor="@color/white"
-        android:fontFamily="@font/poppins_medium"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

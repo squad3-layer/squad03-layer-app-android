@@ -8,8 +8,7 @@ on:
     branches: [ main ]
 
 jobs:
-  deploy:
-    if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.pull_request.merged == true)
+  deploy-manual-release:
     runs-on: ubuntu-latest
 
     steps:
@@ -27,17 +26,17 @@ jobs:
         run: |
           echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > release-keystore.jks
 
-      - name: Decode google-services.json
-        run: |
-          mkdir -p Main
-          echo "${{ secrets.GOOGLE_SERVICES_JSON }}" | base64 -d > Main/google-services.json
-
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
       # ---------------------------
       # Build LayerNews Release APK
       # ---------------------------
+      - name: Decode google-services.json for LayerNews
+        run: |
+          mkdir -p Main/src/LayerNews
+          echo "${{ secrets.GOOGLE_SERVICES_JSON_NEWS }}" | base64 -d > Main/src/LayerNews/google-services.json
+
       - name: Build LayerNews Release APK
         env:
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
@@ -64,9 +63,17 @@ jobs:
             Changes in this LayerNews release:
             ${{ github.event.head_commit.message }}
 
+      - name: Clean LayerNews google-services.json
+        run: rm -f Main/src/LayerNews/google-services.json
+
       # ---------------------------
       # Build LayerSports Release APK
       # ---------------------------
+      - name: Decode google-services.json for LayerSports
+        run: |
+          mkdir -p Main/src/LayerSports
+          echo "${{ secrets.GOOGLE_SERVICES_JSON_SPORTS }}" | base64 -d > Main/src/LayerSports/google-services.json
+
       - name: Build LayerSports Release APK
         env:
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
@@ -87,8 +94,11 @@ jobs:
         with:
           appId: ${{ secrets.FIREBASE_APP_ID_SPORTS }}
           serviceCredentialsFileContent: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_JSON }}
-          groups: Managers,QA
+          groups: testers
           file: Main/build/outputs/apk/LayerSports/release/Main-LayerSports-release.apk
           releaseNotes: |
             Changes in this LayerSports release:
             ${{ github.event.head_commit.message }}
+
+      - name: Clean LayerSports google-services.json
+        run: rm -f Main/src/LayerSports/google-services.json

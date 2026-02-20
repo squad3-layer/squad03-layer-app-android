@@ -28,6 +28,7 @@
     <string name="reset_password_subtitle">Digite seu endereço de email\npara recuperar sua senha.</string>
     <string name="reset_password_title">Recuperar senha</string>
     <string name="reset_password_hint_email">Digite seu e-mail</string>
+    <string name="register_Title">Cadastro</string>
     <string name="register_Name">Digite seu nome de usuário</string>
     <string name="register_Email">Digite seu email</string>
     <string name="register_Email_error">Digite um email valido</string>
@@ -42,17 +43,25 @@
     <string name="register_username_required">"O campo de nome do usuário é obrigatório."</string>
     <string name="register_cpf_required">"O campo de CPF é obrigatório."</string>
     <string name="register_cpf_must_have_11_digits">"O campo de CPF deve conter 11 dígitos.""</string>
-    <string name="dialog_ok">"Ok"</string>
+    <string name="dialog_ok">"OK"</string>
     <string name="register_email_already_in_use">Este e-mail já está em uso. Tente fazer login ou use outro e-mail.</string>
     <string name="register_generic_error">Ocorreu um erro ao realizar o cadastro. Tente novamente em instantes.</string>
     <string name="register_dialog_alert">Atenção</string>
+    <string name="register_button_title">Cadastrar</string>
 
     <string name="reset_password_dialog_alert">Erro</string>
     <string name="reset_password_dialog_description">Falha ao tentar enviar email, verifique se o email informado esta correto.</string>
     <string name="reset_password_toast_success">E-mail de recuperação enviado!</string>
     <string name="reset_password_accessibility_button">Entrar, Botão.</string>
+    <string name="reset_password_button_title">Enviar</string>
     <string name="error_unknown">Erro desconhecido</string>
-    <string name="error_send_email_fail">Falha ao enviar e-mail</string>
+    <string name="error_send_email_fail">Falha ao enviar e-mail de redefinição de senha.</string>
+    <string name="error_email_badly_formatted">O endereço de e-mail está mal formatado.</string>
+    <string name="error_no_user_record">Não há registro de usuário correspondente a este e-mail.</string>
+    <string name="error_invalid_password">A senha é inválida.</string>
+    <string name="error_user_disabled">Esta conta de usuário foi desabilitada.</string>
+    <string name="error_too_many_requests">Muitas tentativas. Tente novamente mais tarde.</string>
+    <string name="error_network_error">Erro de rede. Verifique sua conexão.</string>
     <string name="error_user_not_found">USER_NOT_FOUND</string>
 
 </resources>

@@ -31,7 +31,8 @@ android {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
+                "../core/services/proguard-rules.pro"
             )
         }
     }
@@ -68,6 +69,7 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(projects.navigation)
+    implementation(projects.core.services)
     implementation(projects.feature.authentication)
     implementation(projects.feature.notifications)
     implementation(projects.feature.news)

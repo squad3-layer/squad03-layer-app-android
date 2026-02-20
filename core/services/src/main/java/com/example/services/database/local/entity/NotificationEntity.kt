@@ -1,4 +1,4 @@
-package com.example.feature.notifications.data.local.entity
+package com.example.services.database.local.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -13,3 +13,4 @@ data class NotificationEntity(
     val expirationTimestamp: Long,
     val isNew: Boolean = true
 )
+

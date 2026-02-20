@@ -3,7 +3,7 @@ package com.example.feature.notifications.presentation.viewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.services.analytics.AnalyticsTags
-import com.example.feature.notifications.data.local.entity.NotificationEntity
+import com.example.services.database.local.entity.NotificationEntity
 import com.example.feature.notifications.domain.usecase.DeleteNotificationUseCase
 import com.example.feature.notifications.domain.usecase.GetAllNotificationsUseCase
 import com.example.feature.notifications.domain.usecase.GetNewNotificationsCountUseCase

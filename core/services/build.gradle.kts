@@ -35,6 +35,7 @@ android {
 }
 
 dependencies {
+    implementation(projects.navigation)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
@@ -50,6 +51,12 @@ dependencies {
     // Retrofit & Gson
     implementation(libs.retrofit)
     implementation(libs.retrofit.gson)
+
+    // Room Database
+    implementation(libs.androidx.room.ktx)
+    implementation(libs.androidx.room.paging)
+    implementation(libs.androidx.paging.common)
+    ksp(libs.androidx.room.compiler)
 
     // Hilt
     implementation(libs.hilt.android)

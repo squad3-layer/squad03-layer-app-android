@@ -87,4 +87,16 @@ dependencies {
     implementation(libs.androidx.hilt.navigation.fragment)
     ksp(libs.glide.compiler)
     ksp(libs.hilt.compiler)
+
+    // Paging 3
+    implementation(libs.androidx.paging.runtime)
+    implementation(libs.androidx.paging.common)
+
+    // Room Database
+    implementation(libs.androidx.room.ktx)
+    implementation(libs.androidx.room.paging)
+    ksp(libs.androidx.room.compiler)
+
+    // Shimmer
+    implementation(libs.shimmer)
 }

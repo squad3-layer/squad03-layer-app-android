@@ -1,27 +1,47 @@
 package com.example.feature.news.data.repository
 
+import androidx.paging.PagingSource
 import com.example.feature.news.domain.model.NewsResponse
 import com.example.feature.news.domain.repository.NewsRepository
+import com.example.services.database.local.dao.ArticleDao
+import com.example.services.database.local.entity.ArticleEntity
 import com.example.services.network.NetworkService
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class NewsRepositoryImpl @Inject constructor(
-    private val networkService: NetworkService
+    private val networkService: NetworkService,
+    private val articleDao: ArticleDao
 ) : NewsRepository {
 
-    private val apiKey = "04c50de441384af98e6c7d4107ab1546"
+    private val apiKey = "60b253dd44c046dc83105fa3f130b064"
 
-    override suspend fun getTopHeadlines(country: String, page: Int): Result<NewsResponse> {
+    override suspend fun getTopHeadlines(
+        country: String,
+        page: Int,
+        category: String?,
+        query: String?
+    ): Result<NewsResponse> {
+        val params = mutableMapOf(
+            "country" to country,
+            "page" to page.toString(),
+            "apiKey" to apiKey
+        )
+
+        category?.let {
+            params["category"] = it
+        }
+
+        query?.let {
+            if (it.isNotBlank()) {
+                params["q"] = it
+            }
+        }
+
         return networkService.get(
             endpoint = "v2/top-headlines",
             clazz = NewsResponse::class.java,
-            params = mapOf(
-                "country" to country,
-                "page" to page.toString(),
-                "apiKey" to apiKey
-            )
+            params = params
         )
     }
 
@@ -35,5 +55,21 @@ class NewsRepositoryImpl @Inject constructor(
                 "apiKey" to apiKey
             )
         )
+    }
+
+    override fun getCachedArticles(
+        category: String?,
+        query: String?,
+        shouldReverseOrder: Boolean
+    ): PagingSource<Int, ArticleEntity> {
+        return if (shouldReverseOrder) {
+            articleDao.getArticlesPagingReversed(category, query)
+        } else {
+            articleDao.getArticlesPaging(category, query)
+        }
+    }
+
+    override suspend fun hasCachedData(category: String?, query: String?): Boolean {
+        return articleDao.getArticlesByFilter(category, query) != null
     }
 }

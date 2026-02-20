@@ -6,28 +6,36 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
+    android:background="#FFFFFF"
+    android:fitsSystemWindows="false"
+    android:clipToPadding="false"
     tools:context=".presentation.register.view.RegisterActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <com.example.mylibrary.ds.toolbar.DsToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <!-- Título -->
-        <TextView
+        <com.example.mylibrary.ds.text.DsText
             android:id="@+id/Register_Title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Cadastro"
-            android:fontFamily="@font/poppins_bold"
+            android:text="@string/register_Title"
             android:textSize="24sp"
+            android:layout_marginTop="128dp"
             android:textStyle="bold"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:dsTextStyle="header"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="124dp"
-
-            />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/toolbar" />
 
         <!-- Campo de usuário -->
         <com.example.mylibrary.ds.input.DsInput
@@ -39,7 +47,7 @@
             app:layout_constraintTop_toBottomOf="@id/Register_Title"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="42dp"
             android:layout_marginLeft="24dp"
             android:layout_marginRight="24dp"/>
 
@@ -53,7 +61,7 @@
             app:layout_constraintTop_toBottomOf="@id/inputUsuario"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="28dp"
             android:layout_marginLeft="24dp"
             android:layout_marginRight="24dp"/>
 
@@ -67,7 +75,7 @@
             app:layout_constraintTop_toBottomOf="@id/inputEmail"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="28dp"
             android:layout_marginLeft="24dp"
             android:layout_marginRight="24dp"/>
 
@@ -81,7 +89,7 @@
             app:layout_constraintTop_toBottomOf="@id/inputCpf"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="28dp"
             android:layout_marginLeft="24dp"
             android:layout_marginRight="24dp"/>
 
@@ -95,7 +103,7 @@
             app:layout_constraintTop_toBottomOf="@id/inputSenha"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="28dp"
             android:layout_marginLeft="24dp"
             android:layout_marginRight="24dp"/>
 
@@ -104,7 +112,8 @@
             android:id="@+id/register_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:textDS="Cadastrar"
+            app:textDS="@string/register_button_title"
+            app:backgroundColorDS="@color/primary_color"
             app:layout_constraintTop_toBottomOf="@id/inputConfirmarSenha"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -112,6 +121,16 @@
             android:layout_marginTop="32dp"
             android:layout_marginLeft="24dp"
             android:layout_marginRight="24dp"/>
+
+        <ProgressBar
+            android:id="@+id/progressBar_loading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

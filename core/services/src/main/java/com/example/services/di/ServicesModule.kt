@@ -3,15 +3,22 @@ package com.example.services.di
 import android.Manifest
 import android.content.Context
 import androidx.annotation.RequiresPermission
+import androidx.room.Room
 import com.example.services.analytics.AnalyticsService
 import com.example.services.analytics.AnalyticsTags
 import com.example.services.authentication.AuthenticationService
 import com.example.services.authentication.AuthenticationServiceImpl
 import com.example.services.database.FirestoreService
 import com.example.services.database.FirestoreServiceImpl
+import com.example.services.database.AppDatabase
+import com.example.services.database.local.dao.ArticleDao
+import com.example.services.database.local.dao.NotificationDao
 import com.example.services.network.ApiService
 import com.example.services.network.NetworkService
 import com.example.services.network.NetworkServiceImpl
+import com.example.services.notification.repository.NotificationRepository
+import com.example.services.storage.PreferencesService
+import com.example.services.storage.PreferencesServiceImpl
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.analytics.FirebaseAnalytics
@@ -114,5 +121,51 @@ object ServicesModule {
         }
         remoteConfig.setConfigSettingsAsync(configSettings)
         return remoteConfig
+    }
+
+    @Provides
+    @Singleton
+    fun providePreferencesService(
+        @ApplicationContext context: Context
+    ): PreferencesService {
+        return PreferencesServiceImpl(context)
+    }
+
+    @Provides
+    @Singleton
+    fun provideAppDatabase(
+        @ApplicationContext context: Context
+    ): AppDatabase {
+        return Room.databaseBuilder(
+            context,
+            AppDatabase::class.java,
+            "app_database"
+        )
+            .fallbackToDestructiveMigration()
+            .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideNotificationDao(
+        database: AppDatabase
+    ): NotificationDao {
+        return database.notificationDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideArticleDao(
+        database: AppDatabase
+    ): ArticleDao {
+        return database.articleDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideNotificationRepository(
+        notificationDao: NotificationDao
+    ): NotificationRepository {
+        return NotificationRepository(notificationDao)
     }
 }

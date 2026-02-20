@@ -1,5 +1,7 @@
 <resources>
+    <string name="news">Noticias</string>
     <string name="button_logout">Desconectar</string>
+    <string name="hint_search">Procure a notícia</string>
     <string name="details_news_image_accessibility">Imagem da notícia</string>
     <string name="details_news_favorite_button_accessibility">Icone favoritar - Botão</string>
     <string name="details_news_share_button_accessibility">Icone Compartilhar - Botão</string>
@@ -7,4 +9,38 @@
     <string name="details_news_text_date">04/12/2022</string>
     <string name="details_news_text_author">Por João Silva</string>
     <string name="details_news_text_description">Investidores mostram otimismo com as novas políticas ...</string>
+    <string name="notifications_menu">Notificações</string>
+    <string name="favorites_menu">Favoritos</string>
+    <string name="logout_menu">Sair</string>
+    <string name="empty_favorites">Nenhum favorito ainda</string>
+    <string name="favorites_title">Favoritos</string>
+    <string name="error_load_favorites">Erro ao carregar favoritos</string>
+    <string name="retry">Tentar novamente</string>
+    <string name="desc_no_favorites">Nenhum favorito ainda </string>
+    <string name="desc_search_bar">Procure sua noticia. Campo de edição.</string>
+    <string name="desc_filter_button">Botão. Adicionar filtros.</string>
+    <string name="filters_ordering">Ordenação</string>
+    <string name="filters_ordering_published_at">Publicação</string>
+    <string name="filters_ordering_popularity">Popularidade</string>
+    <string name="filters_ordering_relevance">Relevância</string>
+    <string name="filters_period">Período</string>
+    <string name="filters_start_date_hint">digite a data inicial</string>
+    <string name="filters_end_date_hint">digite a data final</string>
+    <string name="filters_category">Categoria</string>
+    <string name="filters_category_general">Geral</string>
+    <string name="filters_category_business">Negócios</string>
+    <string name="filters_category_tech">Tecnologia</string>
+    <string name="filters_category_sports">Esportes</string>
+    <string name="filters_category_health">Saúde</string>
+    <string name="filters_category_science">Ciência</string>
+    <string name="filters_language">Idioma</string>
+    <string name="filters_language_pt">Português</string>
+    <string name="filters_language_en">Inglês</string>
+    <string name="filters_language_es">Espanhol</string>
+    <string name="filters_button_apply">Aplicar</string>
+    <string name="filters_button_clear">Limpar</string>
+    <string name="filters_ordering_title_description">Título da seção de ordenação</string>
+    <string name="filters_category_title_description">Título da seção de categorias</string>
+    <string name="filters_title">Filtros</string>
 </resources>
+

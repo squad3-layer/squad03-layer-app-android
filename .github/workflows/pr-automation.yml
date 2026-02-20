@@ -1,0 +1,73 @@
+name: PR Automation
+
+on:
+  pull_request:
+    types: [opened]
+    branches:
+      - dev
+
+jobs:
+  pr-automation:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      contents: read
+
+    steps:
+      - name: Auto-assign PR author
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const prAuthor = context.payload.pull_request.user.login;
+            
+            await github.rest.issues.addAssignees({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.pull_request.number,
+              assignees: [prAuthor]
+            });
+
+      - name: Request reviewers
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const prAuthor = context.payload.pull_request.user.login;
+            const allReviewers = ['mrenann', 'Edgar-AAS'];
+            const reviewers = allReviewers.filter(reviewer => reviewer !== prAuthor);
+            
+            if (reviewers.length > 0) {
+              await github.rest.pulls.requestReviewers({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: context.payload.pull_request.number,
+                reviewers: reviewers
+              });
+            }
+
+      - name: Add labels based on title
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const title = context.payload.pull_request.title.toLowerCase();
+            const labels = [];
+            
+            if (title.startsWith('feature:')) {
+              labels.push('feature');
+            } else if (title.startsWith('fix:')) {
+              labels.push('bug');
+            } else if (title.startsWith('refactor:')) {
+              labels.push('refactor');
+            } else if (title.startsWith('test:')) {
+              labels.push('tests');
+            } else if (title.startsWith('docs:')) {
+              labels.push('documentation');
+            } else {
+              labels.push('feature');
+            }
+            
+            await github.rest.issues.setLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.pull_request.number,
+              labels: labels
+            });

@@ -19,3 +19,16 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+# Keep notification entities
+-keep class com.example.feature.notifications.data.local.entity.** { *; }
+
+# Keep notification repository
+-keep class com.example.feature.notifications.data.repository.** { *; }
+-keep class com.example.feature.notifications.domain.repository.** { *; }
+
+# Keep use cases
+-keep class com.example.feature.notifications.domain.usecase.** { *; }
+
+# Keep ViewModels
+-keep class com.example.feature.notifications.presentation.viewModel.** { *; }

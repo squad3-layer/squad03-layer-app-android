@@ -42,6 +42,16 @@ class ResetPasswordActivity : AppCompatActivity() {
         }
         setupViews()
         observeViewModel()
+        setupToolbar()
+    }
+
+    private fun setupToolbar() {
+        binding.toolbar.apply {
+            setBackButton(show = true) {
+                viewModel.analyticsHelper.logEvent("button_click", mapOf("button_name" to "reset_password_back_button"))
+                finish()
+            }
+        }
     }
 
     private fun setupViews() {
@@ -89,15 +99,15 @@ class ResetPasswordActivity : AppCompatActivity() {
                 finish()
             }
         }
-        viewModel.errorMessage.observe(this) { msg ->
-            msg?.let {
-                if (it == "USER_NOT_FOUND") {
+        viewModel.errorMessage.observe(this) { resId ->
+            resId?.let {
+                if (it == R.string.error_user_not_found) {
                     showErrorDialog(
                         title = getString(R.string.reset_password_dialog_alert),
                         message = getString(R.string.reset_password_dialog_description)
                     )
                 } else {
-                    showErrorDialog(getString(R.string.login_dialog_alert), it)
+                    showErrorDialog(getString(R.string.login_dialog_alert), getString(it))
                 }
             }
         }
