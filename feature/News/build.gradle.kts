@@ -38,6 +38,18 @@ android {
     buildFeatures {
         viewBinding = true
     }
+    flavorDimensions += "brand"
+    productFlavors {
+
+        create("LayerNews") {
+            dimension = "brand"
+
+        }
+
+        create("LayerSports") {
+            dimension = "brand"
+        }
+    }
 }
 
 dependencies {
@@ -56,6 +68,7 @@ dependencies {
 
     // Design System
     implementation(libs.mylibrary)
+    api(libs.mydesignsystem)
 
     // Firebase
     implementation(platform(libs.firebase.bom))
