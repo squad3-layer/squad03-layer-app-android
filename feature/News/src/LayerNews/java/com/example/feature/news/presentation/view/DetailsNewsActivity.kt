@@ -3,7 +3,7 @@ package com.example.feature.news.presentation.view
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log // Adicione para debug
+import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -12,6 +12,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import coil.load
+import com.example.feature.analytics.AnalyticsHelper
 import com.example.feature.news.R
 import com.example.feature.news.databinding.ActivityDetailsNewsBinding
 import com.example.feature.news.domain.model.Article
@@ -27,6 +28,9 @@ class DetailsNewsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailsNewsBinding
     private val viewModel: DetailNewsViewModel by viewModels()
 
+    private lateinit var analyticsHelper: AnalyticsHelper
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -34,22 +38,40 @@ class DetailsNewsActivity : AppCompatActivity() {
         binding = ActivityDetailsNewsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        analyticsHelper = AnalyticsHelper(this)
+
         val article = intent.getParcelableExtra<Article>("ARTICLE_DATA")
+
+
 
         Log.d("DEBUG_DETAILS", "Artigo recebido: ${article?.title}")
 
 
         article?.let { data ->
+            analyticsHelper.logViewDetails(data.url ?: data.title)
             setupUI(data)
             setupToolbar()
             setupFavoriteListener(data)
 
             viewModel.checkIfIsFavorite(data.url)
             binding.icFavoriteButton?.setOnClickListener {
-                viewModel.toggleFavorite(data)
+                article?.let {
+                    val identifier =it.url ?: it.title
+                    if (viewModel.isFavorite.value == true) {
+                        analyticsHelper.logRemoveFavorite(identifier)
+                    } else {
+                        analyticsHelper.logAddToFavorites(identifier) }
+                    viewModel.toggleFavorite(it)
+                }
             }
 
+
             binding.icShareButton?.setOnClickListener {
+                article?.let {
+                    val identifier = it.url ?: it.title
+                    analyticsHelper.logShareNews(identifier)
+                }
+
                 shareNews(
                     title = data.title,
                     description = data.description ?: "",

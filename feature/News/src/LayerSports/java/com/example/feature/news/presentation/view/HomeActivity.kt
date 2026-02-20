@@ -127,6 +127,9 @@ class HomeActivity : AppCompatActivity() {
                                 val intent = Intent(this@HomeActivity,FavoriteActivity::class.java)
                                 startActivity(intent)
                             }
+                            "navigate:notifications" -> {
+                                handleNotificationsClick()
+                            }
                             "navigate:details" -> {
 
                                 val selectedArticle = (viewModel.uiState.value as? UiState.Success)?.screen?.components
@@ -154,6 +157,10 @@ class HomeActivity : AppCompatActivity() {
         finish()
     }
 
+    private fun handleNotificationsClick(): Boolean {
+        navigator.navigateToActivity(this, NavigationRoute.Notifications)
+        return true
+    }
     private fun setupWindowInsets() {
         ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())

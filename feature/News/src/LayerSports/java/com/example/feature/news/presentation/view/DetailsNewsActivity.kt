@@ -50,6 +50,13 @@ class DetailsNewsActivity : AppCompatActivity() {
 
         observeViewModel()
         observeDesignSystemEvents(article)
+
+        // Trata o botão back do sistema
+        onBackPressedDispatcher.addCallback(this, object : androidx.activity.OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                navigateBack()
+            }
+        })
     }
 
     private fun observeViewModel() {
@@ -69,12 +76,24 @@ class DetailsNewsActivity : AppCompatActivity() {
             designSystem.eventStream().events.collect { event ->
                 if (event is DsUiEvent.Action) {
                     when (event.action) {
-                        "navigate:back" -> finish()
+                        "navigate:back" -> navigateBack()
                         "news:share" -> article?.let { shareNews(it.title, it.description ?: "", it.url) }
                         "news:favorite" -> article?.let { viewModel.toggleFavorite(it) }
                     }
                 }
             }
+        }
+    }
+
+    private fun navigateBack() {
+        if (!isTaskRoot) {
+            finish()
+        } else {
+            val intent = Intent(this, HomeActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+            }
+            startActivity(intent)
+            finish()
         }
     }
     private fun shareNews(title: String, description: String, url: String) {

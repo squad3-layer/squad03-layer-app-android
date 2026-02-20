@@ -58,6 +58,12 @@ class FavoriteActivity : AppCompatActivity() {
         binding.containerMenu.setOnClickListener {
             binding.containerMenu.visibility = View.GONE
         }
+
+        onBackPressedDispatcher.addCallback(this, object : androidx.activity.OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                navigateBack()
+            }
+        })
     }
 
     private fun observeViewModel() {
@@ -117,7 +123,7 @@ class FavoriteActivity : AppCompatActivity() {
                         when (event.action) {
                             "menu:open" -> binding.containerMenu.visibility = View.VISIBLE
                             "auth:logout" -> performLogout()
-                            "navigate:back" -> finish()
+                            "navigate:back" -> navigateBack()
                             "navigation:filters" -> {
                                 val intent = Intent(this@FavoriteActivity,FiltersActivity::class.java)
                                 startActivity(intent)
@@ -151,6 +157,18 @@ class FavoriteActivity : AppCompatActivity() {
         auth.signOut()
         navigator.navigateToActivity(this, NavigationRoute.Login(false))
         finish()
+    }
+
+    private fun navigateBack() {
+        if (!isTaskRoot) {
+            finish()
+        } else {
+            val intent = Intent(this, HomeActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+            }
+            startActivity(intent)
+            finish()
+        }
     }
 
     private fun setupWindowInsets() {

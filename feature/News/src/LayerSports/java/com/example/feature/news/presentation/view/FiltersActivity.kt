@@ -1,6 +1,7 @@
 package com.example.feature.news.presentation.view
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -51,6 +52,12 @@ class FiltersActivity : AppCompatActivity() {
 
         observeViewModel()
         observeDesignSystemEvents()
+
+        onBackPressedDispatcher.addCallback(this, object : androidx.activity.OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                navigateBack()
+            }
+        })
     }
 
     private fun observeViewModel() {
@@ -107,9 +114,21 @@ class FiltersActivity : AppCompatActivity() {
 
             when (destination) {
                 "back" -> {
-                    finish()
+                    navigateBack()
                 }
             }
+        }
+    }
+
+    private fun navigateBack() {
+        if (!isTaskRoot) {
+            finish()
+        } else {
+            val intent = Intent(this, HomeActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+            }
+            startActivity(intent)
+            finish()
         }
     }
 }
