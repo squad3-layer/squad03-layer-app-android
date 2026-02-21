@@ -10,7 +10,7 @@
     <string name="login_toast_input_password">A senha deve ter mais de 6 caracteres</string>
 
     <string name="titulo">Login\nBem vindo!</string>
-    <string name="desc_tiulo">Login. Bem Vindo! </string>
+    <string name="desc_titulo">Login. Bem Vindo! </string>
     <string name="botao">Entrar</string>
     <string name="desc_botao">Entrar.  </string>
     <string name="esqueci">Esqueceu a senha?</string>
@@ -26,7 +26,9 @@
 
     <string name="reset_password_toast_input_email">O campo email deve ser válido</string>
     <string name="reset_password_subtitle">Digite seu endereço de email\npara recuperar sua senha.</string>
+    <string name="reset_password_subtitle_desc">Digite seu endereço de email\npara recuperar sua senha.</string>
     <string name="reset_password_title">Recuperar senha</string>
+    <string name="reset_password_title_desc">Recuperar senha</string>
     <string name="reset_password_hint_email">Digite seu e-mail</string>
     <string name="register_Title">Cadastro</string>
     <string name="register_Name">Digite seu nome de usuário</string>

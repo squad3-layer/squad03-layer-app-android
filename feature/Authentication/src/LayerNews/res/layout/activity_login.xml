@@ -13,15 +13,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/titulo"
-        android:contentDescription="@string/desc_tiulo"
+        android:contentDescription="@string/desc_titulo"
         app:dsTextStyle="header"
         android:textAlignment="center"
-        android:textSize="24sp"
-        app:dsFontWeight="bold"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="119dp"
+        android:layout_marginTop="@dimen/spacing_119"
         android:importantForAccessibility="yes"/>
 
 
@@ -29,10 +27,10 @@
     <com.example.mylibrary.ds.input.DsInput
         android:id="@+id/input_focus_email"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_marginTop="36dp"
-        android:layout_marginStart="28dp"
-        android:layout_marginEnd="20dp"
+        android:layout_height="@dimen/spacing_48"
+        android:layout_marginTop="@dimen/spacing_43"
+        android:layout_marginStart="@dimen/spacing_28"
+        android:layout_marginEnd="@dimen/spacing_20"
         android:hint="@string/login_hint_email"
         app:inputKeyboardType="email"
         android:importantForAccessibility="yes"
@@ -44,10 +42,10 @@
     <com.example.mylibrary.ds.input.DsInput
         android:id="@+id/input_focus_password"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="28dp"
-        android:layout_marginEnd="20dp"
+        android:layout_height="@dimen/spacing_48"
+        android:layout_marginTop="@dimen/spacing_16"
+        android:layout_marginStart="@dimen/spacing_28"
+        android:layout_marginEnd="@dimen/spacing_20"
         android:hint="@string/login_hint_password"
         android:importantForAccessibility="yes"
         app:inputKeyboardType="password"
@@ -64,9 +62,9 @@
         android:text="@string/login_text_button_forgout_password"
         android:contentDescription="@string/desc_esqueci"
         android:textColor="@color/blue"
-        android:textSize="14sp"
+        android:textSize="@dimen/size_14"
         app:dsTextStyle="description"
-        android:layout_marginTop="34dp"
+        android:layout_marginTop="@dimen/spacing_16"
         android:importantForAccessibility="yes"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -76,9 +74,9 @@
         android:id="@+id/button_click_login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="17dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp"
+        android:layout_marginTop="@dimen/spacing_16"
+        android:layout_marginStart="@dimen/spacing_24"
+        android:layout_marginEnd="@dimen/spacing_24"
         app:layout_constraintHorizontal_bias="0.0"
         app:textDS="@string/botao"
         app:dsTextStyle="subtitle"
@@ -97,7 +95,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="@dimen/spacing_17"
         android:contentDescription="@string/desc_novousuario2"
         android:importantForAccessibility="yes"
         app:layout_constraintTop_toBottomOf="@id/button_click_login">
@@ -109,7 +107,7 @@
         android:text="@string/novousuario"
         android:importantForAccessibility="no"
         app:dsTextStyle="description"
-        android:textSize="14sp"/>
+        android:textSize="@dimen/size_14"/>
 
     <com.example.mylibrary.ds.text.DsText
         android:id="@+id/text_click_register"
@@ -117,10 +115,10 @@
         android:layout_height="wrap_content"
         android:text="@string/novousuario2"
         android:importantForAccessibility="no"
-        android:layout_marginStart="6dp"
+        android:layout_marginStart="@dimen/spacing_6"
         android:textColor="@color/blue"
         app:dsTextStyle="description"
-        android:textSize="14sp"/>
+        android:textSize="@dimen/size_14"/>
     </LinearLayout>
 
     <ProgressBar

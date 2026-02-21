@@ -23,21 +23,17 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <!-- Título -->
         <com.example.mylibrary.ds.text.DsText
             android:id="@+id/Register_Title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/register_Title"
-            android:textSize="24sp"
-            android:layout_marginTop="128dp"
-            android:textStyle="bold"
+            android:layout_marginTop="@dimen/spacing_124"
             app:dsTextStyle="header"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/toolbar" />
 
-        <!-- Campo de usuário -->
         <com.example.mylibrary.ds.input.DsInput
             android:id="@+id/inputUsuario"
             android:layout_width="0dp"
@@ -47,11 +43,10 @@
             app:layout_constraintTop_toBottomOf="@id/Register_Title"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="42dp"
-            android:layout_marginLeft="24dp"
-            android:layout_marginRight="24dp"/>
+            android:layout_marginTop="@dimen/spacing_43"
+            android:layout_marginLeft="@dimen/spacing_24"
+            android:layout_marginRight="@dimen/spacing_24"/>
 
-        <!-- Campo de email -->
         <com.example.mylibrary.ds.input.DsInput
             android:id="@+id/inputEmail"
             android:layout_width="0dp"
@@ -61,11 +56,10 @@
             app:layout_constraintTop_toBottomOf="@id/inputUsuario"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="28dp"
-            android:layout_marginLeft="24dp"
-            android:layout_marginRight="24dp"/>
+            android:layout_marginTop="@dimen/spacing_28"
+            android:layout_marginLeft="@dimen/spacing_24"
+            android:layout_marginRight="@dimen/spacing_24"/>
 
-        <!-- Campo de CPF -->
         <com.example.mylibrary.ds.input.DsInput
             android:id="@+id/inputCpf"
             android:layout_width="0dp"
@@ -75,11 +69,10 @@
             app:layout_constraintTop_toBottomOf="@id/inputEmail"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="28dp"
-            android:layout_marginLeft="24dp"
-            android:layout_marginRight="24dp"/>
+            android:layout_marginTop="@dimen/spacing_28"
+            android:layout_marginLeft="@dimen/spacing_24"
+            android:layout_marginRight="@dimen/spacing_24"/>
 
-        <!-- Campo de senha -->
         <com.example.mylibrary.ds.input.DsInput
             android:id="@+id/inputSenha"
             android:layout_width="0dp"
@@ -89,11 +82,10 @@
             app:layout_constraintTop_toBottomOf="@id/inputCpf"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="28dp"
-            android:layout_marginLeft="24dp"
-            android:layout_marginRight="24dp"/>
+            android:layout_marginTop="@dimen/spacing_28"
+            android:layout_marginLeft="@dimen/spacing_24"
+            android:layout_marginRight="@dimen/spacing_24"/>
 
-        <!-- Campo de confirmar senha -->
         <com.example.mylibrary.ds.input.DsInput
             android:id="@+id/inputConfirmarSenha"
             android:layout_width="0dp"
@@ -103,11 +95,10 @@
             app:layout_constraintTop_toBottomOf="@id/inputSenha"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="28dp"
-            android:layout_marginLeft="24dp"
-            android:layout_marginRight="24dp"/>
+            android:layout_marginTop="@dimen/spacing_28"
+            android:layout_marginLeft="@dimen/spacing_24"
+            android:layout_marginRight="@dimen/spacing_24"/>
 
-        <!-- Botão de cadastro -->
         <com.example.mylibrary.ds.button.DsButton
             android:id="@+id/register_button"
             android:layout_width="0dp"
@@ -118,9 +109,9 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:background="@color/blue"
-            android:layout_marginTop="32dp"
-            android:layout_marginLeft="24dp"
-            android:layout_marginRight="24dp"/>
+            android:layout_marginTop="@dimen/spacing_30"
+            android:layout_marginLeft="@dimen/spacing_24"
+            android:layout_marginRight="@dimen/spacing_24"/>
 
         <ProgressBar
             android:id="@+id/progressBar_loading"

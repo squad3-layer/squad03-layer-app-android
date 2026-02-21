@@ -4,7 +4,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
+    android:background="@color/white"
     tools:context=".presentation.view.HomeActivity">
 
     <com.example.mylibrary.ds.toolbar.DsToolbar
@@ -21,19 +21,18 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center_vertical"
-        android:padding="12dp"
+        android:padding="@dimen/spacing_12"
 
         app:layout_constraintTop_toBottomOf="@id/toolbar">
 
         <com.example.mylibrary.ds.input.DsInput
             android:id="@+id/searchinput"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/spacing_0"
             android:layout_weight="1"
             android:hint="@string/hint_search"
-            android:contentDescription="@string/desc_search_bar"
             android:importantForAccessibility="yes"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"/>
+            android:layout_marginEnd="@dimen/spacing_16"/>
 
         <com.example.mylibrary.ds.icon.DsIcon
             android:id="@+id/icon_filter"
@@ -48,8 +47,8 @@
     <include
         android:id="@+id/shimmerLayout"
         layout="@layout/shimmer_loading_layout"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="@dimen/spacing_0"
+        android:layout_height="@dimen/spacing_0"
         android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@id/filter_layout"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -58,10 +57,10 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="@dimen/spacing_0"
+        android:layout_height="@dimen/spacing_0"
         android:clipToPadding="false"
-        android:padding="10dp"
+        android:padding="@dimen/spacing_10"
         app:layout_constraintTop_toBottomOf="@id/filter_layout"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"

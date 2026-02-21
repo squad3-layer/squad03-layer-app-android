@@ -58,17 +58,7 @@ class ResetPasswordViewModel @Inject constructor(
                 analyticsHelper.logEvent("reset_password_success")
             }.onFailure { e ->
                 _resetResult.value = false
-                val customMessage = when {
-                    e.message?.contains("There is no user record", ignoreCase = true) == true -> {
-                        "Digite um email válido."
-                    }
-                    e.message?.contains("network", ignoreCase = true) == true -> {
-                        "Sem conexão com a internet. Tente novamente mais tarde."
-                    }
-                    else -> "Ocorreu um erro ao tentar enviar o e-mail. Verifique o endereço digitado."
-                }
-
-                _errorMessage.value = customMessage
+                _errorMessage.value = getLocalizedErrorMessage(e)
                 analyticsHelper.logEvent("reset_password_error", mapOf("reason" to (e.message ?: "unknown")))
                 FirebaseCrashlytics.getInstance().recordException(e)
             }
@@ -115,6 +105,19 @@ class ResetPasswordViewModel @Inject constructor(
             } else {
                 _uiState.value = UiState.Error("Falha ao buscar dados do Firebase")
             }
+        }
+    }
+
+    private fun getLocalizedErrorMessage(exception: Throwable): Int {
+        val message = exception.message ?: return R.string.error_unknown
+        return when {
+            message.contains("badly formatted") -> R.string.error_email_badly_formatted
+            message.contains("no user record") -> R.string.error_no_user_record
+            message.contains("invalid password") -> R.string.error_invalid_password
+            message.contains("user disabled") -> R.string.error_user_disabled
+            message.contains("too many requests") -> R.string.error_too_many_requests
+            message.contains("network error") -> R.string.error_network_error
+            else -> R.string.error_send_email_fail
         }
     }
 

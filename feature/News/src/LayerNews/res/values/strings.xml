@@ -7,4 +7,6 @@
     <string name="details_news_text_date">04/12/2022</string>
     <string name="details_news_text_author">Por João Silva</string>
     <string name="details_news_text_description">Investidores mostram otimismo com as novas políticas ...</string>
+
+    <string name="details_share_news">Compartilhar Notícia</string>
 </resources>
