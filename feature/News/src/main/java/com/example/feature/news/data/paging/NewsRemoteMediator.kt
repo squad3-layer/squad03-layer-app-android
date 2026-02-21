@@ -6,7 +6,7 @@ import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import com.example.feature.news.data.local.entity.toEntity
-import com.example.feature.news.domain.usecase.GetTopHeadlinesUseCase
+import com.example.feature.news.domain.usecase.GetEverythingUseCase
 import com.example.services.database.local.dao.ArticleDao
 import com.example.services.database.local.entity.ArticleEntity
 import kotlinx.coroutines.Dispatchers
@@ -14,9 +14,8 @@ import kotlinx.coroutines.withContext
 
 @OptIn(ExperimentalPagingApi::class)
 class NewsRemoteMediator(
-    private val getTopHeadlinesUseCase: GetTopHeadlinesUseCase,
+    private val getEverythingUseCase: GetEverythingUseCase,
     private val articleDao: ArticleDao,
-    private val country: String,
     private val category: String?,
     private val query: String?
 ) : RemoteMediator<Int, ArticleEntity>() {
@@ -51,7 +50,7 @@ class NewsRemoteMediator(
             Log.d(TAG, "📡 Chamando API - Página: $page, Category: $category, Query: $query")
 
             val result = withContext(Dispatchers.IO) {
-                getTopHeadlinesUseCase(country, page, category, query)
+                getEverythingUseCase(page, category, query, "pt")
             }
 
             result.fold(
@@ -90,4 +89,3 @@ class NewsRemoteMediator(
         private const val TAG = "NewsRemoteMediator"
     }
 }
-

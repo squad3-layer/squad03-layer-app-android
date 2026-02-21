@@ -3,11 +3,10 @@ package com.example.feature.news.data.paging
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.feature.news.domain.model.Article
-import com.example.feature.news.domain.usecase.GetTopHeadlinesUseCase
+import com.example.feature.news.domain.usecase.GetEverythingUseCase
 
 class NewsPagingSource(
-    private val getTopHeadlinesUseCase: GetTopHeadlinesUseCase,
-    private val country: String,
+    private val getEverythingUseCase: GetEverythingUseCase,
     private val category: String? = null,
     private val shouldReverseOrder: Boolean = false,
     private val query: String? = null
@@ -16,7 +15,7 @@ class NewsPagingSource(
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Article> {
         return try {
             val page = params.key ?: 1
-            val result = getTopHeadlinesUseCase(country, page, category, query)
+            val result = getEverythingUseCase(page, category, query, "pt")
 
             result.fold(
                 onSuccess = { newsResponse ->
@@ -48,4 +47,3 @@ class NewsPagingSource(
         }
     }
 }
-

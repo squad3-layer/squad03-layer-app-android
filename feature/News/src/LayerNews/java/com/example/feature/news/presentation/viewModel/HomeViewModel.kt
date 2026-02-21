@@ -15,7 +15,7 @@ import com.example.feature.news.data.paging.NewsRemoteMediator
 import com.example.feature.news.domain.model.Article
 import com.example.feature.news.domain.model.NewsFilters
 import com.example.feature.news.domain.repository.NewsRepository
-import com.example.feature.news.domain.usecase.GetTopHeadlinesUseCase
+import com.example.feature.news.domain.usecase.GetEverythingUseCase
 import com.example.services.analytics.AnalyticsTags
 import com.example.services.database.local.dao.ArticleDao
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -30,7 +30,7 @@ import javax.inject.Inject
 @OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class, ExperimentalPagingApi::class, kotlinx.coroutines.FlowPreview::class)
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val getTopHeadlinesUseCase: GetTopHeadlinesUseCase,
+    private val getEverythingUseCase: GetEverythingUseCase,
     private val newsRepository: NewsRepository,
     private val articleDao: ArticleDao,
     val analyticsHelper: AnalyticsTags
@@ -45,15 +45,11 @@ class HomeViewModel @Inject constructor(
 
     val articles: Flow<PagingData<Article>> = combine(
         _filters,
-        _country,
-        _searchQuery.debounce(1000L) 
-    ) { filters, country, query ->
-        Triple(filters, country, query)
-    }.flatMapLatest { (filters, country, query) ->
+        _searchQuery.debounce(1000L)
+    ) { filters, query ->
+        Pair(filters, query)
+    }.flatMapLatest { (filters, query) ->
         val actualQuery = query.ifBlank { null }
-
-        Log.d(TAG, "📋 Configurando Pager - Category: ${filters.category}, Query: $actualQuery, Reverse: ${filters.shouldReverseOrder}")
-
         Pager(
             config = PagingConfig(
                 pageSize = 20,
@@ -62,14 +58,12 @@ class HomeViewModel @Inject constructor(
                 initialLoadSize = 20
             ),
             remoteMediator = NewsRemoteMediator(
-                getTopHeadlinesUseCase = getTopHeadlinesUseCase,
+                getEverythingUseCase = getEverythingUseCase,
                 articleDao = articleDao,
-                country = country,
                 category = filters.category,
                 query = actualQuery
             ),
             pagingSourceFactory = {
-                Log.d(TAG, "🗄️ PagingSource: Buscando do CACHE local")
                 newsRepository.getCachedArticles(
                     category = filters.category,
                     query = actualQuery,
