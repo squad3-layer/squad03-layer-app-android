@@ -16,44 +16,42 @@ class NewsRepositoryImpl @Inject constructor(
 
     private val apiKey = "60b253dd44c046dc83105fa3f130b064"
 
-    override suspend fun getTopHeadlines(
-        country: String,
+    override suspend fun getEverything(
         page: Int,
         category: String?,
-        query: String?
+        query: String?,
+        language: String
     ): Result<NewsResponse> {
+        val qValue = when {
+            !query.isNullOrBlank() && !category.isNullOrBlank() -> "$category $query".trim()
+            !query.isNullOrBlank() -> query.trim()
+            !category.isNullOrBlank() -> category.trim()
+            else -> "notícias"
+        }
         val params = mutableMapOf(
-            "country" to country,
+            "q" to qValue,
+            "language" to language,
             "page" to page.toString(),
             "apiKey" to apiKey
         )
-
-        category?.let {
-            params["category"] = it
-        }
-
-        query?.let {
-            if (it.isNotBlank()) {
-                params["q"] = it
-            }
-        }
-
         return networkService.get(
-            endpoint = "v2/top-headlines",
+            endpoint = "v2/everything",
             clazz = NewsResponse::class.java,
             params = params
         )
     }
 
-    override fun observeTopHeadlines(country: String): Flow<Result<NewsResponse>> {
+    override fun observeEverything(language: String): Flow<Result<NewsResponse>> {
+        val params = mapOf(
+            "q" to "notícias",
+            "language" to language,
+            "page" to "1",
+            "apiKey" to apiKey
+        )
         return networkService.observeGet(
-            endpoint = "v2/top-headlines",
+            endpoint = "v2/everything",
             clazz = NewsResponse::class.java,
-            params = mapOf(
-                "country" to country,
-                "page" to "1",
-                "apiKey" to apiKey
-            )
+            params = params
         )
     }
 
