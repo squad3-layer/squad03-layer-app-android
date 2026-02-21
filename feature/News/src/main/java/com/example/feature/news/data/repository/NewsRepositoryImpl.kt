@@ -23,10 +23,11 @@ class NewsRepositoryImpl @Inject constructor(
         language: String
     ): Result<NewsResponse> {
         val qValue = when {
-            !query.isNullOrBlank() && !category.isNullOrBlank() -> "$category $query".trim()
+            !query.isNullOrBlank() && !category.isNullOrBlank() -> "${category} ${query}".trim()
             !query.isNullOrBlank() -> query.trim()
-            !category.isNullOrBlank() -> category.trim()
-            else -> "notícias"
+            category.isNullOrBlank() && query.isNullOrBlank() -> "general"
+            !category.isNullOrBlank() && query.isNullOrBlank() -> category.trim()
+            else -> "general"
         }
         val params = mutableMapOf(
             "q" to qValue,
@@ -43,7 +44,7 @@ class NewsRepositoryImpl @Inject constructor(
 
     override fun observeEverything(language: String): Flow<Result<NewsResponse>> {
         val params = mapOf(
-            "q" to "notícias",
+            "q" to "general",
             "language" to language,
             "page" to "1",
             "apiKey" to apiKey
