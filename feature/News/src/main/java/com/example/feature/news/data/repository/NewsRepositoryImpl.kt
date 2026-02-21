@@ -14,7 +14,7 @@ class NewsRepositoryImpl @Inject constructor(
     private val articleDao: ArticleDao
 ) : NewsRepository {
 
-    private val apiKey = "60b253dd44c046dc83105fa3f130b064"
+    private val apiKey = "d62add1a990448d0a0ecd45320bdfc82"
 
     override suspend fun getTopHeadlines(
         country: String,

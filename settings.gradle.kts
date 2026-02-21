@@ -19,6 +19,21 @@ dependencyResolutionManagement {
         mavenCentral()
         gradlePluginPortal()
         maven { url = uri("https://jitpack.io") }
+        maven {
+            val properties = java.util.Properties()
+            val propertiesFile = rootProject.projectDir.resolve("local.properties")
+            if (propertiesFile.exists()) {
+                properties.load(propertiesFile.inputStream())
+            }
+            val myToken = properties.getProperty("github.token") ?: ""
+
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/squad3-layer/ds-squad03-layer")
+            credentials {
+                username = "domleondev"
+                password = myToken
+            }
+        }
     }
 }
 
