@@ -21,7 +21,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.io.File
 import java.io.FileOutputStream
-import com.example.feature.news.domain.model.News
 
 @AndroidEntryPoint
 class DetailsNewsActivity : AppCompatActivity() {

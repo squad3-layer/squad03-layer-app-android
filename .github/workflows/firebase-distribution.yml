@@ -8,7 +8,8 @@ on:
     branches: [ main ]
 
 jobs:
-  deploy-manual-release:
+  deploy:
+    if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.pull_request.merged == true)
     runs-on: ubuntu-latest
 
     steps:
@@ -25,6 +26,10 @@ jobs:
       - name: Decode Keystore
         run: |
           echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > release-keystore.jks
+
+      - name: Create local.properties with GitHub token
+        run: |
+          echo "github.token=${{ secrets.TOKEN_DS }}" > local.properties
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
@@ -94,7 +99,7 @@ jobs:
         with:
           appId: ${{ secrets.FIREBASE_APP_ID_SPORTS }}
           serviceCredentialsFileContent: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_JSON }}
-          groups: testers
+          groups: Managers,QA
           file: Main/build/outputs/apk/LayerSports/release/Main-LayerSports-release.apk
           releaseNotes: |
             Changes in this LayerSports release:
