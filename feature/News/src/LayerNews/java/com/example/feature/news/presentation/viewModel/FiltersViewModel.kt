@@ -53,6 +53,12 @@ class FiltersViewModel @Inject constructor(
     init {
         _selectedOrdering.value = filterPreferences.getSelectedOrdering()
         _selectedCategory.value = filterPreferences.getSelectedCategory()
+
+        val categoryValue = filterPreferences.getSelectedCategoryValue()
+        if (categoryValue != null) {
+            val index = categories.indexOfFirst { categoryMapping[it] == categoryValue }
+            if (index >= 0) _selectedCategory.value = index
+        }
     }
 
     fun getOrderingOptions(): List<String> = orderingOptions
@@ -67,6 +73,10 @@ class FiltersViewModel @Inject constructor(
     fun onCategorySelected(position: Int) {
         _selectedCategory.value = position
         filterPreferences.saveSelectedCategory(position)
+
+        val categoryName = categories[position]
+        val categoryValue = categoryMapping[categoryName]
+        filterPreferences.saveSelectedCategoryValue(categoryValue)
     }
 
     fun applyFilters() {
@@ -75,16 +85,18 @@ class FiltersViewModel @Inject constructor(
 
         filterPreferences.saveSelectedOrdering(orderingIndex)
         filterPreferences.saveSelectedCategory(categoryIndex)
+        
+        val categoryName = categories[categoryIndex]
+        val categoryValue = categoryMapping[categoryName]
+        filterPreferences.saveSelectedCategoryValue(categoryValue)
 
         var count = 0
         if (categoryIndex != 0) count++
         if (orderingIndex != 0) count++
         filterPreferences.saveActiveFiltersCount(count)
 
-        val categoryName = categories[categoryIndex]
-
         val filters = NewsFilters(
-            category = categoryMapping[categoryName],
+            category = categoryValue,
             shouldReverseOrder = orderingIndex == 1
         )
 
