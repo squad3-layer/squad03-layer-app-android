@@ -60,11 +60,12 @@ android {
 
         create("LayerNews") {
             dimension = "brand"
-
+            buildConfigField("String", "APP_FLAVOR", "\"${name}\"")
         }
 
         create("LayerSports") {
             dimension = "brand"
+            buildConfigField("String", "APP_FLAVOR", "\"${name}\"")
         }
     }
 }
