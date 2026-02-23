@@ -1,0 +1,154 @@
+{
+  "screen": "register",
+  "components": [
+    {
+      "id": "header_navigation",
+      "component": "Header",
+      "props": {
+        "action": "navigate:back",
+        "showBack": true
+      }
+    },
+    {
+      "id": "register_welcome",
+      "component": "Text",
+      "props": {
+        "title": "Cadastro",
+        "textStyle": "header",
+        "size": 24,
+        "typeface": "poppins_bold",
+        "textColor": "#000000",
+        "gravity": "center",
+        "align": "center",
+        "margin_top": 124
+      }
+    },
+    {
+      "id": "name_input",
+      "component": "Input",
+      "props": {
+        "hint": "Digite seu nome de usuário",
+        "margin_top": 43,
+        "margin_bottom": 0,
+        "validateOnChange": true,
+        "rules": [
+          {
+            "component": "required",
+            "message": "O campo de nome do usuário é obrigatório."
+          },
+          {
+            "component": "regex",
+            "params": {
+              "pattern": "^[a-zA-ZÀ-ÿ]+(\\s+[a-zA-ZÀ-ÿ]+)+$"
+            },
+            "message": "Digite seu nome completo."
+          }
+        ]
+      }
+    },
+    {
+      "id": "email_input",
+      "component": "Input",
+      "props": {
+        "hint": "Digite seu e-mail",
+        "keyboardType": "email",
+        "margin_top": 28,
+        "margin_bottom": 0,
+        "validateOnChange": true,
+        "rules": [
+          {
+            "component": "required",
+            "message": "O campo de email do usuário é obrigatório."
+          },
+          {
+            "component": "email",
+            "message": "Digite um email válido."
+          }
+        ]
+      }
+    },
+    {
+      "id": "cpf_input",
+      "component": "Input",
+      "props": {
+        "hint": "Digite seu Cpf",
+        "keyboardType": "cpf",
+        "margin_top": 28,
+        "margin_bottom": 0,
+        "validateOnChange": true,
+        "rules": [
+          {
+            "component": "required",
+            "message": "O campo de CPF é obrigatório."
+          },
+          {
+            "component": "cpf",
+            "message": "Digite um CPF válido."
+          }
+        ]
+      }
+    },
+    {
+      "id": "password_input",
+      "component": "Input",
+      "props": {
+        "hint": "Digite sua senha",
+        "keyboardType": "password",
+        "margin_top": 28,
+        "validateOnChange": true,
+        "rules": [
+          {
+            "component": "required",
+            "message": "O campo de senha é obrigatório."
+          },
+          {
+            "component": "minlength",
+            "params": {
+              "min": 6
+            },
+            "message": "A senha deve ter no mínimo 6 caracteres"
+          }
+        ]
+      }
+    },
+    {
+      "id": "confirm_password_input",
+      "component": "Input",
+      "props": {
+        "hint": "Confirme sua senha",
+        "keyboardType": "password",
+        "margin_top": 28,
+        "validateOnChange": true,
+        "rules": [
+          {
+            "component": "required",
+            "message": "O campo de confirmar senha é obrigatório."
+          },
+          {
+            "component": "match",
+            "params": {
+              "targetId": "password_input"
+            },
+            "message": "O campo de senha e confirmar senha devem ser iguais."
+          }
+        ]
+      }
+    },
+    {
+      "id": "button_click_login",
+      "component": "Button",
+      "props": {
+        "title": "Entrar",
+        "size": 14,
+        "typeface": "poppins_medium",
+        "backgroundColor": "#0E64D2",
+        "textColor": "#FFFFFF",
+        "border_radius": 5,
+        "submit": true,
+        "analyticsEvent": "login_submit_click",
+        "action": "submit:login-flow",
+        "margin_top": 30
+      }
+    }
+  ]
+}

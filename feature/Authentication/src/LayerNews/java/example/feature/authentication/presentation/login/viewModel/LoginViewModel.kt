@@ -1,5 +1,6 @@
 package com.example.feature.authentication.presentation.login.viewModel
 
+import android.content.Context
 import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -104,27 +105,37 @@ class LoginViewModel @Inject constructor(
         _isButtonEnabled.value = isEmailValid && isPasswordFieldValid
     }
 
-    fun fetchRemoteLoginScreen() {
+    fun fetchRemoteLoginScreen(context: Context) {
         _uiState.value = UiState.Loading
 
         remoteConfig.fetchAndActivate().addOnCompleteListener { task ->
             if (task.isSuccessful) {
-
                 val jsonString = remoteConfig.getString("login_screen")
-
                 if (jsonString.isNotEmpty()) {
                     try {
                         val screenDefinition = renderScreenUseCase(jsonString)
                         _uiState.value = UiState.Success(screenDefinition!!)
                     } catch (e: Exception) {
-                        _uiState.value = UiState.Error("Erro ao processar JSON do Firebase")
+                        // Fallback to local asset
+                        val fallbackJson = getLocalLoginScreenJson(context)
+                        val fallbackScreen = renderScreenUseCase(fallbackJson)
+                        _uiState.value = UiState.Success(fallbackScreen!!)
                     }
                 } else {
-                    _uiState.value = UiState.Error("JSON vazio no Remote Config")
+                    // Fallback to local asset
+                    val fallbackJson = getLocalLoginScreenJson(context)
+                    val fallbackScreen = renderScreenUseCase(fallbackJson)
+                    _uiState.value = UiState.Success(fallbackScreen!!)
                 }
             } else {
-                _uiState.value = UiState.Error("Falha ao buscar dados do Firebase")
+                val fallbackJson = getLocalLoginScreenJson(context)
+                val fallbackScreen = renderScreenUseCase(fallbackJson)
+                _uiState.value = UiState.Success(fallbackScreen!!)
             }
         }
+    }
+
+    fun getLocalLoginScreenJson(context: Context): String {
+        return context.assets.open("login_screen.json").bufferedReader().use { it.readText() }
     }
 }

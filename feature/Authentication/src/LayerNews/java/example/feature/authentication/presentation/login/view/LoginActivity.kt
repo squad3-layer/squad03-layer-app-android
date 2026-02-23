@@ -48,7 +48,7 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        viewModel.fetchRemoteLoginScreen()
+        viewModel.fetchRemoteLoginScreen(this)
         viewModel.analyticsHelper.logScreenView("screen_view_login")
 
 
@@ -64,7 +64,7 @@ class LoginActivity : AppCompatActivity() {
     }
     override fun onResume() {
         super.onResume()
-        viewModel.fetchRemoteLoginScreen()
+        viewModel.fetchRemoteLoginScreen(context = this)
     }
         private fun observeDesignSystemEvents() {
         lifecycleScope.launch {
