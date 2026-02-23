@@ -98,25 +98,25 @@ class ResetPasswordViewModel @Inject constructor(
                         val screenDefinition = renderScreenUseCase(jsonString)
                         _uiState.value = UiState.Success(screenDefinition!!)
                     } catch (e: Exception) {
-                        val fallbackJson = getLocalResetPasswordScreenJson(context)
-                        val fallbackScreen = renderScreenUseCase(fallbackJson)
-                        _uiState.value = UiState.Success(fallbackScreen!!)
+                        setFallbackScreenFromAsset(context, "reset_password_screen.json")
                     }
                 } else {
-                    val fallbackJson = getLocalResetPasswordScreenJson(context)
-                    val fallbackScreen = renderScreenUseCase(fallbackJson)
-                    _uiState.value = UiState.Success(fallbackScreen!!)
+                    setFallbackScreenFromAsset(context, "reset_password_screen.json")
                 }
             } else {
-                val fallbackJson = getLocalResetPasswordScreenJson(context)
-                val fallbackScreen = renderScreenUseCase(fallbackJson)
-                _uiState.value = UiState.Success(fallbackScreen!!)
+                setFallbackScreenFromAsset(context, "reset_password_screen.json")
             }
         }
     }
 
-    fun getLocalResetPasswordScreenJson(context: Context): String {
-        return context.assets.open("reset_password_screen.json").bufferedReader().use { it.readText() }
+    private fun setFallbackScreenFromAsset(context: Context, assetFileName: String) {
+        val fallbackJson = getLocalScreenJson(context, assetFileName)
+        val fallbackScreen = renderScreenUseCase(fallbackJson)
+        _uiState.value = UiState.Success(fallbackScreen!!)
+    }
+
+    private fun getLocalScreenJson(context: Context, assetFileName: String): String {
+        return context.assets.open(assetFileName).bufferedReader().use { it.readText() }
     }
 
     private fun getLocalizedErrorMessage(exception: Throwable): Int {

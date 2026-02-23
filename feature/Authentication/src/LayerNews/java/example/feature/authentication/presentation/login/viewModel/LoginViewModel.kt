@@ -116,26 +116,24 @@ class LoginViewModel @Inject constructor(
                         val screenDefinition = renderScreenUseCase(jsonString)
                         _uiState.value = UiState.Success(screenDefinition!!)
                     } catch (e: Exception) {
-                        // Fallback to local asset
-                        val fallbackJson = getLocalLoginScreenJson(context)
-                        val fallbackScreen = renderScreenUseCase(fallbackJson)
-                        _uiState.value = UiState.Success(fallbackScreen!!)
+                        setFallbackScreenFromAsset(context)
                     }
                 } else {
-                    // Fallback to local asset
-                    val fallbackJson = getLocalLoginScreenJson(context)
-                    val fallbackScreen = renderScreenUseCase(fallbackJson)
-                    _uiState.value = UiState.Success(fallbackScreen!!)
+                    setFallbackScreenFromAsset(context)
                 }
             } else {
-                val fallbackJson = getLocalLoginScreenJson(context)
-                val fallbackScreen = renderScreenUseCase(fallbackJson)
-                _uiState.value = UiState.Success(fallbackScreen!!)
+                setFallbackScreenFromAsset(context)
             }
         }
     }
 
     fun getLocalLoginScreenJson(context: Context): String {
         return context.assets.open("login_screen.json").bufferedReader().use { it.readText() }
+    }
+
+    private fun setFallbackScreenFromAsset(context: Context) {
+        val fallbackJson = getLocalLoginScreenJson(context)
+        val fallbackScreen = renderScreenUseCase(fallbackJson)
+        _uiState.value = UiState.Success(fallbackScreen!!)
     }
 }

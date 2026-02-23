@@ -73,21 +73,21 @@ class RegisterViewModel @Inject constructor(
                         val screenDefinition = renderScreenUseCase(jsonString)
                         _uiState.value = UiState.Success(screenDefinition!!)
                     } catch (e: Exception) {
-                        val fallbackJson = getLocalRegisterScreenJson(context)
-                        val fallbackScreen = renderScreenUseCase(fallbackJson)
-                        _uiState.value = UiState.Success(fallbackScreen!!)
+                        setFallbackScreenFromAsset(context)
                     }
                 } else {
-                    val fallbackJson = getLocalRegisterScreenJson(context)
-                    val fallbackScreen = renderScreenUseCase(fallbackJson)
-                    _uiState.value = UiState.Success(fallbackScreen!!)
+                    setFallbackScreenFromAsset(context)
                 }
             } else {
-                val fallbackJson = getLocalRegisterScreenJson(context)
-                val fallbackScreen = renderScreenUseCase(fallbackJson)
-                _uiState.value = UiState.Success(fallbackScreen!!)
+                setFallbackScreenFromAsset(context)
             }
         }
+    }
+
+    private fun setFallbackScreenFromAsset(context: Context) {
+        val fallbackJson = getLocalRegisterScreenJson(context)
+        val fallbackScreen = renderScreenUseCase(fallbackJson)
+        _uiState.value = UiState.Success(fallbackScreen!!)
     }
 
     fun getLocalRegisterScreenJson(context: Context): String {
