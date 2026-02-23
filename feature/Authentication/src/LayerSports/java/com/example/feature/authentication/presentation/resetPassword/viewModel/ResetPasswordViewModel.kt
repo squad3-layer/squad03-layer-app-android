@@ -32,8 +32,8 @@ class ResetPasswordViewModel @Inject constructor(
     private val _resetResult = MutableLiveData<Boolean>()
     val resetResult: LiveData<Boolean> = _resetResult
 
-    private val _errorMessage = MutableLiveData<String>()
-    val errorMessage: LiveData<String> = _errorMessage
+    private val _errorMessage = MutableLiveData<Int>()
+    val errorMessage: LiveData<Int> = _errorMessage
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
@@ -90,7 +90,7 @@ class ResetPasswordViewModel @Inject constructor(
         remoteConfig.fetchAndActivate().addOnCompleteListener { task ->
             if (task.isSuccessful) {
 
-                val jsonString = remoteConfig.getString("reset_password")
+                val jsonString = remoteConfig.getString("reset_password_sports")
 
                 if (jsonString.isNotEmpty()) {
                     try {

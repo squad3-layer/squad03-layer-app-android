@@ -5,21 +5,27 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.domleondev.designsystem.domain.usecase.RenderScreenUseCase
+import com.domleondev.designsystem.presentation.state.UiState
 import com.example.feature.authentication.R
 import com.example.services.analytics.AnalyticsTags
 import com.example.services.authentication.AuthenticationService
 import com.google.firebase.crashlytics.FirebaseCrashlytics
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-
 @HiltViewModel
 class ResetPasswordViewModel @Inject constructor(
     private val authService: AuthenticationService,
-    val analyticsHelper: AnalyticsTags
+    val analyticsHelper: AnalyticsTags,
+    private val renderScreenUseCase: RenderScreenUseCase,
+    private val remoteConfig: FirebaseRemoteConfig
 ) : ViewModel() {
 
+    private val _uiState = MutableLiveData<UiState>()
+    val uiState: LiveData<UiState> = _uiState
     private val _resetState = MutableLiveData<Result<Unit>>()
     val resetState: LiveData<Result<Unit>> = _resetState
 
@@ -78,9 +84,28 @@ class ResetPasswordViewModel @Inject constructor(
             }
         }
     }
+    fun fetchRemoteResetPasswordScreen() {
+        _uiState.value = UiState.Loading
 
-    fun onInputChanged(email: String) {
-        _isButtonEnabled.value = validateEmail(email)
+        remoteConfig.fetchAndActivate().addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+
+                val jsonString = remoteConfig.getString("reset_password")
+
+                if (jsonString.isNotEmpty()) {
+                    try {
+                        val screenDefinition = renderScreenUseCase(jsonString)
+                        _uiState.value = UiState.Success(screenDefinition!!)
+                    } catch (e: Exception) {
+                        _uiState.value = UiState.Error("Erro ao processar JSON do Firebase")
+                    }
+                } else {
+                    _uiState.value = UiState.Error("JSON vazio no Remote Config")
+                }
+            } else {
+                _uiState.value = UiState.Error("Falha ao buscar dados do Firebase")
+            }
+        }
     }
 
     private fun getLocalizedErrorMessage(exception: Throwable): Int {
@@ -94,5 +119,9 @@ class ResetPasswordViewModel @Inject constructor(
             message.contains("network error") -> R.string.error_network_error
             else -> R.string.error_send_email_fail
         }
+    }
+
+    fun onInputChanged(email: String) {
+        _isButtonEnabled.value = validateEmail(email)
     }
 }

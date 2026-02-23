@@ -1,6 +1,0 @@
-<com.example.mylibrary.ds.card.news.DsNewsCard
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/new_card"
-    android:layout_height="wrap_content"
-    android:layout_width="match_parent"
-     />

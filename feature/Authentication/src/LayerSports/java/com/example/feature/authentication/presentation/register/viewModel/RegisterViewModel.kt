@@ -65,7 +65,7 @@ class RegisterViewModel @Inject constructor(
         remoteConfig.fetchAndActivate().addOnCompleteListener { task ->
             if (task.isSuccessful) {
 
-                val jsonString = remoteConfig.getString("register_screen")
+                val jsonString = remoteConfig.getString("register_screen_sports")
 
                 if (jsonString.isNotEmpty()) {
                     try {
