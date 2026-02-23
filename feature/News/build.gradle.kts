@@ -22,8 +22,11 @@ android {
 
         val localProperties = Properties()
         val localPropertiesFile = project.rootProject.file("local.properties")
+
         if (localPropertiesFile.exists()) {
-            localProperties.load(FileInputStream(localPropertiesFile))
+            localPropertiesFile.inputStream().use { stream ->
+                localProperties.load(stream)
+            }
         }
 
         val newsApiKey: String? = localProperties.getProperty("newsApiKey") ?: project.findProperty("newsApiKey") as String?
