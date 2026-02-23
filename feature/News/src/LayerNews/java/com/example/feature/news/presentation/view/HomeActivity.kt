@@ -97,7 +97,19 @@ class HomeActivity : AppCompatActivity() {
         setupRecyclerView()
         observeViewModel()
         bindSearchInput()
+        applyPreviousFilters()
         updateFilterBadge()
+    }
+
+    private fun applyPreviousFilters() {
+        val savedCategory = filterPreferences.getSelectedCategoryValue()
+        val savedOrdering = filterPreferences.getSelectedOrdering()
+        val filters = NewsFilters(
+            category = savedCategory,
+            shouldReverseOrder = savedOrdering == 1
+        )
+
+        viewModel.applyFilters(filters)
     }
 
     private fun bindSearchInput() {
@@ -111,7 +123,7 @@ class HomeActivity : AppCompatActivity() {
         binding.iconFilter.setBadgeCount(count)
     }
 
-       private fun setupToolbar() {
+    private fun setupToolbar() {
         binding.toolbar.apply {
             setToolbarTitle(context.getString(R.string.news), DsText.TextStyle.HEADER)
             setHamburgerMenu { showHamburgerMenu() }
@@ -247,4 +259,3 @@ class HomeActivity : AppCompatActivity() {
         analyticsHelper.logViewHome()
     }
 }
-
