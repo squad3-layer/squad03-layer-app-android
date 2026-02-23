@@ -10,7 +10,7 @@
     <string name="login_toast_input_password">A senha deve ter mais de 6 caracteres</string>
 
     <string name="titulo">Login\nBem vindo!</string>
-    <string name="desc_titulo">Login. Bem Vindo! </string>
+    <string name="desc_title">Login. Bem Vindo! </string>
     <string name="botao">Entrar</string>
     <string name="desc_botao">Entrar.  </string>
     <string name="esqueci">Esqueceu a senha?</string>
