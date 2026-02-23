@@ -51,7 +51,7 @@ class ResetPasswordActivity : AppCompatActivity() {
         binding = ActivityResetPasswordBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        viewModel.fetchRemoteResetPasswordScreen()
+        viewModel.fetchRemoteResetPasswordScreen(this)
         observeViewModel()
         observeDesignSystemEvents()
     }

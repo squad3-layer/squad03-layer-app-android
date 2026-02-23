@@ -1,5 +1,6 @@
 package com.example.feature.authentication.presentation.resetPassword.viewModel
 
+import android.content.Context
 import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -84,7 +85,7 @@ class ResetPasswordViewModel @Inject constructor(
             }
         }
     }
-    fun fetchRemoteResetPasswordScreen() {
+    fun fetchRemoteResetPasswordScreen(context: Context) {
         _uiState.value = UiState.Loading
 
         remoteConfig.fetchAndActivate().addOnCompleteListener { task ->
@@ -97,15 +98,25 @@ class ResetPasswordViewModel @Inject constructor(
                         val screenDefinition = renderScreenUseCase(jsonString)
                         _uiState.value = UiState.Success(screenDefinition!!)
                     } catch (e: Exception) {
-                        _uiState.value = UiState.Error("Erro ao processar JSON do Firebase")
+                        val fallbackJson = getLocalResetPasswordScreenJson(context)
+                        val fallbackScreen = renderScreenUseCase(fallbackJson)
+                        _uiState.value = UiState.Success(fallbackScreen!!)
                     }
                 } else {
-                    _uiState.value = UiState.Error("JSON vazio no Remote Config")
+                    val fallbackJson = getLocalResetPasswordScreenJson(context)
+                    val fallbackScreen = renderScreenUseCase(fallbackJson)
+                    _uiState.value = UiState.Success(fallbackScreen!!)
                 }
             } else {
-                _uiState.value = UiState.Error("Falha ao buscar dados do Firebase")
+                val fallbackJson = getLocalResetPasswordScreenJson(context)
+                val fallbackScreen = renderScreenUseCase(fallbackJson)
+                _uiState.value = UiState.Success(fallbackScreen!!)
             }
         }
+    }
+
+    fun getLocalResetPasswordScreenJson(context: Context): String {
+        return context.assets.open("reset_password_screen.json").bufferedReader().use { it.readText() }
     }
 
     private fun getLocalizedErrorMessage(exception: Throwable): Int {
