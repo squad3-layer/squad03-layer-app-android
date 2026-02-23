@@ -6,14 +6,14 @@ import com.example.services.database.local.entity.ArticleEntity
 import kotlinx.coroutines.flow.Flow
 
 interface NewsRepository {
-    suspend fun getTopHeadlines(
-        country: String = "us",
+    suspend fun getEverything(
         page: Int = 1,
         category: String? = null,
-        query: String? = null
+        query: String? = null,
+        language: String = "pt"
     ): Result<NewsResponse>
 
-    fun observeTopHeadlines(country: String = "us"): Flow<Result<NewsResponse>>
+    fun observeEverything(language: String = "pt"): Flow<Result<NewsResponse>>
 
     fun getCachedArticles(
         category: String?,

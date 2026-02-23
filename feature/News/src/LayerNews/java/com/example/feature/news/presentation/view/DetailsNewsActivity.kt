@@ -17,6 +17,7 @@ import com.example.feature.news.R
 import com.example.feature.news.databinding.ActivityDetailsNewsBinding
 import com.example.feature.news.domain.model.Article
 import com.example.feature.news.presentation.viewModel.DetailNewsViewModel
+import com.example.feature.news.utils.convertUtcToDdMmYyyy
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.io.File
@@ -89,7 +90,7 @@ class DetailsNewsActivity : AppCompatActivity() {
         binding.apply {
             detailsNewsTitle.text = article.title
             detailsNewsDescription.text = article.description ?: article.content
-            detailsNewsDate.text = article.publishedAt
+            detailsNewsDate.text = convertUtcToDdMmYyyy(article.publishedAt)
             detailsNewsAuthor.text = article.author ?: "Autor desconhecido"
 
             imageView?.load(article.urlToImage) {

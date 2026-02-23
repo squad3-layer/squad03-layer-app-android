@@ -13,6 +13,7 @@ class FilterPreferences @Inject constructor(
         private const val KEY_SELECTED_ORDERING = "filter_selected_ordering"
         private const val KEY_SELECTED_CATEGORY = "filter_selected_category"
         private const val KEY_ACTIVE_FILTERS_COUNT = "filter_active_filters_count"
+        private const val KEY_SELECTED_CATEGORY_VALUE = "filter_selected_category_value"
     }
 
     fun getSelectedOrdering(): Int {
@@ -27,6 +28,10 @@ class FilterPreferences @Inject constructor(
         return preferencesService.getInt(KEY_ACTIVE_FILTERS_COUNT, 0)
     }
 
+    fun getSelectedCategoryValue(): String? {
+        return preferencesService.getString(KEY_SELECTED_CATEGORY_VALUE, null)
+    }
+
     fun saveSelectedOrdering(position: Int) {
         preferencesService.putInt(KEY_SELECTED_ORDERING, position)
     }
@@ -37,6 +42,10 @@ class FilterPreferences @Inject constructor(
 
     fun saveActiveFiltersCount(count: Int) {
         preferencesService.putInt(KEY_ACTIVE_FILTERS_COUNT, count)
+    }
+
+    fun saveSelectedCategoryValue(value: String?) {
+        preferencesService.putString(KEY_SELECTED_CATEGORY_VALUE, value)
     }
 
     fun clearFilters() {
