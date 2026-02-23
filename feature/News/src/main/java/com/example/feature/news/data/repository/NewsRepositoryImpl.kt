@@ -1,6 +1,7 @@
 package com.example.feature.news.data.repository
 
 import androidx.paging.PagingSource
+import com.example.feature.news.BuildConfig
 import com.example.feature.news.domain.model.NewsResponse
 import com.example.feature.news.domain.repository.NewsRepository
 import com.example.services.database.local.dao.ArticleDao
@@ -14,7 +15,7 @@ class NewsRepositoryImpl @Inject constructor(
     private val articleDao: ArticleDao
 ) : NewsRepository {
 
-    private val apiKey = "2b2053089dba41349ee71b5e5c8341ff"
+    private val apiKey = BuildConfig.NEWS_API_KEY
 
     override suspend fun getEverything(
         page: Int,

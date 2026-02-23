@@ -16,6 +16,9 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
+
+        val newsApiKey: String? = project.findProperty("newsApiKey") as String?
+        buildConfigField("String", "NEWS_API_KEY", newsApiKey?.let { "\"$it\"" } ?: "\"\"")
     }
 
     buildTypes {
@@ -37,6 +40,7 @@ android {
 
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
     flavorDimensions += "brand"
     productFlavors {
