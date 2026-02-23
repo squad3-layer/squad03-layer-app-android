@@ -1,5 +1,6 @@
 package com.example.feature.authentication.presentation.register.viewModel
 
+import android.content.Context
 import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -58,7 +59,7 @@ class RegisterViewModel @Inject constructor(
     val errorState: LiveData<Int?> = _errorState
 
 
-    fun loadScreen() {
+    fun loadScreen(context: Context) {
 
         _uiState.value = UiState.Loading
 
@@ -72,15 +73,25 @@ class RegisterViewModel @Inject constructor(
                         val screenDefinition = renderScreenUseCase(jsonString)
                         _uiState.value = UiState.Success(screenDefinition!!)
                     } catch (e: Exception) {
-                        _uiState.value = UiState.Error("Erro ao processar JSON do Firebase")
+                        val fallbackJson = getLocalRegisterScreenJson(context)
+                        val fallbackScreen = renderScreenUseCase(fallbackJson)
+                        _uiState.value = UiState.Success(fallbackScreen!!)
                     }
                 } else {
-                    _uiState.value = UiState.Error("JSON vazio no Remote Config")
+                    val fallbackJson = getLocalRegisterScreenJson(context)
+                    val fallbackScreen = renderScreenUseCase(fallbackJson)
+                    _uiState.value = UiState.Success(fallbackScreen!!)
                 }
             } else {
-                _uiState.value = UiState.Error("Falha ao buscar dados do Firebase")
+                val fallbackJson = getLocalRegisterScreenJson(context)
+                val fallbackScreen = renderScreenUseCase(fallbackJson)
+                _uiState.value = UiState.Success(fallbackScreen!!)
             }
         }
+    }
+
+    fun getLocalRegisterScreenJson(context: Context): String {
+        return context.assets.open("register_screen.json").bufferedReader().use { it.readText() }
     }
 
     fun validateEmail(email: String): Boolean {

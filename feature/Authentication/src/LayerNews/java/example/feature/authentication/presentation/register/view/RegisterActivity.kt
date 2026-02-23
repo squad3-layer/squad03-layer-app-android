@@ -42,7 +42,7 @@ class RegisterActivity : AppCompatActivity() {
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        viewModel.loadScreen()
+        viewModel.loadScreen(this)
 
         observeDesignSystemEvents()
         observeViewModel()
