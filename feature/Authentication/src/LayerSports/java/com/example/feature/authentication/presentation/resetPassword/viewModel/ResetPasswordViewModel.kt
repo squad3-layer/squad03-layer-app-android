@@ -124,17 +124,4 @@ class ResetPasswordViewModel @Inject constructor(
     fun onInputChanged(email: String) {
         _isButtonEnabled.value = validateEmail(email)
     }
-
-    private fun getLocalizedErrorMessage(exception: Throwable): Int {
-        val message = exception.message ?: return R.string.error_unknown
-        return when {
-            message.contains("badly formatted") -> R.string.error_email_badly_formatted
-            message.contains("no user record") -> R.string.error_no_user_record
-            message.contains("invalid password") -> R.string.error_invalid_password
-            message.contains("user disabled") -> R.string.error_user_disabled
-            message.contains("too many requests") -> R.string.error_too_many_requests
-            message.contains("network error") -> R.string.error_network_error
-            else -> R.string.error_send_email_fail
-        }
-    }
 }
