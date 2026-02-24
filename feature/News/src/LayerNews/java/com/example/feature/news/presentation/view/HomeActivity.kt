@@ -22,6 +22,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.feature.analytics.AnalyticsHelper
+import com.example.feature.news.BuildConfig
 import com.example.feature.news.R
 import com.example.feature.news.databinding.ActivityHomeBinding
 import com.example.feature.news.data.preferences.FilterPreferences
@@ -97,7 +98,27 @@ class HomeActivity : AppCompatActivity() {
         setupRecyclerView()
         observeViewModel()
         bindSearchInput()
+        applyPreviousFilters()
         updateFilterBadge()
+    }
+
+    private fun applyPreviousFilters() {
+        val flavor = BuildConfig.APP_FLAVOR
+        if (flavor == "LayerSports") {
+            val filters = NewsFilters(
+                category = "sports",
+                shouldReverseOrder = false
+            )
+            viewModel.applyFilters(filters)
+        } else {
+            val savedCategory = filterPreferences.getSelectedCategoryValue()
+            val savedOrdering = filterPreferences.getSelectedOrdering()
+            val filters = NewsFilters(
+                category = savedCategory,
+                shouldReverseOrder = savedOrdering == 1
+            )
+            viewModel.applyFilters(filters)
+        }
     }
 
     private fun bindSearchInput() {
@@ -111,7 +132,7 @@ class HomeActivity : AppCompatActivity() {
         binding.iconFilter.setBadgeCount(count)
     }
 
-       private fun setupToolbar() {
+    private fun setupToolbar() {
         binding.toolbar.apply {
             setToolbarTitle(context.getString(R.string.news), DsText.TextStyle.HEADER)
             setHamburgerMenu { showHamburgerMenu() }
@@ -247,4 +268,3 @@ class HomeActivity : AppCompatActivity() {
         analyticsHelper.logViewHome()
     }
 }
-

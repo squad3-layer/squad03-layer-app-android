@@ -1,0 +1,128 @@
+{
+  "screen": "login",
+  "components": [
+    {
+      "id": "login_welcome",
+      "component": "Text",
+      "props": {
+        "title": "Login\nBem vindo!",
+        "textStyle": "header",
+        "size": 24,
+        "typeface": "poppins_bold",
+        "textColor": "#000000",
+        "gravity": "center",
+        "align": "center",
+        "margin_top": 124,
+        "margin_bottom": 0,
+        "margin_left": 0,
+        "margin_right": 0
+      }
+    },
+    {
+      "id": "email_input",
+      "component": "Input",
+      "props": {
+        "id": "input_focus_email",
+        "hint": "Digite seu e-mail",
+        "keyboardType": "email",
+        "margin_top": 32,
+        "margin_bottom": 0,
+        "validateOnChange": true,
+        "rules": [
+          {
+            "component": "required",
+            "message": "O e-mail não pode estar vazio"
+          },
+          {
+            "component": "regex",
+            "params": {
+              "pattern": "^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$"
+            },
+            "message": "E-mail inválido"
+          }
+        ]
+      }
+    },
+    {
+      "id": "password_input",
+      "component": "Input",
+      "props": {
+        "id": "input_focus_password",
+        "hint": "Digite sua senha",
+        "keyboardType": "password",
+        "margin_top": 34,
+        "margin_bottom": 0,
+        "validateOnChange": true,
+        "rules": [
+          {
+            "component": "required",
+            "message": "A senha não pode estar vazia"
+          },
+          {
+            "component": "minlength",
+            "params": {
+              "min": 6
+            },
+            "message": "A senha deve ter no mínimo 6 caracteres"
+          }
+        ]
+      }
+    },
+    {
+      "id": "text_click_forgot",
+      "component": "Text",
+      "props": {
+        "title": "Esqueceu sua senha?",
+        "size": 14,
+        "textColor": "#007AFF",
+        "gravity": "center",
+        "align": "center",
+        "action": "navigate:forgot_password",
+        "margin_top": 12
+      }
+    },
+    {
+      "id": "button_click_login",
+      "component": "Button",
+      "props": {
+        "title": "Entrar",
+        "size": 14,
+        "typeface": "poppins_medium",
+        "backgroundColor": "#0E64D2",
+        "textColor": "#FFFFFF",
+        "border_radius": 5,
+        "submit": true,
+        "analyticsEvent": "login_submit_click",
+        "action": "submit:login-flow",
+        "margin_top": 17,
+        "margin_bottom": 0,
+        "padding_top": 14,
+        "padding_bottom": 14
+      }
+    },
+    {
+      "id": "footer_register",
+      "component": "Text",
+      "props": {
+        "size": 14,
+        "gravity": "center",
+        "align": "center",
+        "action": "navigate:register",
+        "margin_top": 12,
+        "margin_bottom": 0,
+        "margin_left": 0,
+        "margin_right": 0,
+        "spans": [
+          {
+            "text": "Ainda não tem conta? ",
+            "color": "#333333"
+          },
+          {
+            "text": "Cadastrar",
+            "color": "#2F89FC"
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,3 +1,6 @@
+import java.util.Properties
+import java.io.FileInputStream
+
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
@@ -16,6 +19,19 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
+
+        val localProperties = Properties()
+        val localPropertiesFile = project.rootProject.file("local.properties")
+
+        if (localPropertiesFile.exists()) {
+            localPropertiesFile.inputStream().use { stream ->
+                localProperties.load(stream)
+            }
+        }
+
+        val newsApiKey: String? = localProperties.getProperty("newsApiKey") ?: project.findProperty("newsApiKey") as String?
+
+        buildConfigField("String", "NEWS_API_KEY", newsApiKey?.let { "\"$it\"" } ?: "\"\"")
     }
 
     buildTypes {
@@ -37,17 +53,19 @@ android {
 
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
     flavorDimensions += "brand"
     productFlavors {
 
         create("LayerNews") {
             dimension = "brand"
-
+            buildConfigField("String", "APP_FLAVOR", "\"${name}\"")
         }
 
         create("LayerSports") {
             dimension = "brand"
+            buildConfigField("String", "APP_FLAVOR", "\"${name}\"")
         }
     }
 }

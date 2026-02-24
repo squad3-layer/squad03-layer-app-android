@@ -26,6 +26,12 @@ jobs:
       - name: Decode Keystore
         run: |
           echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > release-keystore.jks
+  
+      - name: Create local.properties with token
+        run: echo "github.token=${{ secrets.TOKEN_DS }}" >> local.properties
+      
+      - name: Add News API Key
+        run: echo "newsApiKey=${{ secrets.NEWS_API_KEY }}" >> local.properties
 
       - name: Create local.properties with GitHub token
         run: |
@@ -49,10 +55,12 @@ jobs:
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
         run: |
           ./gradlew assembleLayerNewsRelease \
-            -Pandroid.injected.signing.store.file=${{ github.workspace }}/release-keystore.jks \
-            -Pandroid.injected.signing.store.password=$KEYSTORE_PASSWORD \
-            -Pandroid.injected.signing.key.alias=$KEY_ALIAS \
-            -Pandroid.injected.signing.key.password=$KEY_PASSWORD
+            -PnewsApiKey="$NEWS_API_KEY" \
+            -Pandroid.injected.signing.store.file="${{ github.workspace }}/release-keystore.jks" \
+            -Pandroid.injected.signing.store.password="$KEYSTORE_PASSWORD" \
+            -Pandroid.injected.signing.key.alias="$KEY_ALIAS" \
+            -Pandroid.injected.signing.key.password="$KEY_PASSWORD"
+
 
       - name: List LayerNews APK outputs
         run: ls -lh Main/build/outputs/apk/LayerNews/release
@@ -86,6 +94,7 @@ jobs:
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
         run: |
           ./gradlew assembleLayerSportsRelease \
+            -PnewsApiKey="$NEWS_API_KEY" \
             -Pandroid.injected.signing.store.file=${{ github.workspace }}/release-keystore.jks \
             -Pandroid.injected.signing.store.password=$KEYSTORE_PASSWORD \
             -Pandroid.injected.signing.key.alias=$KEY_ALIAS \

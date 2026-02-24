@@ -1,5 +1,6 @@
 package com.example.feature.authentication.presentation.login.viewModel
 
+import android.content.Context
 import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -11,13 +12,21 @@ import com.example.feature.authentication.domain.login.useCase.LoginUseCase
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import com.domleondev.designsystem.domain.usecase.RenderScreenUseCase
+import com.domleondev.designsystem.presentation.state.UiState
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     private val loginUseCase: LoginUseCase,
-    val analyticsHelper: AnalyticsTags
+    val analyticsHelper: AnalyticsTags,
+    private val renderScreenUseCase: RenderScreenUseCase,
+    private val remoteConfig: FirebaseRemoteConfig
 ) : ViewModel() {
+
+    private val _uiState = MutableLiveData<UiState>()
+    val uiState: LiveData<UiState> = _uiState
 
     private val _loginState = MutableLiveData<Result<Unit>>()
     val loginState: LiveData<Result<Unit>> = _loginState
@@ -47,6 +56,8 @@ class LoginViewModel @Inject constructor(
                 analyticsHelper.logEvent("login_success")
             }.onFailure { e ->
                 _loginState.value = result
+
+                android.util.Log.e("LOGIN_DEBUG", "Erro no login: ${e.message}", e)
                 analyticsHelper.logEvent("login_error", mapOf("reason" to (e.message ?: "unknown")))
                 FirebaseCrashlytics.getInstance().recordException(e)
             }
@@ -92,5 +103,37 @@ class LoginViewModel @Inject constructor(
         val isPasswordFieldValid = validatePassword(password)
 
         _isButtonEnabled.value = isEmailValid && isPasswordFieldValid
+    }
+
+    fun fetchRemoteLoginScreen(context: Context) {
+        _uiState.value = UiState.Loading
+
+        remoteConfig.fetchAndActivate().addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val jsonString = remoteConfig.getString("login_screen")
+                if (jsonString.isNotEmpty()) {
+                    try {
+                        val screenDefinition = renderScreenUseCase(jsonString)
+                        _uiState.value = UiState.Success(screenDefinition!!)
+                    } catch (e: Exception) {
+                        setFallbackScreenFromAsset(context)
+                    }
+                } else {
+                    setFallbackScreenFromAsset(context)
+                }
+            } else {
+                setFallbackScreenFromAsset(context)
+            }
+        }
+    }
+
+    fun getLocalLoginScreenJson(context: Context): String {
+        return context.assets.open("login_screen.json").bufferedReader().use { it.readText() }
+    }
+
+    private fun setFallbackScreenFromAsset(context: Context) {
+        val fallbackJson = getLocalLoginScreenJson(context)
+        val fallbackScreen = renderScreenUseCase(fallbackJson)
+        _uiState.value = UiState.Success(fallbackScreen!!)
     }
 }

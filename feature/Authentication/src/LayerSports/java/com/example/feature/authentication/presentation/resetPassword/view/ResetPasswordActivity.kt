@@ -102,9 +102,11 @@ class ResetPasswordActivity : AppCompatActivity() {
             }
         }
 
-        viewModel.errorMessage.observe(this) { message ->
-            if (message.isNotEmpty()) {
-                showErrorDialog("Erro no Envio", message)
+        viewModel.errorMessage.observe(this) { messageResId ->
+            if (messageResId != null && messageResId != 0) {
+                val messageText = getString(messageResId)
+
+                showErrorDialog("Erro no Envio", messageText)
             }
         }
     }

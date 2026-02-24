@@ -3,6 +3,7 @@ package com.example.feature.news.presentation.viewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.feature.news.BuildConfig
 import com.example.feature.news.data.preferences.FilterPreferences
 import com.example.feature.news.domain.model.NewsFilters
 import com.example.services.analytics.AnalyticsTags
@@ -30,29 +31,51 @@ class FiltersViewModel @Inject constructor(
         "Mais antigos"
     )
 
-    private val categories = listOf(
-        "Geral",
-        "Negócios",
-        "Entretenimento",
-        "Saúde",
-        "Ciência",
-        "Esportes",
-        "Tecnologia"
-    )
-
-    private val categoryMapping = mapOf(
-        "Geral" to "general",
-        "Negócios" to "business",
-        "Entretenimento" to "entertainment",
-        "Saúde" to "health",
-        "Ciência" to "science",
-        "Esportes" to "sports",
-        "Tecnologia" to "technology"
-    )
+    private val categories: List<String>
+    private val categoryMapping: Map<String, String>
 
     init {
+        if (BuildConfig.APP_FLAVOR == "LayerSports") {
+            categories = listOf("Esportes")
+            categoryMapping = mapOf("Esportes" to "sports")
+        } else {
+            categories = listOf(
+                "Geral",
+                "Negócios",
+                "Entretenimento",
+                "Saúde",
+                "Ciência",
+                "Esportes",
+                "Tecnologia"
+            )
+            categoryMapping = mapOf(
+                "Geral" to "general",
+                "Negócios" to "business",
+                "Entretenimento" to "entertainment",
+                "Saúde" to "health",
+                "Ciência" to "science",
+                "Esportes" to "sports",
+                "Tecnologia" to "technology"
+            )
+        }
+
         _selectedOrdering.value = filterPreferences.getSelectedOrdering()
         _selectedCategory.value = filterPreferences.getSelectedCategory()
+
+        val categoryValue = filterPreferences.getSelectedCategoryValue()
+        if (categoryValue != null) {
+            val index = categories.indexOfFirst { categoryMapping[it] == categoryValue }
+            if (index >= 0) _selectedCategory.value = index
+        } else {
+            if (BuildConfig.APP_FLAVOR == "LayerSports") {
+                val index = categories.indexOf("Esportes")
+                if (index >= 0) {
+                    _selectedCategory.value = index
+                    filterPreferences.saveSelectedCategory(index)
+                    filterPreferences.saveSelectedCategoryValue(categoryMapping[categories[index]])
+                }
+            }
+        }
     }
 
     fun getOrderingOptions(): List<String> = orderingOptions
@@ -67,6 +90,10 @@ class FiltersViewModel @Inject constructor(
     fun onCategorySelected(position: Int) {
         _selectedCategory.value = position
         filterPreferences.saveSelectedCategory(position)
+
+        val categoryName = categories[position]
+        val categoryValue = categoryMapping[categoryName]
+        filterPreferences.saveSelectedCategoryValue(categoryValue)
     }
 
     fun applyFilters() {
@@ -75,16 +102,18 @@ class FiltersViewModel @Inject constructor(
 
         filterPreferences.saveSelectedOrdering(orderingIndex)
         filterPreferences.saveSelectedCategory(categoryIndex)
+        
+        val categoryName = categories[categoryIndex]
+        val categoryValue = categoryMapping[categoryName]
+        filterPreferences.saveSelectedCategoryValue(categoryValue)
 
         var count = 0
         if (categoryIndex != 0) count++
         if (orderingIndex != 0) count++
         filterPreferences.saveActiveFiltersCount(count)
 
-        val categoryName = categories[categoryIndex]
-
         val filters = NewsFilters(
-            category = categoryMapping[categoryName],
+            category = categoryValue,
             shouldReverseOrder = orderingIndex == 1
         )
 

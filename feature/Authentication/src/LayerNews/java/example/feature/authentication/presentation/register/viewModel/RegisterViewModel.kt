@@ -1,15 +1,20 @@
 package com.example.feature.authentication.presentation.register.viewModel
 
+import android.content.Context
 import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.domleondev.designsystem.domain.repository.RemoteConfigRepository
+import com.domleondev.designsystem.domain.usecase.RenderScreenUseCase
+import com.domleondev.designsystem.presentation.state.UiState
 import com.example.feature.authentication.R
 import com.example.services.analytics.AnalyticsTags
 import com.example.feature.authentication.domain.register.model.RegisterRequest
 import com.example.feature.authentication.domain.register.useCase.RegisterUseCase
 import com.google.firebase.crashlytics.FirebaseCrashlytics
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -17,11 +22,16 @@ import javax.inject.Inject
 @HiltViewModel
 class RegisterViewModel @Inject constructor(
     private val useCase: RegisterUseCase,
-    val analyticsHelper: AnalyticsTags
+    val analyticsHelper: AnalyticsTags,
+    private val renderScreenUseCase: RenderScreenUseCase,
+    private val remoteConfig: FirebaseRemoteConfig
 ) : ViewModel() {
 
     private val _registerState = MutableLiveData<Result<Unit>>()
     val registerState: LiveData<Result<Unit>> = _registerState
+
+    private val _uiState = MutableLiveData<UiState>()
+    val uiState: LiveData<UiState> = _uiState
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
@@ -49,9 +59,40 @@ class RegisterViewModel @Inject constructor(
     val errorState: LiveData<Int?> = _errorState
 
 
+    fun loadScreen(context: Context) {
 
+        _uiState.value = UiState.Loading
 
+        remoteConfig.fetchAndActivate().addOnCompleteListener { task ->
+            if (task.isSuccessful) {
 
+                val jsonString = remoteConfig.getString("register_screen")
+
+                if (jsonString.isNotEmpty()) {
+                    try {
+                        val screenDefinition = renderScreenUseCase(jsonString)
+                        _uiState.value = UiState.Success(screenDefinition!!)
+                    } catch (e: Exception) {
+                        setFallbackScreenFromAsset(context)
+                    }
+                } else {
+                    setFallbackScreenFromAsset(context)
+                }
+            } else {
+                setFallbackScreenFromAsset(context)
+            }
+        }
+    }
+
+    private fun setFallbackScreenFromAsset(context: Context) {
+        val fallbackJson = getLocalRegisterScreenJson(context)
+        val fallbackScreen = renderScreenUseCase(fallbackJson)
+        _uiState.value = UiState.Success(fallbackScreen!!)
+    }
+
+    fun getLocalRegisterScreenJson(context: Context): String {
+        return context.assets.open("register_screen.json").bufferedReader().use { it.readText() }
+    }
 
     fun validateEmail(email: String): Boolean {
         return when {

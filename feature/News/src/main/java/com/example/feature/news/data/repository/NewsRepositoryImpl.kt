@@ -1,6 +1,7 @@
 package com.example.feature.news.data.repository
 
 import androidx.paging.PagingSource
+import com.example.feature.news.BuildConfig
 import com.example.feature.news.domain.model.NewsResponse
 import com.example.feature.news.domain.repository.NewsRepository
 import com.example.services.database.local.dao.ArticleDao
@@ -14,46 +15,45 @@ class NewsRepositoryImpl @Inject constructor(
     private val articleDao: ArticleDao
 ) : NewsRepository {
 
-    private val apiKey = "d62add1a990448d0a0ecd45320bdfc82"
+    private val apiKey = BuildConfig.NEWS_API_KEY
 
-    override suspend fun getTopHeadlines(
-        country: String,
+    override suspend fun getEverything(
         page: Int,
         category: String?,
-        query: String?
+        query: String?,
+        language: String
     ): Result<NewsResponse> {
+        val qValue = when {
+            !query.isNullOrBlank() && !category.isNullOrBlank() -> "${category} ${query}".trim()
+            !query.isNullOrBlank() -> query.trim()
+            category.isNullOrBlank() && query.isNullOrBlank() -> "general"
+            !category.isNullOrBlank() && query.isNullOrBlank() -> category.trim()
+            else -> "general"
+        }
         val params = mutableMapOf(
-            "country" to country,
+            "q" to qValue,
+            "language" to language,
             "page" to page.toString(),
             "apiKey" to apiKey
         )
-
-        category?.let {
-            params["category"] = it
-        }
-
-        query?.let {
-            if (it.isNotBlank()) {
-                params["q"] = it
-            }
-        }
-
         return networkService.get(
-            endpoint = "v2/top-headlines",
+            endpoint = "v2/everything",
             clazz = NewsResponse::class.java,
             params = params
         )
     }
 
-    override fun observeTopHeadlines(country: String): Flow<Result<NewsResponse>> {
+    override fun observeEverything(language: String): Flow<Result<NewsResponse>> {
+        val params = mapOf(
+            "q" to "general",
+            "language" to language,
+            "page" to "1",
+            "apiKey" to apiKey
+        )
         return networkService.observeGet(
-            endpoint = "v2/top-headlines",
+            endpoint = "v2/everything",
             clazz = NewsResponse::class.java,
-            params = mapOf(
-                "country" to country,
-                "page" to "1",
-                "apiKey" to apiKey
-            )
+            params = params
         )
     }
 

@@ -39,99 +39,101 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="21dp"
-        android:importantForAccessibility="no"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView">
+            <LinearLayout
+                android:id="@+id/linearLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_16"
+                android:layout_marginEnd="@dimen/spacing_21"
+                android:importantForAccessibility="no"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageView">
 
-        <ImageView
-            android:id="@+id/icFavoriteButton"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:clickable="true"
-            android:importantForAccessibility="yes"
-            android:contentDescription="@string/details_news_favorite_button_accessibility"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:focusable="true"
-            android:src="@drawable/selector_favorite" />
+                <ImageView
+                    android:id="@+id/icFavoriteButton"
+                    android:layout_width="@dimen/spacing_24"
+                    android:layout_height="@dimen/spacing_24"
+                    android:clickable="true"
+                    android:importantForAccessibility="yes"
+                    android:contentDescription="@string/details_news_favorite_button_accessibility"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:focusable="true"
+                    android:src="@drawable/selector_favorite" />
 
-        <ImageView
-            android:id="@+id/icShareButton"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginStart="21dp"
-            android:importantForAccessibility="yes"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="@string/details_news_share_button_accessibility"
-            android:src="@drawable/ic_share" />
-    </LinearLayout>
+                <ImageView
+                    android:id="@+id/icShareButton"
+                    android:layout_width="@dimen/spacing_24"
+                    android:layout_height="@dimen/spacing_24"
+                    android:layout_marginStart="@dimen/spacing_21"
+                    android:importantForAccessibility="yes"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="@string/details_news_share_button_accessibility"
+                    android:src="@drawable/ic_share" />
+            </LinearLayout>
 
-    <com.example.mylibrary.ds.text.DsText
-        android:id="@+id/detailsNewsTitle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="14dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="14dp"
-        android:text="@string/details_news_text_title"
-        android:textColor="#000000"
-        android:importantForAccessibility="yes"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+            <com.example.mylibrary.ds.text.DsText
+                android:id="@+id/detailsNewsTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_14"
+                android:layout_marginTop="@dimen/spacing_12"
+                android:layout_marginEnd="@dimen/spacing_14"
+                android:text="@string/details_news_text_title"
+                android:textColor="#000000"
+                android:importantForAccessibility="yes"
+                app:dsTextStyle="header"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
-    <com.example.mylibrary.ds.text.DsText
-        android:id="@+id/detailsNewsDate"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="31dp"
-        android:layout_marginStart="14dp"
-        android:layout_marginEnd="14dp"
-        android:importantForAccessibility="yes"
-        android:textColor="#000000"
-        android:text="@string/details_news_text_date"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/detailsNewsTitle" />
+            <com.example.mylibrary.ds.text.DsText
+                android:id="@+id/detailsNewsDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_31"
+                android:layout_marginStart="@dimen/spacing_14"
+                android:layout_marginEnd="@dimen/spacing_14"
+                android:importantForAccessibility="yes"
+                android:textColor="#000000"
+                android:text="@string/details_news_text_date"
+                app:dsFontWeight="regular"
+                android:textSize="@dimen/size_20"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/detailsNewsTitle" />
 
-    <com.example.mylibrary.ds.text.DsText
-        android:id="@+id/detailsNewsAuthor"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:layout_marginStart="14dp"
-        android:layout_marginEnd="14dp"
-        android:importantForAccessibility="yes"
-        android:textColor="#000000"
-        android:text="@string/details_news_text_author"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/detailsNewsDate"/>
+            <com.example.mylibrary.ds.text.DsText
+                android:id="@+id/detailsNewsAuthor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_12"
+                android:layout_marginStart="@dimen/spacing_14"
+                android:layout_marginEnd="@dimen/spacing_14"
+                android:importantForAccessibility="yes"
+                android:textColor="#000000"
+                android:text="@string/details_news_text_author"
+                app:dsFontWeight="regular"
+                android:textSize="@dimen/size_20"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/detailsNewsDate"/>
 
-    <com.example.mylibrary.ds.text.DsText
-        android:id="@+id/detailsNewsDescription"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="14dp"
-        android:layout_marginStart="14dp"
-        android:layout_marginEnd="14dp"
-        android:importantForAccessibility="yes"
-        android:textColor="#000000"
-        android:text="@string/details_news_text_description"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/detailsNewsAuthor"/>
+            <com.example.mylibrary.ds.text.DsText
+                android:id="@+id/detailsNewsDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_14"
+                android:layout_marginStart="@dimen/spacing_14"
+                android:layout_marginEnd="@dimen/spacing_14"
+                android:importantForAccessibility="yes"
+                android:textColor="#000000"
+                android:text="@string/details_news_text_description"
+                android:textSize="@dimen/size_16"
+                app:dsFontWeight="regular"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/detailsNewsAuthor"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -6,122 +6,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".presentation.login.view.LoginActivity"
-    android:background="#FFFFFF">
+    android:background="@color/white">
 
-    <com.example.mylibrary.ds.text.DsText
-        android:id="@+id/login_Welcome"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/titulo"
-        android:contentDescription="@string/desc_tiulo"
-        app:dsTextStyle="header"
-        android:textAlignment="center"
-        android:textSize="24sp"
-        app:dsFontWeight="bold"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="119dp"
-        android:importantForAccessibility="yes"/>
-
-
-
-    <com.example.mylibrary.ds.input.DsInput
-        android:id="@+id/input_focus_email"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_marginTop="36dp"
-        android:layout_marginStart="28dp"
-        android:layout_marginEnd="20dp"
-        android:hint="@string/login_hint_email"
-        app:inputKeyboardType="email"
-        android:importantForAccessibility="yes"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login_Welcome">
-    </com.example.mylibrary.ds.input.DsInput>
+        android:layout_height="match_parent">
 
-    <com.example.mylibrary.ds.input.DsInput
-        android:id="@+id/input_focus_password"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="28dp"
-        android:layout_marginEnd="20dp"
-        android:hint="@string/login_hint_password"
-        android:importantForAccessibility="yes"
-        app:inputKeyboardType="password"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/input_focus_email">
 
-    </com.example.mylibrary.ds.input.DsInput>
-
-    <com.example.mylibrary.ds.text.DsText
-        android:id="@+id/text_click_forgot"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/login_text_button_forgout_password"
-        android:contentDescription="@string/desc_esqueci"
-        android:textColor="@color/blue"
-        android:textSize="14sp"
-        app:dsTextStyle="description"
-        android:layout_marginTop="34dp"
-        android:importantForAccessibility="yes"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/input_focus_password"/>
-
-    <com.example.mylibrary.ds.button.DsButton
-        android:id="@+id/button_click_login"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="17dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:textDS="@string/botao"
-        app:dsTextStyle="subtitle"
-        app:backgroundColorDS="@color/primary_color"
-        android:contentDescription="@string/desc_botao"
-        android:importantForAccessibility="yes"
-        android:clickable="true"
-        android:focusable="true"
-        android:addStatesFromChildren="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/text_click_forgot"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:layout_marginTop="16dp"
-        android:contentDescription="@string/desc_novousuario2"
-        android:importantForAccessibility="yes"
-        app:layout_constraintTop_toBottomOf="@id/button_click_login">
-
-    <com.example.mylibrary.ds.text.DsText
-        android:id="@+id/login_Text_Register"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/novousuario"
-        android:importantForAccessibility="no"
-        app:dsTextStyle="description"
-        android:textSize="14sp"/>
-
-    <com.example.mylibrary.ds.text.DsText
-        android:id="@+id/text_click_register"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/novousuario2"
-        android:importantForAccessibility="no"
-        android:layout_marginStart="6dp"
-        android:textColor="@color/blue"
-        app:dsTextStyle="description"
-        android:textSize="14sp"/>
-    </LinearLayout>
+        <LinearLayout
+            android:id="@+id/container_ds"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="24dp" /> </ScrollView>
 
     <ProgressBar
         android:id="@+id/progressBar_loading"

@@ -5,7 +5,7 @@
     android:id="@+id/screen_view_filters"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
+    android:background="@color/white"
     tools:context=".presentation.view.FiltersActivity">
 
         <com.example.mylibrary.ds.toolbar.DsToolbar
@@ -18,8 +18,8 @@
 
         <ScrollView
             android:id="@+id/scrollContent"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="@dimen/spacing_0"
+            android:layout_height="@dimen/spacing_0"
             android:fillViewport="true"
             app:layout_constraintTop_toBottomOf="@id/toolbar"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -30,10 +30,10 @@
                 android:id="@+id/content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingStart="20dp"
-                android:paddingEnd="20dp"
-                android:paddingTop="20dp"
-                android:paddingBottom="24dp">
+                android:paddingStart="@dimen/spacing_20"
+                android:paddingEnd="@dimen/spacing_20"
+                android:paddingTop="@dimen/spacing_20"
+                android:paddingBottom="@dimen/spacing_24">
 
                 <com.example.mylibrary.ds.text.DsText
                     android:id="@+id/titleOrdering"
@@ -43,20 +43,20 @@
                     app:dsTextStyle="description"
                     android:contentDescription="@string/filters_ordering_title_description"
                     app:dsFontWeight="medium"
-                    android:textSize="14sp"
+                    android:textSize="@dimen/size_14"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"/>
 
                 <com.example.mylibrary.ds.chip.DsChipGroup
                     android:id="@+id/chipsOrdering"
-                    android:layout_width="0dp"
+                    android:layout_width="@dimen/spacing_0"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
+                    android:layout_marginTop="@dimen/spacing_12"
                     app:selectedBackgroundColor="@color/primary_color"
                     app:unselectedBackgroundColor="@color/unselected_chip_color"
                     app:selectedTextColor="@color/white"
                     app:unselectedTextColor="@color/black"
-                    app:chipSpacing="12dp"
+                    app:chipSpacing="@dimen/spacing_12"
                     app:layout_constraintTop_toBottomOf="@id/titleOrdering"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"/>
@@ -65,9 +65,9 @@
                     android:id="@+id/titleCategory"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="32dp"
+                    android:layout_marginTop="@dimen/spacing_32"
                     android:text="@string/filters_category"
-                    android:textSize="14sp"
+                    android:textSize="@dimen/size_14"
                     app:dsFontWeight="medium"
                     android:contentDescription="@string/filters_category_title_description"
                     app:dsTextStyle="description"
@@ -76,39 +76,39 @@
 
                 <com.example.mylibrary.ds.chip.DsChipGroup
                     android:id="@+id/chipsCategory"
-                    android:layout_width="0dp"
+                    android:layout_width="@dimen/spacing_0"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
+                    android:layout_marginTop="@dimen/spacing_12"
                     app:selectedBackgroundColor="@color/primary_color"
                     app:unselectedBackgroundColor="@color/unselected_chip_color"
                     app:selectedTextColor="@color/white"
                     app:unselectedTextColor="@color/black"
-                    app:chipSpacing="12dp"
+                    app:chipSpacing="@dimen/spacing_12"
                     app:layout_constraintTop_toBottomOf="@id/titleCategory"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"/>
 
                 <com.example.mylibrary.ds.button.DsButton
                     android:id="@+id/buttonApply"
-                    android:layout_width="0dp"
+                    android:layout_width="@dimen/spacing_0"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="32dp"
+                    android:layout_marginTop="@dimen/spacing_32"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/chipsCategory"
                     app:backgroundColorDS="@color/primary_color"
-                    android:contentDescription="@string/filters_button_apply"
+                    android:contentDescription="@string/filters_button_apply_desc"
                     app:textDS="@string/filters_button_apply" />
 
                 <com.example.mylibrary.ds.button.DsButton
                     android:id="@+id/buttonClear"
-                    android:layout_width="0dp"
+                    android:layout_width="@dimen/spacing_0"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
+                    android:layout_marginTop="@dimen/spacing_12"
                     android:textStyle="bold"
                     app:textDS="@string/filters_button_clear"
-                    android:contentDescription="@string/filters_button_clear"
+                    android:contentDescription="@string/filters_button_clear_desc"
                     app:buttonType="text"
                     app:backgroundColorDS="@color/background_offWhite"
                     app:textColorDS="@color/primary_color"

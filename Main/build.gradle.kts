@@ -50,15 +50,15 @@ android {
         create("LayerNews") {
             dimension = "brand"
             applicationId = "com.exemplo.layer.news"
-            versionName = "1.2.0"
-            versionCode = 3
+            versionName = "1.3.0"
+            versionCode = 4
         }
 
         create("LayerSports") {
             dimension = "brand"
             applicationId = "com.exemplo.layer.sports"
-            versionName = "1.2.0"
-            versionCode = 3
+            versionName = "1.3.0"
+            versionCode = 4
         }
     }
 }
