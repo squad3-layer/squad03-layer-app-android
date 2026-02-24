@@ -49,6 +49,14 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun observeViewModel() {
+        fun updateRegisterButtonState() {
+            val isFormValid = viewModel.isButtonEnabled.value ?: false
+            val isAppLoading = viewModel.isLoading.value ?: false
+
+            val canClick = isFormValid && !isAppLoading
+
+            designSystem.setEnabled("button_click_login", canClick)
+        }
 
         viewModel.emailError.observe(this) { resId ->
             designSystem.setError("email_input", resId?.let { getString(it) })
@@ -63,8 +71,13 @@ class RegisterActivity : AppCompatActivity() {
             designSystem.setError("confirm_password_input", resId?.let { getString(it) })
         }
 
-        viewModel.isButtonEnabled.observe(this) { isEnabled ->
-            designSystem.setEnabled("button_click_login", isEnabled)
+        viewModel.isButtonEnabled.observe(this) {
+            updateRegisterButtonState()
+        }
+
+        viewModel.isLoading.observe(this) { isLoading ->
+            binding.progressBarLoading.visibility = if (isLoading) View.VISIBLE else View.GONE
+            updateRegisterButtonState()
         }
 
         viewModel.registerState.observe(this) { result ->
@@ -82,10 +95,6 @@ class RegisterActivity : AppCompatActivity() {
                 is UiState.Success -> {
                     binding.progressBarLoading.visibility = View.GONE
                     uiRenderer.render(binding.containerDs, state.screen)
-
-                    binding.root.post {
-                        designSystem.setEnabled("button_click_login", viewModel.isButtonEnabled.value ?: false)
-                    }
                 }
                 is UiState.Error -> {
                     binding.progressBarLoading.visibility = View.GONE
