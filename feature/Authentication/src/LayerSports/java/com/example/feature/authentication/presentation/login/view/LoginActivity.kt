@@ -81,6 +81,8 @@ class LoginActivity : AppCompatActivity() {
                         val email = designSystem.getValue("email_input") ?: ""
                         val password = designSystem.getValue("password_input") ?: ""
 
+                        android.util.Log.d("LOGIN_DEBUG", "Tentando login com: Email: '|$email|', Senha: '|$password|'")
+
                         viewModel.analyticsHelper.logEvent("button_click", mapOf("button_name" to "login_button"))
                         viewModel.login(email, password)
                     }

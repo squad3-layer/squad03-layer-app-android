@@ -55,6 +55,8 @@ class LoginViewModel @Inject constructor(
                 analyticsHelper.logEvent("login_success")
             }.onFailure { e ->
                 _loginState.value = result
+
+                android.util.Log.e("LOGIN_DEBUG", "Erro no login: ${e.message}", e)
                 analyticsHelper.logEvent("login_error", mapOf("reason" to (e.message ?: "unknown")))
                 FirebaseCrashlytics.getInstance().recordException(e)
             }
@@ -108,7 +110,7 @@ class LoginViewModel @Inject constructor(
         remoteConfig.fetchAndActivate().addOnCompleteListener { task ->
             if (task.isSuccessful) {
 
-                val jsonString = remoteConfig.getString("login_screen")
+                val jsonString = remoteConfig.getString("login_screen_sports")
 
                 if (jsonString.isNotEmpty()) {
                     try {

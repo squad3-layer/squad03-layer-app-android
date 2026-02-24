@@ -1,25 +1,32 @@
 package com.example.feature.authentication.presentation.resetPassword.viewModel
 
+import android.content.Context
 import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.domleondev.designsystem.domain.usecase.RenderScreenUseCase
+import com.domleondev.designsystem.presentation.state.UiState
 import com.example.feature.authentication.R
 import com.example.services.analytics.AnalyticsTags
 import com.example.services.authentication.AuthenticationService
 import com.google.firebase.crashlytics.FirebaseCrashlytics
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-
 @HiltViewModel
 class ResetPasswordViewModel @Inject constructor(
     private val authService: AuthenticationService,
-    val analyticsHelper: AnalyticsTags
+    val analyticsHelper: AnalyticsTags,
+    private val renderScreenUseCase: RenderScreenUseCase,
+    private val remoteConfig: FirebaseRemoteConfig
 ) : ViewModel() {
 
+    private val _uiState = MutableLiveData<UiState>()
+    val uiState: LiveData<UiState> = _uiState
     private val _resetState = MutableLiveData<Result<Unit>>()
     val resetState: LiveData<Result<Unit>> = _resetState
 
@@ -78,9 +85,38 @@ class ResetPasswordViewModel @Inject constructor(
             }
         }
     }
+    fun fetchRemoteResetPasswordScreen(context: Context) {
+        _uiState.value = UiState.Loading
 
-    fun onInputChanged(email: String) {
-        _isButtonEnabled.value = validateEmail(email)
+        remoteConfig.fetchAndActivate().addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+
+                val jsonString = remoteConfig.getString("reset_password")
+
+                if (jsonString.isNotEmpty()) {
+                    try {
+                        val screenDefinition = renderScreenUseCase(jsonString)
+                        _uiState.value = UiState.Success(screenDefinition!!)
+                    } catch (e: Exception) {
+                        setFallbackScreenFromAsset(context, "reset_password_screen.json")
+                    }
+                } else {
+                    setFallbackScreenFromAsset(context, "reset_password_screen.json")
+                }
+            } else {
+                setFallbackScreenFromAsset(context, "reset_password_screen.json")
+            }
+        }
+    }
+
+    private fun setFallbackScreenFromAsset(context: Context, assetFileName: String) {
+        val fallbackJson = getLocalScreenJson(context, assetFileName)
+        val fallbackScreen = renderScreenUseCase(fallbackJson)
+        _uiState.value = UiState.Success(fallbackScreen!!)
+    }
+
+    private fun getLocalScreenJson(context: Context, assetFileName: String): String {
+        return context.assets.open(assetFileName).bufferedReader().use { it.readText() }
     }
 
     private fun getLocalizedErrorMessage(exception: Throwable): Int {
@@ -94,5 +130,9 @@ class ResetPasswordViewModel @Inject constructor(
             message.contains("network error") -> R.string.error_network_error
             else -> R.string.error_send_email_fail
         }
+    }
+
+    fun onInputChanged(email: String) {
+        _isButtonEnabled.value = validateEmail(email)
     }
 }
