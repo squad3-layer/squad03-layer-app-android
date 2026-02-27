@@ -24,6 +24,9 @@ firebaseFirestoreKtx = "26.1.0"
 paging = "3.4.0"
 pagingCommon = "3.4.0"
 benchmarkCommon = "1.4.1"
+mockk = "1.13.13"
+kotlinxCoroutinesTest = "1.10.1"
+coreTesting = "2.2.0"
 
 
 [libraries]
@@ -67,6 +70,10 @@ androidx-paging-runtime = { group = "androidx.paging", name = "paging-runtime-kt
 androidx-paging-common = { group = "androidx.paging", name = "paging-common-ktx", version.ref = "paging" }
 shimmer = { group = "com.facebook.shimmer", name = "shimmer", version = "0.5.0" }
 paging-common = { group = "androidx.paging", name = "paging-common", version.ref = "pagingCommon" }
+
+mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinxCoroutinesTest" }
+androidx-core-testing = { module = "androidx.arch.core:core-testing", version.ref = "coreTesting" }
 
 [bundles]
 firebase = [
