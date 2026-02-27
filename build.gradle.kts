@@ -10,6 +10,9 @@ plugins {
 
     id("com.google.gms.google-services") version "4.4.4" apply false
     id("com.google.firebase.crashlytics") version "3.0.6" apply false
+}
+tasks.withType<Test>().configureEach {
+    executable = "C:/AndroidJDK/bin/java.exe"
 
     id("org.jlleitschuh.gradle.ktlint") version "12.1.0"
     id("io.gitlab.arturbosch.detekt") version "1.23.5"
