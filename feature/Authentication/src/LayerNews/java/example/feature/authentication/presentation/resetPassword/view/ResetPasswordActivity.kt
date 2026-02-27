@@ -138,7 +138,6 @@ class ResetPasswordActivity : AppCompatActivity() {
         val destination = action.substringAfter(":")
         when (destination) {
             "back" -> finish()
-            "login" -> startActivity(Intent(this, LoginActivity::class.java))
         }
     }
 

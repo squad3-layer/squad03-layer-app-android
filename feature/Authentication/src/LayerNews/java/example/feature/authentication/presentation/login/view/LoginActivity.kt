@@ -16,6 +16,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.repeatOnLifecycle
 import com.domleondev.designsystem.contract.DesignSystem
 import com.example.feature.authentication.R
 import com.example.feature.authentication.databinding.ActivityLoginBinding
@@ -68,28 +70,37 @@ class LoginActivity : AppCompatActivity() {
     }
         private fun observeDesignSystemEvents() {
         lifecycleScope.launch {
-            designSystem.eventStream().events.collect { event ->
-                when (event) {
-                    is DsUiEvent.Change -> {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                designSystem.eventStream().events.collect { event ->
+                    when (event) {
+                        is DsUiEvent.Change -> {
 
-                        val email = designSystem.getValue("email_input") ?: ""
-                        val password = designSystem.getValue("password_input") ?: ""
+                            val email = designSystem.getValue("email_input") ?: ""
+                            val password = designSystem.getValue("password_input") ?: ""
 
-                        viewModel.onInputChanged(email, password)
+                            viewModel.onInputChanged(email, password)
+                        }
+
+                        is DsUiEvent.Submit -> {
+                            val email = designSystem.getValue("email_input") ?: ""
+                            val password = designSystem.getValue("password_input") ?: ""
+
+                            android.util.Log.d(
+                                "LOGIN_DEBUG",
+                                "Tentando login com: Email: '|$email|', Senha: '|$password|'"
+                            )
+
+                            viewModel.analyticsHelper.logEvent(
+                                "button_click",
+                                mapOf("button_name" to "login_button")
+                            )
+                            viewModel.login(email, password)
+                        }
+
+                        is DsUiEvent.Action -> handleNavigation(event.action)
+                        is DsUiEvent.Analytics -> viewModel.analyticsHelper.logEvent(event.eventName)
+                        else -> {}
                     }
-                    is DsUiEvent.Submit -> {
-                        val email = designSystem.getValue("email_input") ?: ""
-                        val password = designSystem.getValue("password_input") ?: ""
-
-                        android.util.Log.d("LOGIN_DEBUG", "Tentando login com: Email: '|$email|', Senha: '|$password|'")
-
-                        viewModel.analyticsHelper.logEvent("button_click", mapOf("button_name" to "login_button"))
-                        viewModel.login(email, password)
-                    }
-
-                    is DsUiEvent.Action -> handleNavigation(event.action)
-                    is DsUiEvent.Analytics -> viewModel.analyticsHelper.logEvent(event.eventName)
-                    else -> {}
                 }
             }
         }
